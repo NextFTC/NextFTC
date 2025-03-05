@@ -58,7 +58,7 @@ publishing {
     repositories {
         maven {
             name = "publishing"
-            url = uri("../maven.rowanmcalpin.com")
+            url = uri("../../maven.rowanmcalpin.com")
         }
     }
 }
