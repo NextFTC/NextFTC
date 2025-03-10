@@ -29,27 +29,28 @@ import kotlin.math.sqrt
  * This is a Square Root Controller, which is a proportional controller that uses the square root of
  * the error instead of just the error.
  *
- * @param pid PID coefficients
+ * @param kP proportional gain
+ * @param kI integral gain
+ * @param kD derivative gain
  * @param kF custom feedforward that depends on position
+ * @param setPointTolerance the tolerance for being "at the target"
  */
 class SqrtController @JvmOverloads constructor(
-    kP: Double = 0.0,
+    kP: Double,
     kI: Double = 0.0,
     kD: Double = 0.0,
     kF: Feedforward = StaticFeedforward(0.0),
     setPointTolerance: Double = 10.0
-) : PIDFController(kP, kI, kD, kF, setPointTolerance=setPointTolerance) {
-
-    override fun calculate(pv: Double, target: Double): Double {
-        this.target = target
-        return calculate(pv)
-    }
-
+) : PIDFController(kP, kI, kD, kF, setPointTolerance) {
     override fun calculate(
         pv: Double
     ): Double {
-        val result = super.calculate(pv, target)
-
+        val result = super.calculate(pv)
         return sqrt(abs(result)) * sign(result)
+        /*
+            FIXME: This is not quite what the docs describes it to be.
+                   This calculates the square root of the result from the PIDF controller and returns it,
+                   but doesn't make the PIDF use the square root of the error instead of the error.
+         */
     }
 }

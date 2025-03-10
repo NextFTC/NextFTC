@@ -50,6 +50,7 @@ open class NextFTCOpMode(vararg var subsystems: Subsystem = arrayOf()): LinearOp
             OpModeData.hardwareMap = hardwareMap
             OpModeData.gamepad1 = gamepad1
             OpModeData.gamepad2 = gamepad2
+            OpModeData.telemetry = telemetry
 
             gamepadManager = GamepadManager(gamepad1, gamepad2)
 
