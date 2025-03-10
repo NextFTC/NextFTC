@@ -157,9 +157,8 @@ object CommandManager {
         for (subsystem in subsystems) {
             if (subsystem is SubsystemGroup) {
                 expanded += expandSubsystemGroup(subsystem)
-            } else {
-                expanded += subsystem
             }
+            expanded += subsystem
         }
 
         return expanded.toSet()
@@ -174,9 +173,8 @@ object CommandManager {
         for (child in group.subsystems) {
             if (child is SubsystemGroup) {
                 expanded += expandSubsystemGroup(child)
-            } else {
-                expanded += child
             }
+            expanded += child
         }
 
         return expanded
