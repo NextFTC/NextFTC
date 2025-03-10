@@ -49,7 +49,7 @@ class SqrtController @JvmOverloads constructor(
         return sqrt(abs(result)) * sign(result)
         /*
             FIXME: This is not quite what the docs describes it to be.
-                   This calculates the square root of the result from the PIDF controller, and returns it,
+                   This calculates the square root of the result from the PIDF controller and returns it,
                    but doesn't make the PIDF use the square root of the error instead of the error.
          */
     }
