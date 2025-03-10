@@ -89,7 +89,7 @@ open class PIDFController @JvmOverloads constructor(
         val derivative = if (abs(period) > 1E-6) ((target - pv) - prevErrorVal) / period else 0.0
 
         totalError += period * (target - pv)
-        totalError.coerceIn(minIntegral..maxIntegral)
+        totalError = totalError.coerceIn(minIntegral..maxIntegral)
 
         prevErrorVal = target - pv
 
