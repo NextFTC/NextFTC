@@ -30,16 +30,18 @@ import kotlin.math.withSign
 /**
  * PID controller with various feedforward components.
  *
+ * @param kP      proportional gain
+ * @param kI      integral gain
+ * @param kD      derivative gain
+ * @param kF      custom feedforward that depends on position
+ * @param setPointTolerance the tolerance for being "at the target"
+ *
  * @author Originally from Roadrunner 0.5, ported to Kotlin & NextFTC by Zach.Waffle
  */
-open class PIDFController
-/**
- * @param pid     traditional PID coefficients
- * @param kF      custom feedforward that depends on position
- */ @JvmOverloads constructor(
+open class PIDFController @JvmOverloads constructor(
     var kP: Double,
-    var kI: Double,
-    var kD: Double,
+    var kI: Double = 0.0,
+    var kD: Double = 0.0,
     private val kF: Feedforward = StaticFeedforward(0.0),
     override var setPointTolerance: Double = 10.0
 ) : Controller {
@@ -87,7 +89,7 @@ open class PIDFController
         val derivative = if (abs(period) > 1E-6) ((target - pv) - prevErrorVal) / period else 0.0
 
         totalError += period * (target - pv)
-        totalError = if (totalError < minIntegral) minIntegral else min(maxIntegral, totalError)
+        totalError.coerceIn(minIntegral..maxIntegral)
 
         prevErrorVal = target - pv
 
