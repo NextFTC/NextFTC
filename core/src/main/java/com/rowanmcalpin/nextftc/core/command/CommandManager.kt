@@ -158,6 +158,7 @@ object CommandManager {
             if (subsystem is SubsystemGroup) {
                 expanded += expandSubsystemGroup(subsystem)
             }
+            expanded += subsystem
         }
 
         return expanded.toSet()
@@ -166,7 +167,7 @@ object CommandManager {
     /**
      * Expands a subsystem group (recursively)
      */
-    private fun expandSubsystemGroup(group: SubsystemGroup): Array<Subsystem> {
+    private fun expandSubsystemGroup(group: SubsystemGroup): List<Subsystem> {
         val expanded = mutableListOf<Subsystem>()
 
         for (child in group.subsystems) {
@@ -176,7 +177,7 @@ object CommandManager {
             expanded += child
         }
 
-        return expanded.toTypedArray()
+        return expanded
     }
 
     /**
