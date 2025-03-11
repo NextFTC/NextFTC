@@ -16,13 +16,17 @@ NextFTC: a user-friendly control library for FIRST Tech Challenge
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.rowanmcalpin.nextftc.pedro
+package com.rowanmcalpin.nextftc.ftc.components
 
-import com.pedropathing.follower.Follower
-
-object PedroData {
-    @JvmField
-    var follower: Follower? = null
+interface NextComponent {
+    fun preInit() { }
+    fun postInit() { }
+    fun preWaitForStart() { }
+    fun postWaitForStart() { }
+    fun preStartButtonPressed() { }
+    fun postStartButtonPressed() { }
+    fun preUpdate() { }
+    fun postUpdate() { }
+    fun preStop() { }
+    fun postStop() { }
 }
-
-class FollowerNotInitializedException: Exception("Follower was not initialized.")

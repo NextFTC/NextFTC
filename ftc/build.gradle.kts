@@ -39,6 +39,7 @@ dependencies {
 
     compileOnly(libs.ftc.robotcore)
     compileOnly(libs.ftc.hardware)
+    implementation(kotlin("reflect"))
 }
 
 // CONFIGURE PUBLISHING
