@@ -27,7 +27,10 @@ import com.rowanmcalpin.nextftc.ftc.OpModeData
 class BulkReadComponent: NextComponent {
     private lateinit var allHubs: List<LynxModule>
     override fun postInit() {
-        allHubs = OpModeData.hardwareMap.getAll(LynxModule::class.java)
+        if (OpModeData.hardwareMap == null) {
+            throw UninitializedPropertyAccessException("hardwareMap has not been initialized")
+        }
+        allHubs = OpModeData.hardwareMap!!.getAll(LynxModule::class.java)
 
         allHubs.forEach {
             it.bulkCachingMode = LynxModule.BulkCachingMode.MANUAL

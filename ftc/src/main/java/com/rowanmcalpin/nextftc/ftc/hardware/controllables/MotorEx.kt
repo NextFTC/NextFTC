@@ -19,6 +19,7 @@ NextFTC: a user-friendly control library for FIRST Tech Challenge
 package com.rowanmcalpin.nextftc.ftc.hardware.controllables
 
 import com.qualcomm.robotcore.hardware.DcMotor
+import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction
 import com.rowanmcalpin.nextftc.ftc.OpModeData
@@ -30,7 +31,7 @@ import kotlin.math.abs
  */
 class MotorEx(val motor: DcMotorEx): Controllable {
 
-    constructor(name: String): this(OpModeData.hardwareMap.get(DcMotorEx::class.java, name))
+    constructor(name: String): this(OpModeData.hardwareMap!!.get(DcMotorEx::class.java, name))
 
     private var cachedPower = 0.0 // By default, motors are unpowered
 
@@ -46,6 +47,13 @@ class MotorEx(val motor: DcMotorEx): Controllable {
      */
     val rawTicks: Double
         get() = motor.currentPosition.toDouble()
+
+    /**
+     * Zero Power Behavior for the motor
+     */
+    var zeroPowerBehavior: ZeroPowerBehavior
+        get() = motor.zeroPowerBehavior
+        set(value) { motor.zeroPowerBehavior = value }
 
     /**
      * This returns the current position of the motor, accounting for any offsets created by manually
