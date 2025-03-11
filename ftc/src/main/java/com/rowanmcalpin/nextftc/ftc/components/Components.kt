@@ -5,7 +5,7 @@ import com.rowanmcalpin.nextftc.core.Subsystem
 /**
  * This is a collection of Components and includes a modified mutating builder
  */
-class Components: NextComponent {
+class Components {
     private var components: List<NextComponent> = listOf()
 
     /**
@@ -44,43 +44,43 @@ class Components: NextComponent {
         return this
     }
 
-    override fun preInit() {
+    fun preInit() {
         components.forEach { it.preInit() }
     }
 
-    override fun postInit() {
+    fun postInit() {
         components.reversed().forEach { it.postInit() }
     }
 
-    override fun preWaitForStart() {
+    fun preWaitForStart() {
         components.forEach { it.preWaitForStart() }
     }
 
-    override fun postWaitForStart() {
+    fun postWaitForStart() {
         components.reversed().forEach { it.postWaitForStart() }
     }
 
-    override fun preStartButtonPressed() {
+    fun preStartButtonPressed() {
         components.forEach { it.preStartButtonPressed() }
     }
 
-    override fun postStartButtonPressed() {
+    fun postStartButtonPressed() {
         components.reversed().forEach { it.postStartButtonPressed() }
     }
 
-    override fun preUpdate() {
+    fun preUpdate() {
         components.forEach { it.preUpdate() }
     }
 
-    override fun postUpdate() {
+    fun postUpdate() {
         components.reversed().forEach { it.postUpdate() }
     }
 
-    override fun preStop() {
+    fun preStop() {
         components.forEach { it.preStop() }
     }
 
-    override fun postStop() {
+    fun postStop() {
         components.reversed().forEach { it.postStop() }
     }
 }
