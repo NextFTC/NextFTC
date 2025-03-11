@@ -37,16 +37,6 @@ abstract class NextFTCOpMode: LinearOpMode() {
 
     abstract val components: Components
 
-    open lateinit var gamepadManager: GamepadManager
-
-    /**
-     * Whether to bulk read the hubs. It is recommended to leave this ON. You must only update this
-     * in [onInit]. If you update it in [onUpdate] or from a command, you will likely break things.
-     */
-    var useBulkReading = true
-
-    private lateinit var allHubs: List<LynxModule>
-
     override fun runOpMode() {
         try {
             processAnnotations()
