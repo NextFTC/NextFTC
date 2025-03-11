@@ -16,13 +16,33 @@ NextFTC: a user-friendly control library for FIRST Tech Challenge
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.rowanmcalpin.nextftc.pedro
+package com.rowanmcalpin.nextftc.ftc.components
 
-import com.pedropathing.follower.Follower
+import com.qualcomm.hardware.lynx.LynxModule
+import com.rowanmcalpin.nextftc.ftc.OpModeData
 
-object PedroData {
-    @JvmField
-    var follower: Follower? = null
+/**
+ * This component automatically sets up bulk reading for your control and expansion hubs
+ */
+class BulkReadComponent: NextComponent {
+    private lateinit var allHubs: List<LynxModule>
+    override fun postInit() {
+        allHubs = OpModeData.hardwareMap.getAll(LynxModule::class.java)
+
+        allHubs.forEach {
+            it.bulkCachingMode = LynxModule.BulkCachingMode.MANUAL
+        }
+    }
+
+    override fun postWaitForStart() {
+        allHubs.forEach {
+            it.clearBulkCache()
+        }
+    }
+
+    override fun postUpdate() {
+        allHubs.forEach {
+            it.clearBulkCache()
+        }
+    }
 }
-
-class FollowerNotInitializedException: Exception("Follower was not initialized.")
