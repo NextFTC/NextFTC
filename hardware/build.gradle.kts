@@ -36,10 +36,10 @@ android {
 
 dependencies {
     implementation(project(":core"))
+    implementation(libs.nextcontrol)
 
     compileOnly(libs.ftc.robotcore)
     compileOnly(libs.ftc.hardware)
-    implementation(kotlin("reflect"))
 }
 
 // CONFIGURE PUBLISHING
@@ -47,7 +47,7 @@ publishing {
     publications {
         register<MavenPublication>("release") {
             groupId = "com.rowanmcalpin.nextftc"
-            artifactId = "ftc"
+            artifactId = "hardware"
             version = libs.versions.nextftc.get()
 
             afterEvaluate {
