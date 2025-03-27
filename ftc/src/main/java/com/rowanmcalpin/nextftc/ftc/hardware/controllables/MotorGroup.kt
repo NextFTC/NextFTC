@@ -18,6 +18,8 @@ NextFTC: a user-friendly control library for FIRST Tech Challenge
 
 package com.rowanmcalpin.nextftc.ftc.hardware.controllables
 
+import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior
+
 /**
  * A MotorGroup is a collection of [MotorEx]s that are all controlled by a single encoder (connected
  * to the leader motor)
@@ -46,6 +48,15 @@ class MotorGroup(val leader: MotorEx, vararg val followers: MotorEx): Controllab
             leader.power = value
             followers.forEach {
                 it.power = value
+            }
+        }
+
+    var zeroPowerBehavior: ZeroPowerBehavior
+        get() = leader.zeroPowerBehavior
+        set(value) {
+            leader.zeroPowerBehavior = value
+            followers.forEach {
+                it.zeroPowerBehavior = value
             }
         }
 

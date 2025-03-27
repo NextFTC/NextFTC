@@ -19,10 +19,11 @@ NextFTC: a user-friendly control library for FIRST Tech Challenge
 package com.rowanmcalpin.nextftc.ftc
 
 import com.qualcomm.hardware.lynx.LynxModule
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
-import com.rowanmcalpin.nextftc.core.Subsystem
-import com.rowanmcalpin.nextftc.core.SubsystemGroup
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.rowanmcalpin.nextftc.core.command.CommandManager
+import com.rowanmcalpin.nextftc.ftc.components.Components
 import com.rowanmcalpin.nextftc.ftc.gamepad.GamepadManager
 import java.lang.RuntimeException
 
@@ -32,107 +33,62 @@ import java.lang.RuntimeException
  *  - Automatically initializes and runs the CommandManager
  *  - If desired, automatically implements and handles Gamepads
  */
-open class NextFTCOpMode(vararg var subsystems: Subsystem = arrayOf()): LinearOpMode() {
+abstract class NextFTCOpMode: LinearOpMode() {
 
-    open lateinit var gamepadManager: GamepadManager
-
-    /**
-     * Whether to bulk read the hubs. It is recommended to leave this ON. You must only update this
-     * in [onInit]. If you update it in [onUpdate] or from a command, you will likely break things.
-     */
-    var useBulkReading = true
-
-    private lateinit var allHubs: List<LynxModule>
+    abstract val components: Components
 
     override fun runOpMode() {
         try {
+            processAnnotations()
+
             OpModeData.opMode = this
             OpModeData.hardwareMap = hardwareMap
             OpModeData.gamepad1 = gamepad1
             OpModeData.gamepad2 = gamepad2
             OpModeData.telemetry = telemetry
 
-            gamepadManager = GamepadManager(gamepad1, gamepad2)
-
             CommandManager.runningCommands.clear()
-            subsystems = CommandManager.expandSubsystems(subsystems.toSet()).toTypedArray()
-            initSubsystems()
+
+            components.preInit()
             onInit()
-
-            if (useBulkReading) {
-                allHubs = hardwareMap.getAll(LynxModule::class.java)
-
-                allHubs.forEach {
-                    it.bulkCachingMode = LynxModule.BulkCachingMode.MANUAL
-                }
-            }
-
-            // We want to continually update the gamepads
-            CommandManager.scheduleCommand(gamepadManager.GamepadUpdaterCommand())
+            components.postInit()
 
             // Wait for start
             while (!isStarted && !isStopRequested) {
-                subsystems.forEach {
-                    it.periodic()
-
-                    // Check if there are any commands running that use the subsystem, or if we can safely
-                    // schedule its default command
-                    if (!CommandManager.hasCommandsUsing(it)) {
-                        CommandManager.scheduleCommand(it.defaultCommand)
-                    }
-                }
+                components.preWaitForStart()
                 CommandManager.run()
                 onWaitForStart()
-
-                if (useBulkReading) {
-                    allHubs.forEach {
-                        it.clearBulkCache()
-                    }
-                }
+                components.postWaitForStart()
             }
 
             // If we pressed stop after init (instead of start) we want to skip the rest of the OpMode
             // and jump straight to the end
             if (!isStopRequested) {
+                components.preStartButtonPressed()
                 onStartButtonPressed()
+                components.postStartButtonPressed()
 
                 while (!isStopRequested && isStarted) {
-                    subsystems.forEach {
-                        it.periodic()
-
-                        // Check if there are any commands running that use the subsystem, or if we can safely
-                        // schedule its default command
-                        if (!CommandManager.hasCommandsUsing(it)) {
-                            CommandManager.scheduleCommand(it.defaultCommand)
-                        }
-                    }
+                    components.preUpdate()
                     CommandManager.run()
                     onUpdate()
-
-                    if (useBulkReading) {
-                        allHubs.forEach {
-                            it.clearBulkCache()
-                        }
-                    }
+                    components.postUpdate()
                 }
             }
 
+            components.preStop()
             onStop()
+            components.postStop()
+
             // Since users might schedule a command that stops things, we want to be able to run it
             // (one update of it, anyways) before we cancel all of our commands.
             CommandManager.run()
             CommandManager.cancelAll()
         } catch (e: Exception) {
-            throw RuntimeException(e)
-        }
-    }
-
-    /**
-     * Called internally to initialize subsystems.
-     */
-    private fun initSubsystems() {
-        subsystems.forEach {
-            it.initialize()
+            // Rethrow the exception as a RuntimeException with the original stack trace at the top
+            val runtimeException = RuntimeException(e.message)
+            runtimeException.setStackTrace(e.stackTrace)  // Set the original stack trace at the top
+            throw runtimeException  // Throw the custom RuntimeException
         }
     }
 
@@ -160,4 +116,19 @@ open class NextFTCOpMode(vararg var subsystems: Subsystem = arrayOf()): LinearOp
      * This function runs ONCE when the stop button is pressed.
      */
     open fun onStop() { }
+
+    /**
+     * This class automatically identifies what type of OpMode it is annotated as, thereby allowing
+     * it to set the [OpModeData.opModeType] variable correctly.
+     */
+    private fun processAnnotations() {
+        for (annotation in this::class.annotations) {
+            if (annotation is TeleOp) {
+                OpModeData.opModeType = OpModeData.OpModeType.TELEOP
+            }
+            if (annotation is Autonomous) {
+                OpModeData.opModeType = OpModeData.OpModeType.AUTO
+            }
+        }
+    }
 }

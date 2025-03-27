@@ -16,17 +16,25 @@ NextFTC: a user-friendly control library for FIRST Tech Challenge
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.rowanmcalpin.nextftc.ftc
+package com.rowanmcalpin.nextftc.ftc.components
 
-import com.rowanmcalpin.nextftc.core.command.Command
+import com.rowanmcalpin.nextftc.core.command.CommandManager
+import com.rowanmcalpin.nextftc.ftc.OpModeData
+import com.rowanmcalpin.nextftc.ftc.gamepad.GamepadManager
+import com.rowanmcalpin.nextftc.ftc.gamepad.GamepadEx
 
 /**
- * This command stops the active OpMode when it is scheduled. 
+ * This component adds [GamepadEx] functionality to the OpMode
  */
-class StopOpModeCommand: Command() {
-    override val isDone = true
+class GamepadComponent: NextComponent {
+    override fun preInit() {
+        if (OpModeData.gamepad1 == null || OpModeData.gamepad2 == null) {
+            throw UninitializedPropertyAccessException("Gamepad has not been initialized")
+        }
+        GamepadManager.initialize(OpModeData.gamepad1!!, OpModeData.gamepad2!!)
+    }
 
-    override fun start() {
-        OpModeData.opMode?.requestOpModeStop()
+    override fun postInit() {
+        CommandManager.scheduleCommand(GamepadManager.GamepadUpdaterCommand())
     }
 }

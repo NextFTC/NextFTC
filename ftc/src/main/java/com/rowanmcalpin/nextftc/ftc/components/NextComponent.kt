@@ -16,17 +16,17 @@ NextFTC: a user-friendly control library for FIRST Tech Challenge
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.rowanmcalpin.nextftc.ftc
+package com.rowanmcalpin.nextftc.ftc.components
 
-import com.rowanmcalpin.nextftc.core.command.Command
-
-/**
- * This command stops the active OpMode when it is scheduled. 
- */
-class StopOpModeCommand: Command() {
-    override val isDone = true
-
-    override fun start() {
-        OpModeData.opMode?.requestOpModeStop()
-    }
+interface NextComponent {
+    fun preInit() { }
+    fun postInit() { }
+    fun preWaitForStart() { }
+    fun postWaitForStart() { }
+    fun preStartButtonPressed() { }
+    fun postStartButtonPressed() { }
+    fun preUpdate() { }
+    fun postUpdate() { }
+    fun preStop() { }
+    fun postStop() { }
 }

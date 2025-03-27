@@ -26,7 +26,7 @@ import com.qualcomm.robotcore.hardware.Gamepad
  * 
  * @param gamepad the Qualcomm gamepad to wrap
  */
-class GamepadEx(private val gamepad: Gamepad, triggerThreshold: Float = 0f, 
+class GamepadEx(private val gamepad: Gamepad, triggerThreshold: Float = 0f,
                 horizontalJoystickThreshold: Float = 0f, verticalJoystickThreshold: Float = 0f, 
                 reverseVertical: Boolean = true) {
     val a = Button { gamepad.a }

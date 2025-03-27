@@ -74,6 +74,7 @@ abstract class Command {
     /**
      * Allows you to directly "call" a command
      */
+    @JvmName("schedule")
     operator fun invoke() {
         CommandManager.scheduleCommand(this)
     }
