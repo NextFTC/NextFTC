@@ -39,11 +39,9 @@ class RunToPosition @JvmOverloads constructor(
     subsystems: Set<Subsystem> = emptySet()): com.rowanmcalpin.nextftc.hardware.RunToState(system, KineticState(goal), tolerance, subsystems) {
 
     @JvmOverloads
-    constructor(system: ControlSystem, goal: Double, positionTolerance: Double = 10.0, subsystems: Set<Subsystem> = emptySet()): this(system, goal, KineticState(positionTolerance, 5.0, Double.POSITIVE_INFINITY), subsystems)
+    constructor(system: ControlSystem, goal: Double, positionTolerance: Double, subsystems: Set<Subsystem> = emptySet()): this(system, goal, KineticState(positionTolerance, 5.0, Double.POSITIVE_INFINITY), subsystems)
 
-    @JvmOverloads
-    constructor(system: ControlSystem, goal: Double, tolerance: KineticState = KineticState(10.0, 5.0, 5.0), subsystem: Subsystem): this(system, goal, tolerance, setOf(subsystem))
+    constructor(system: ControlSystem, goal: Double, tolerance: KineticState = KineticState(10.0, 5.0, Double.POSITIVE_INFINITY), subsystem: Subsystem): this(system, goal, tolerance, setOf(subsystem))
 
-    @JvmOverloads
-    constructor(system: ControlSystem, goal: Double, positionTolerance: Double = 10.0, subsystem: Subsystem): this(system, goal, KineticState(positionTolerance, 5.0, Double.POSITIVE_INFINITY), setOf(subsystem))
+    constructor(system: ControlSystem, goal: Double, positionTolerance: Double, subsystem: Subsystem): this(system, goal, KineticState(positionTolerance, 5.0, Double.POSITIVE_INFINITY), setOf(subsystem))
 }
