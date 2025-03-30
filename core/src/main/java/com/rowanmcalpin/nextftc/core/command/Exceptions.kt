@@ -19,6 +19,5 @@
 package com.rowanmcalpin.nextftc.core.command
 
 class GamepadNotConnectedException(val gamepad: Int): Exception("Gamepad $gamepad is not connected.")
-class PIDBoundaryException(): Exception("Minimum boundary must be less than maximum boundary.")
 class EmptyGroupException(): IllegalArgumentException("CommandGroups must contain at least one element.")
-class StateNotSetException(): Exception("State must be set before scheduling the command")
+class StateNotSetException(): IllegalStateException("State must be set before scheduling the command")
