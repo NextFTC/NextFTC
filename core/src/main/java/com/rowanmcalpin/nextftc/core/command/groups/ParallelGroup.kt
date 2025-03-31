@@ -24,22 +24,42 @@ import com.rowanmcalpin.nextftc.core.command.CommandManager
 /**
  * A [CommandGroup] that runs all of its children simultaneously.
  */
-class ParallelGroup(vararg commands: Command): CommandGroup(*commands) {
+open class ParallelGroup(vararg commands: Command) : CommandGroup(*commands) {
     /**
      * This will return false until all of its children are done
      */
     override val isDone: Boolean
         get() = children.all { it.isDone }
 
-    /**
-     * In a Parallel Group, we can just straight away add all of the commands to the CommandManager,
-     * which can take care of the rest.
-     */
+    init {
+        val noConflicts = commands
+            .flatMap { it.subsystems }
+            .groupBy { it }
+            .none { it.value.size > 1 }
+        check(noConflicts) { "Two or more commands passed to ParallelGroup share one or more requirements" }
+    }
+
     override fun start() {
-        super.start()
         children.forEach {
-            CommandManager.scheduleCommand(it)
+            it.start()
         }
-        CommandManager.scheduleCommands()
+    }
+
+    override fun update() {
+        children.forEachIndexed { index, command ->
+            command.update()
+            if (!command.isDone) return
+
+            command.stop(false)
+            children.removeAt(index)
+        }
+    }
+
+    override fun stop(interrupted: Boolean) {
+        children.forEach {
+            it.stop(interrupted)
+        }
+
+        super.stop(interrupted)
     }
 }
