@@ -26,32 +26,11 @@ import com.rowanmcalpin.nextftc.core.command.CommandManager
  * A [CommandGroup] that runs all of its children simultaneously until one of its children is done,
  * at which point it stops all of its children.
  */
-class ParallelRaceGroup(vararg commands: Command): CommandGroup(*commands) {
+class ParallelRaceGroup(vararg commands: Command): ParallelGroup(*commands) {
 
     /**
      * This will return false until one of its children is done
      */
     override val isDone: Boolean
         get() = children.any { it.isDone }
-
-    init {
-        setSubsystems(children.flatMap { it.subsystems }.toSet())
-    }
-
-    /**
-     * In a Parallel Group, we can just straight away add all of the commands to the CommandManager,
-     * which can take care of the rest.
-     */
-    override fun start() {
-        super.start()
-        children.forEach {
-            CommandManager.scheduleCommand(it)
-        }
-    }
-
-    override fun stop(interrupted: Boolean) {
-        children.forEach {
-            CommandManager.cancelCommand(it)
-        }
-    }
 }

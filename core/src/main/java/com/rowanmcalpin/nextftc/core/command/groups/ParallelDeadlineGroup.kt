@@ -22,27 +22,10 @@ import com.rowanmcalpin.nextftc.core.Subsystem
 import com.rowanmcalpin.nextftc.core.command.Command
 import com.rowanmcalpin.nextftc.core.command.CommandManager
 
-class ParallelDeadlineGroup(private val deadline: Command, vararg otherCommands: Command): CommandGroup(deadline, *otherCommands) {
+class ParallelDeadlineGroup(private val deadline: Command, vararg otherCommands: Command): ParallelGroup(deadline, *otherCommands) {
 
     /**
      * This will return false until the deadline command is done.
      */
     override val isDone: Boolean by deadline::isDone
-
-    init {
-        setSubsystems(children.flatMap { it.subsystems }.toSet())
-    }
-
-    override fun start() {
-        super.start()
-        children.forEach {
-            CommandManager.scheduleCommand(it)
-        }
-    }
-
-    override fun stop(interrupted: Boolean) {
-        children.forEach {
-            CommandManager.cancelCommand(it)
-        }
-    }
 }
