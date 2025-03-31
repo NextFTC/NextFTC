@@ -35,14 +35,19 @@ import dev.nextftc.nextcontrol.KineticState
 class RunToVelocity @JvmOverloads constructor(
     system: ControlSystem,
     goal: Double,
-    tolerance: KineticState = KineticState(Double.POSITIVE_INFINITY, 5.0, Double.POSITIVE_INFINITY),
-    subsystems: Set<Subsystem> = emptySet()): com.rowanmcalpin.nextftc.hardware.RunToState(system, KineticState(0.0, goal), tolerance, subsystems) {
-
-    @JvmOverloads
-    constructor(system: ControlSystem, target: Double, velocityTolerance: Double, subsystems: Set<Subsystem> = emptySet()): this(system, target, KineticState(Double.POSITIVE_INFINITY, velocityTolerance, Double.POSITIVE_INFINITY), subsystems)
-
-    @JvmOverloads
-    constructor(system: ControlSystem, target: Double, tolerance: KineticState = KineticState(10.0, 5.0, 5.0), subsystem: Subsystem): this(system, target, tolerance, setOf(subsystem))
-
-    constructor(system: ControlSystem, target: Double, velocityTolerance: Double, subsystem: Subsystem): this(system, target, KineticState(Double.POSITIVE_INFINITY, velocityTolerance, Double.POSITIVE_INFINITY), setOf(subsystem))
+    tolerance: KineticState = KineticState(Double.POSITIVE_INFINITY, 5.0, Double.POSITIVE_INFINITY)
+) : RunToState(
+    system,
+    KineticState(velocity = goal),
+    tolerance
+) {
+    constructor(
+        system: ControlSystem,
+        goal: Double,
+        velocityTolerance: Double
+    ) : this(
+        system,
+        goal,
+        KineticState(Double.POSITIVE_INFINITY, velocityTolerance, Double.POSITIVE_INFINITY)
+    )
 }

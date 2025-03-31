@@ -35,46 +35,19 @@ import dev.nextftc.nextcontrol.KineticState
 class RunToPosition @JvmOverloads constructor(
     system: ControlSystem,
     goal: Double,
-    tolerance: KineticState = KineticState(10.0, 5.0, Double.POSITIVE_INFINITY),
-    subsystems: Set<Subsystem> = emptySet()
+    tolerance: KineticState = KineticState(10.0, 5.0, Double.POSITIVE_INFINITY)
 ) : RunToState(
     system,
     KineticState(goal),
-    tolerance,
-    subsystems
+    tolerance
 ) {
-
-    @JvmOverloads
     constructor(
         system: ControlSystem,
         goal: Double,
-        positionTolerance: Double = 10.0,
-        subsystems: Set<Subsystem> = emptySet()
+        positionTolerance: Double
     ) : this(
         system,
         goal,
-        KineticState(positionTolerance, 5.0, Double.POSITIVE_INFINITY),
-        subsystems
-    )
-
-    @JvmOverloads
-    constructor(
-        system: ControlSystem,
-        goal: Double,
-        tolerance: KineticState = KineticState(10.0, 5.0, 5.0),
-        subsystem: Subsystem
-    ) : this(system, goal, tolerance, setOf(subsystem))
-
-    @JvmOverloads
-    constructor(
-        system: ControlSystem,
-        goal: Double,
-        positionTolerance: Double = 10.0,
-        subsystem: Subsystem
-    ) : this(
-        system,
-        goal,
-        KineticState(positionTolerance, 5.0, Double.POSITIVE_INFINITY),
-        setOf(subsystem)
+        KineticState(positionTolerance, 5.0, Double.POSITIVE_INFINITY)
     )
 }

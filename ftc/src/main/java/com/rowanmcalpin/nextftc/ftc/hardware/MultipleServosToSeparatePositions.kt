@@ -19,7 +19,6 @@
 package com.rowanmcalpin.nextftc.ftc.hardware
 
 import com.qualcomm.robotcore.hardware.Servo
-import com.rowanmcalpin.nextftc.core.Subsystem
 import com.rowanmcalpin.nextftc.core.command.Command
 
 /**
@@ -29,11 +28,9 @@ import com.rowanmcalpin.nextftc.core.command.Command
  * @param subsystems the subsystems this command interacts with (should be whatever
  *                      subsystem holds this command)
  */
-class MultipleServosToSeperatePositions @JvmOverloads constructor(val servos: Map<Servo, Double>,
-                               override val subsystems: Set<Subsystem> = setOf()): Command() {
-
-    constructor(servos: Map<Servo, Double>, subsystem: Subsystem): this(servos, setOf(subsystem))
-
+class MultipleServosToSeparatePositions(
+    val servos: Map<Servo, Double>
+) : Command() {
     override val isDone: Boolean
         get() = true
 

@@ -45,7 +45,9 @@ class DifferentialArcadeDriverControlled(val leftMotor: Controllable, val rightM
 
     override val isDone: Boolean = false
 
-    override val subsystems: Set<Subsystem> = setOf(Drivetrain)
+    init {
+        setSubsystems(Drivetrain)
+    }
 
     override fun update() {
         val y = -driveJoystick.y.toDouble()

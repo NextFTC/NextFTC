@@ -23,9 +23,11 @@ import com.rowanmcalpin.nextftc.core.command.Command
 
 class PerpetualCommand(val command: Command): Command() {
 
-    override val subsystems: Set<Subsystem> = command.subsystems
-
     override val isDone: Boolean = false
+
+    init {
+        setSubsystems(command.subsystems)
+    }
 
     override fun start() = command.start()
 

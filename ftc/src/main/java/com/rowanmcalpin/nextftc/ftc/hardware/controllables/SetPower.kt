@@ -29,11 +29,8 @@ import com.rowanmcalpin.nextftc.core.command.Command
  * @param subsystems the [Subsystem]s this command interacts with (should be whatever
  *                      subsystem holds this command)
  */
-class SetPower @JvmOverloads constructor(val controllable: Controllable, val power: Double,
-               override val subsystems: Set<Subsystem> = setOf()): Command() {
-
-    constructor(controllable: Controllable, power: Double, subsystem: Subsystem): this(controllable, power, setOf(subsystem))
-
+class SetPower(val controllable: Controllable, val power: Double) :
+    Command() {
     override val isDone = true
 
     override fun start() {

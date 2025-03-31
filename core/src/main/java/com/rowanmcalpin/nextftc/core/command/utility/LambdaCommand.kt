@@ -34,8 +34,6 @@ open class LambdaCommand: Command() {
     private var startLambda = Runnable { }
     private var updateLambda = Runnable { }
     private var stopLambda = Consumer<Boolean> { }
-    override var subsystems: Set<Subsystem> = setOf()
-    override var interruptible: Boolean = true
 
     override val isDone: Boolean get() = isDoneLambda.get()
     override fun start() = startLambda.run()
@@ -61,32 +59,12 @@ open class LambdaCommand: Command() {
     /**
      * Sets the subsystems that the command implements
      */
-    fun setSubsystems(subsystemsSet: Set<Subsystem>) = apply { subsystems = subsystemsSet }
+    override fun setSubsystems(subsystems: Set<Subsystem>) = apply { super.setSubsystems(subsystems) }
 
     /**
      * Sets the subsystems that the command implements
      */
-    fun setSubsystems(vararg subsystemsArr: Subsystem) = apply { subsystems = subsystemsArr.toSet() }
-
-    /**
-     * Sets the subsystem that the command implements
-     */
-    fun setSubsystem(subsystem: Subsystem) = apply { subsystems = setOf(subsystem) }
-
-    /**
-     * Adds subsystems to the set of subsystems that the command implements
-     */
-    fun addSubsystems(subsystemsSet: Set<Subsystem>) = apply { subsystems += subsystemsSet }
-
-    /**
-     * Adds subsystems to the set of subsystems that the command implements
-     */
-    fun addSubsystems(vararg subsystemsArr: Subsystem) = apply{ subsystems += subsystemsArr.toSet() }
-
-    /**
-     * Adds a subsystem to the set of subsystems that the command implements
-     */
-    fun addSubsystem(subsystem: Subsystem) = apply { subsystems += subsystem }
+    override fun setSubsystems(vararg subsystems: Subsystem) = apply { super.setSubsystems(*subsystems) }
 
     /**
      * Sets the function that returns whether the command has finished running
@@ -96,5 +74,5 @@ open class LambdaCommand: Command() {
     /**
      * Sets whether the command can be stopped due to an overlap of subsystems
      */
-    fun setInterruptible(isInterruptible: Boolean) = apply { interruptible = isInterruptible }
+    override fun setInterruptible(interruptible: Boolean) = apply { super.setInterruptible(interruptible) }
 }

@@ -29,12 +29,12 @@ import com.rowanmcalpin.nextftc.core.units.TimeSpan
 import com.rowanmcalpin.nextftc.core.units.sec
 
 /**
- * A discrete unit of functionality that runs simultaneous to all other commands. 
+ * A discrete unit of functionality that runs simultaneous to all other commands.
  */
-abstract class Command {
+abstract class Command : Runnable {
 
     /**
-     * Whether this command has completed running. Often implemented using a getter function, 
+     * Whether this command has completed running. Often implemented using a getter function,
      *      although it can be set directly for commands that stop instantly or never stop. Please
      *      note that in certain circumstances the command will be stopped *before* this evaluates
      *      to true, most notably during subsystem conflicts or when the OpMode has been stopped.
@@ -44,40 +44,85 @@ abstract class Command {
     /**
      * Whether this command can be stopped due to a conflict of [Subsystem]s.
      */
-    open val interruptible = true
+    var interruptible = true
+        private set
 
     /**
-     * A set of all Subsystems this command implements. 
+     * A set of all Subsystems this command implements.
      */
-    open val subsystems: Set<Subsystem> = mutableSetOf()
+    val subsystems: MutableSet<Subsystem> = mutableSetOf()
 
     /**
      * Called once when the command is first started
      */
-    open fun start() { }
+    open fun start() {}
 
     /**
-     * Called repeatedly while the command is running. 
-     * 
+     * Called repeatedly while the command is running.
+     *
      *  IMPORTANT: the time this function takes to
-     *      run should be as close to 0 as possible, to maximize loop speed and increase 
+     *      run should be as close to 0 as possible, to maximize loop speed and increase
      *      responsiveness.
      */
-    open fun update() { }
+    open fun update() {}
 
     /**
      * Called once when the command is stopped.
-     * @param interrupted whether this command was interrupted 
+     * @param interrupted whether this command was interrupted
      */
-    open fun stop(interrupted: Boolean) { }
+    open fun stop(interrupted: Boolean) {}
+
+    /**
+     * Schedules the command
+     */
+    fun schedule() {
+        CommandManager.scheduleCommand(this)
+    }
 
     /**
      * Allows you to directly "call" a command
+     * For example,
+     *
+     * ```kotlin
+     * val command = MyCommand()
+     * command()
+     * ```
+     *
+     * Note: only works in Kotlin.
+     * In Java, use `schedule()`
+     * @see schedule
      */
-    @JvmName("schedule")
-    operator fun invoke() {
-        CommandManager.scheduleCommand(this)
+    operator fun invoke() = schedule()
+
+    override fun run() = schedule()
+
+    // region Property Setters
+
+    open fun setSubsystems(vararg subsystems: Subsystem) = apply {
+        this.subsystems.clear()
+        this.subsystems.addAll(subsystems)
     }
+
+    open fun setSubsystems(subsystems: Set<Subsystem>) = apply {
+        this.subsystems.clear()
+        this.subsystems.addAll(subsystems)
+    }
+
+    fun addSubsystems(vararg subsystems: Subsystem) = apply {
+        this.subsystems.addAll(subsystems)
+    }
+
+    fun addSubsystems(subsystems: Set<Subsystem>) = apply {
+        this.subsystems.addAll(subsystems)
+    }
+
+    open fun setInterruptible(interruptible: Boolean) = apply {
+        this.interruptible = interruptible
+    }
+
+    // endregion
+
+    // region Command Utilities
 
     /**
      * Returns a [ParallelRaceGroup] with this command and a [Delay] of [time]
@@ -191,4 +236,6 @@ abstract class Command {
         this,
         *commands
     )
+
+    // endregion
 }
