@@ -18,7 +18,6 @@
 
 package com.rowanmcalpin.nextftc.ftc
 
-import com.rowanmcalpin.nextftc.core.command.Command
 import com.rowanmcalpin.nextftc.core.command.utility.InstantCommand
 
 /**

@@ -43,7 +43,9 @@ class DifferentialTankDriverControlled(val leftMotor: Controllable, val rightMot
 
     override val isDone: Boolean = false
 
-    override val subsystems: Set<Subsystem> = setOf(Drivetrain)
+    init {
+        setSubsystems(Drivetrain)
+    }
 
     override fun update() {
         leftMotor.power = leftJoystick.y.toDouble()

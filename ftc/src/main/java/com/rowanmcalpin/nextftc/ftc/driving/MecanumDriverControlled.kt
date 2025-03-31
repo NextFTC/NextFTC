@@ -50,14 +50,16 @@ class MecanumDriverControlled @JvmOverloads constructor(private val motors: Arra
 
     override val isDone: Boolean = false
 
-    override val subsystems: Set<Subsystem> = setOf(Drivetrain)
-
     var scalar = 1.0
     private var offset: Double = 0.0
 
     var orientation: Double
         get() = imu!!.robotYawPitchRollAngles.getYaw(AngleUnit.RADIANS) - offset
         set(value) { offset = imu!!.robotYawPitchRollAngles.getYaw(AngleUnit.RADIANS) - value }
+
+    init {
+        setSubsystems(Drivetrain)
+    }
 
     override fun start() {
         if (motors.size != 4) throw IllegalArgumentException("motors must be an array of 4 motors.")

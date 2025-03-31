@@ -33,11 +33,10 @@ import dev.nextftc.nextcontrol.KineticState
  * @param subsystems  the list of [Subsystem]s this command interacts with (should be whatever
  *                      subsystem holds this command)
  */
-open class RunToState @JvmOverloads constructor(
+open class RunToState(
     val system: ControlSystem,
     val goal: KineticState,
-    val tolerance: KineticState = KineticState(10.0, 5.0, Double.POSITIVE_INFINITY),
-    override val subsystems: Set<Subsystem> = emptySet()): Command() {
+    val tolerance: KineticState = KineticState(10.0, 5.0, Double.POSITIVE_INFINITY)): Command() {
 
     override val isDone: Boolean
         get() = system.isWithinTolerance(tolerance)
