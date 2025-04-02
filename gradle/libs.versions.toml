@@ -13,8 +13,8 @@ nextftc = "0.6.1"
 [libraries]
 commons-math3 = { module = "org.apache.commons:commons-math3", version.ref = "commons-math3" }
 pedro = { module = "com.pedropathing:pedro", version.ref = "pedro" }
-ftc-robotcore = { group = "org.firstinspires.ftc", name="RobotCore", version.ref = "ftc" }
-ftc-hardware = { group = "org.firstinspires.ftc", name="Hardware", version.ref = "ftc" }
+ftc-robotcore = { group = "org.firstinspires.ftc", name = "RobotCore", version.ref = "ftc" }
+ftc-hardware = { group = "org.firstinspires.ftc", name = "Hardware", version.ref = "ftc" }
 nextcontrol = { module = "dev.nextftc:nextcontrol", version.ref = "nextcontrol" }
 
 [plugins]

@@ -19,7 +19,6 @@
 package com.rowanmcalpin.nextftc.core.command.utility.conditionals
 
 import com.rowanmcalpin.nextftc.core.command.Command
-import com.rowanmcalpin.nextftc.core.command.CommandManager
 import com.rowanmcalpin.nextftc.core.command.utility.NullCommand
 
 /**

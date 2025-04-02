@@ -27,7 +27,7 @@ import com.rowanmcalpin.nextftc.core.command.utility.NullCommand
  * @param trigger the value of the trigger to watch
  * @param threshold the amount the trigger has to be pressed before it is considered 'pressed'
  */
-class Trigger(private val trigger: () -> Float, private val threshold: Float = 0f): Control() {
+class Trigger(private val trigger: () -> Float, private val threshold: Float = 0f) : Control() {
     /**
      * This command will be scheduled every time the trigger is pressed.
      */
@@ -42,7 +42,7 @@ class Trigger(private val trigger: () -> Float, private val threshold: Float = 0
      * This command will be scheduled every update that the trigger is held down.
      */
     var heldCommand: (Float) -> Command = { NullCommand() }
-    
+
     /**
      * This command will be scheduled whenever the state changes.
      */
@@ -62,19 +62,19 @@ class Trigger(private val trigger: () -> Float, private val threshold: Float = 0
         value = profileCurve(trigger())
 
         updateState(value > threshold)
-        
+
         if (state) {
             CommandManager.scheduleCommand(heldCommand(value))
         }
-        
+
         if (risingState) {
             CommandManager.scheduleCommand(pressedCommand(value))
         }
-        
+
         if (fallingState) {
             CommandManager.scheduleCommand(releasedCommand(value))
         }
-        
+
         if (stateChanged) {
             CommandManager.scheduleCommand(stateChangeCommand(value))
         }

@@ -25,4 +25,4 @@ object PedroData {
     var follower: Follower? = null
 }
 
-class FollowerNotInitializedException: Exception("Follower was not initialized.")
+class FollowerNotInitializedException : Exception("Follower was not initialized.")

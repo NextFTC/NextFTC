@@ -26,7 +26,7 @@ import com.rowanmcalpin.nextftc.core.command.utility.NullCommand
  * A button control that has a value of true or false.
  * @param button the value of the button to watch
  */
-class Button(private val button: () -> Boolean): Control() {
+class Button(private val button: () -> Boolean) : Control() {
     /**
      * This command will be scheduled every time the button is pressed
      */
@@ -41,7 +41,7 @@ class Button(private val button: () -> Boolean): Control() {
      * This command will be scheduled every update that the button is held down
      */
     var heldCommand: () -> Command = { NullCommand() }
-    
+
     /**
      * This command will be scheduled whenever the state changes
      */
@@ -49,19 +49,19 @@ class Button(private val button: () -> Boolean): Control() {
 
     override fun update() {
         updateState(button())
-        
+
         if (state) {
             CommandManager.scheduleCommand(heldCommand())
         }
-        
+
         if (risingState) {
             CommandManager.scheduleCommand(pressedCommand())
         }
-        
+
         if (fallingState) {
             CommandManager.scheduleCommand(releasedCommand())
         }
-        
+
         if (stateChanged) {
             CommandManager.scheduleCommand(stateChangeCommand())
         }

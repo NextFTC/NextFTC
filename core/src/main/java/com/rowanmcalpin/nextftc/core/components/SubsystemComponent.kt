@@ -18,8 +18,8 @@
 
 package com.rowanmcalpin.nextftc.core.components
 
-import com.rowanmcalpin.nextftc.core.subsystems.Subsystem
 import com.rowanmcalpin.nextftc.core.command.CommandManager
+import com.rowanmcalpin.nextftc.core.subsystems.Subsystem
 
 /**
  * This component adds [Subsystem]s to your OpMode

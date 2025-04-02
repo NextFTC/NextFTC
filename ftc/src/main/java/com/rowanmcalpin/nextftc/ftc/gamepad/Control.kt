@@ -57,5 +57,5 @@ abstract class Control {
         fallingState = !newState && state
         stateChanged = newState != state
         state = newState
-    } 
+    }
 }

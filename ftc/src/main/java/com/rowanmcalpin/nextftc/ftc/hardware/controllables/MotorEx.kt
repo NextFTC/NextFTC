@@ -29,9 +29,9 @@ import kotlin.math.abs
  * Wrapper class for motors that implements controllable (and can therefore be used with RunToPosition
  * commands).
  */
-class MotorEx(val motor: DcMotorEx): Controllable {
+class MotorEx(val motor: DcMotorEx) : Controllable {
 
-    constructor(name: String): this(OpModeData.hardwareMap!!.get(DcMotorEx::class.java, name))
+    constructor(name: String) : this(OpModeData.hardwareMap!!.get(DcMotorEx::class.java, name))
 
     private var cachedPower = 0.0 // By default, motors are unpowered
 
@@ -53,7 +53,9 @@ class MotorEx(val motor: DcMotorEx): Controllable {
      */
     var zeroPowerBehavior: ZeroPowerBehavior
         get() = motor.zeroPowerBehavior
-        set(value) { motor.zeroPowerBehavior = value }
+        set(value) {
+            motor.zeroPowerBehavior = value
+        }
 
     /**
      * This returns the current position of the motor, accounting for any offsets created by manually
@@ -64,18 +66,22 @@ class MotorEx(val motor: DcMotorEx): Controllable {
      */
     override var currentPosition: Double
         get() = (motor.currentPosition.toDouble() - tickOffset)
-        set(value) { tickOffset = rawTicks - value }
+        set(value) {
+            tickOffset = rawTicks - value
+        }
 
     /**
      * Current velocity of the motor. Setter does nothing
      */
     override var velocity: Double
         get() = motor.velocity
-        set(value) { }
+        set(value) {}
 
     var direction: Direction
         get() = motor.direction
-        set(value) { motor.direction = value }
+        set(value) {
+            motor.direction = value
+        }
 
     /**
      * Gets / sets the current power of the motor (automatically implements power caching)

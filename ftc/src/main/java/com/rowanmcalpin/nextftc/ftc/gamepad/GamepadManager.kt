@@ -40,7 +40,7 @@ object GamepadManager {
         gamepad2.update()
     }
 
-    class GamepadUpdaterCommand: Command() {
+    class GamepadUpdaterCommand : Command() {
         override val isDone: Boolean = false
 
         override fun update() {

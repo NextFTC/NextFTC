@@ -18,8 +18,8 @@
 
 package com.rowanmcalpin.nextftc.pedro
 
-import com.rowanmcalpin.nextftc.core.subsystems.Subsystem
 import com.rowanmcalpin.nextftc.core.command.Command
+import com.rowanmcalpin.nextftc.core.subsystems.Subsystem
 import com.rowanmcalpin.nextftc.ftc.gamepad.GamepadEx
 import com.rowanmcalpin.nextftc.ftc.gamepad.Joystick
 import com.rowanmcalpin.nextftc.ftc.hardware.Drivetrain
@@ -34,18 +34,37 @@ import com.rowanmcalpin.nextftc.ftc.hardware.Drivetrain
  * @param invertTurn whether to invert the turn joystick
  * @param invertStrafe whether to invert the strafe joystick
  */
-class DriverControlled @JvmOverloads constructor(val driveJoystick: Joystick, val turnJoystick: Joystick, val robotCentric: Boolean = true,
-    val invertDrive: Boolean = false, val invertTurn: Boolean = false, val invertStrafe: Boolean = false): Command() {
+class DriverControlled @JvmOverloads constructor(
+    val driveJoystick: Joystick,
+    val turnJoystick: Joystick,
+    val robotCentric: Boolean = true,
+    val invertDrive: Boolean = false,
+    val invertTurn: Boolean = false,
+    val invertStrafe: Boolean = false
+) : Command() {
 
     @JvmOverloads
-    /**
-     * @param gamepad The gamepad to use the joysticks from
-     * @param robotCentric Whether to use robot centric or field centric movement
-     * @param invertDrive whether to invert the drive joystick
-     * @param invertTurn whether to invert the turn joystick
-     * @param invertStrafe whether to invert the strafe joystick
-     */
-    constructor(gamepad: GamepadEx, robotCentric: Boolean = true, invertDrive: Boolean = false, invertTurn: Boolean = false, invertStrafe: Boolean = false): this(gamepad.leftStick, gamepad.rightStick, robotCentric, invertDrive, invertTurn, invertStrafe)
+            /**
+             * @param gamepad The gamepad to use the joysticks from
+             * @param robotCentric Whether to use robot centric or field centric movement
+             * @param invertDrive whether to invert the drive joystick
+             * @param invertTurn whether to invert the turn joystick
+             * @param invertStrafe whether to invert the strafe joystick
+             */
+    constructor(
+        gamepad: GamepadEx,
+        robotCentric: Boolean = true,
+        invertDrive: Boolean = false,
+        invertTurn: Boolean = false,
+        invertStrafe: Boolean = false
+    ) : this(
+        gamepad.leftStick,
+        gamepad.rightStick,
+        robotCentric,
+        invertDrive,
+        invertTurn,
+        invertStrafe
+    )
 
     override val isDone: Boolean = false
 
@@ -57,9 +76,13 @@ class DriverControlled @JvmOverloads constructor(val driveJoystick: Joystick, va
         }
         PedroData.follower!!.startTeleopDrive()
     }
-    
+
     override fun update() {
-        PedroData.follower!!.setTeleOpMovementVectors(driveJoystick.y.toDouble() * if(invertDrive) -1 else 1,
-            driveJoystick.x.toDouble() * if(invertStrafe) -1 else 1, turnJoystick.x.toDouble() * if(invertTurn) -1 else 1, robotCentric)
+        PedroData.follower!!.setTeleOpMovementVectors(
+            driveJoystick.y.toDouble() * if (invertDrive) -1 else 1,
+            driveJoystick.x.toDouble() * if (invertStrafe) -1 else 1,
+            turnJoystick.x.toDouble() * if (invertTurn) -1 else 1,
+            robotCentric
+        )
     }
 }

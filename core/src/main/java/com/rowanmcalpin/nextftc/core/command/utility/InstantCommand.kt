@@ -25,7 +25,7 @@ package com.rowanmcalpin.nextftc.core.command.utility
  * @param lambda the lambda to execute
  * @param subsystemCollection a set of subsystems this command implements
  */
-open class InstantCommand(lambda: Runnable): LambdaCommand() {
+open class InstantCommand(lambda: Runnable) : LambdaCommand() {
     init {
         super.setStart(lambda)
         super.setIsDone { true }

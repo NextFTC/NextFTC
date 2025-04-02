@@ -20,7 +20,6 @@ package com.rowanmcalpin.nextftc.pedro
 
 import com.pedropathing.pathgen.Path
 import com.pedropathing.pathgen.PathChain
-import com.rowanmcalpin.nextftc.core.subsystems.Subsystem
 import com.rowanmcalpin.nextftc.core.command.Command
 import com.rowanmcalpin.nextftc.ftc.hardware.Drivetrain
 
@@ -32,10 +31,19 @@ import com.rowanmcalpin.nextftc.ftc.hardware.Drivetrain
  * @throws FollowerNotInitializedException if the follower is not set
  * @throws IllegalArgumentException if maxPower is not null or in the interval [0, 1]
  */
-class FollowPath @JvmOverloads constructor(private val path: PathChain, private val holdEnd: Boolean = false, private val maxPower: Double? = null): Command() {
-    
-    @JvmOverloads constructor(path: Path, holdEnd: Boolean = false, maxPower: Double? = null): this(PathChain(path), holdEnd, maxPower)
-    
+class FollowPath @JvmOverloads constructor(
+    private val path: PathChain,
+    private val holdEnd: Boolean = false,
+    private val maxPower: Double? = null
+) : Command() {
+
+    @JvmOverloads
+    constructor(path: Path, holdEnd: Boolean = false, maxPower: Double? = null) : this(
+        PathChain(
+            path
+        ), holdEnd, maxPower
+    )
+
     override val isDone: Boolean
         get() = !PedroData.follower!!.isBusy
 

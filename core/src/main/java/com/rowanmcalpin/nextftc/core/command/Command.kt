@@ -18,16 +18,16 @@
 
 package com.rowanmcalpin.nextftc.core.command
 
-import com.rowanmcalpin.nextftc.core.subsystems.Subsystem
 import com.rowanmcalpin.nextftc.core.command.groups.ParallelDeadlineGroup
 import com.rowanmcalpin.nextftc.core.command.groups.ParallelGroup
 import com.rowanmcalpin.nextftc.core.command.groups.ParallelRaceGroup
 import com.rowanmcalpin.nextftc.core.command.groups.SequentialGroup
+import com.rowanmcalpin.nextftc.core.command.utility.ForcedParallelCommand
 import com.rowanmcalpin.nextftc.core.command.utility.PerpetualCommand
 import com.rowanmcalpin.nextftc.core.command.utility.delays.Delay
+import com.rowanmcalpin.nextftc.core.subsystems.Subsystem
 import com.rowanmcalpin.nextftc.core.units.TimeSpan
 import com.rowanmcalpin.nextftc.core.units.sec
-import com.rowanmcalpin.nextftc.core.command.utility.ForcedParallelCommand
 
 /**
  * A discrete unit of functionality that runs simultaneous to all other commands.

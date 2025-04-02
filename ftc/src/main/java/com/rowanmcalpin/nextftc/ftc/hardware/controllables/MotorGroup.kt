@@ -27,20 +27,22 @@ import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior
  * @param leader the [MotorEx] with the encoder that will be used
  * @param followers any other motors to control
  */
-class MotorGroup(val leader: MotorEx, vararg val followers: MotorEx): Controllable {
+class MotorGroup(val leader: MotorEx, vararg val followers: MotorEx) : Controllable {
 
-    constructor(leaderName: String, vararg names: String): this(
+    constructor(leaderName: String, vararg names: String) : this(
         MotorEx(leaderName),
         *createMotors(names)
     )
 
     override var currentPosition: Double
         get() = leader.currentPosition
-        set(value) { leader.currentPosition = value }
+        set(value) {
+            leader.currentPosition = value
+        }
 
     override var velocity: Double
         get() = leader.velocity
-        set(value) { }
+        set(value) {}
 
     override var power: Double
         get() = leader.power

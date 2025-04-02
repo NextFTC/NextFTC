@@ -26,7 +26,7 @@ import com.rowanmcalpin.nextftc.core.command.CommandManager
  *
  * @param command the command to run in parallel
  */
-class ForcedParallelCommand(val command: Command): Command() {
+class ForcedParallelCommand(val command: Command) : Command() {
     override val isDone = true
 
     override fun start() {
