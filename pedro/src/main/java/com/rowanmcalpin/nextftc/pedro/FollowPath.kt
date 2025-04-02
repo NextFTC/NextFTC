@@ -39,7 +39,9 @@ class FollowPath @JvmOverloads constructor(private val path: PathChain, private 
     override val isDone: Boolean
         get() = !PedroData.follower!!.isBusy
 
-    override val subsystems: Set<Subsystem> = setOf(Drivetrain)
+    init {
+        setSubsystems(Drivetrain)
+    }
 
     override fun start() {
         if (PedroData.follower == null) throw FollowerNotInitializedException()
