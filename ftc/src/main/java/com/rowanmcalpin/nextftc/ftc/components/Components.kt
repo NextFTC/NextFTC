@@ -18,16 +18,18 @@
 
 package com.rowanmcalpin.nextftc.ftc.components
 
+import com.rowanmcalpin.nextftc.core.components.Component
+import com.rowanmcalpin.nextftc.core.components.SubsystemComponent
 import com.rowanmcalpin.nextftc.core.subsystems.Subsystem
 
 /**
  * This is a collection of Components and includes a modified mutating builder
  */
 class Components {
-    private var components: List<NextComponent> = listOf()
+    private var components: List<Component> = listOf()
 
     /**
-     * Adds a [SubsystemComponent] to your OpMode
+     * Adds a [com.rowanmcalpin.nextftc.core.components.SubsystemComponent] to your OpMode
      */
     fun useSubsystems(vararg subsystems: Subsystem): Components {
         components += SubsystemComponent(*subsystems)
@@ -54,9 +56,9 @@ class Components {
     }
 
     /**
-     * Adds a custom [NextComponent] to your OpMode
+     * Adds a custom [Component] to your OpMode
      */
-    fun use(component: NextComponent): Components {
+    fun use(component: Component): Components {
         components += component
 
         return this
