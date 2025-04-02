@@ -18,7 +18,6 @@
 
 package com.rowanmcalpin.nextftc.core.command.groups
 
-import com.rowanmcalpin.nextftc.core.Subsystem
 import com.rowanmcalpin.nextftc.core.command.Command
 import com.rowanmcalpin.nextftc.core.command.EmptyGroupException
 

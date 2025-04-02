@@ -19,7 +19,6 @@
 package com.rowanmcalpin.nextftc.ftc.driving
 
 import com.qualcomm.robotcore.hardware.IMU
-import com.rowanmcalpin.nextftc.core.Subsystem
 import com.rowanmcalpin.nextftc.core.command.Command
 import com.rowanmcalpin.nextftc.ftc.gamepad.GamepadEx
 import com.rowanmcalpin.nextftc.ftc.gamepad.Joystick

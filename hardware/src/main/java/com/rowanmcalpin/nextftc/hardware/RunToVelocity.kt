@@ -18,7 +18,7 @@
 
 package com.rowanmcalpin.nextftc.hardware
 
-import com.rowanmcalpin.nextftc.core.Subsystem
+import com.rowanmcalpin.nextftc.core.subsystems.Subsystem
 import dev.nextftc.nextcontrol.ControlSystem
 import dev.nextftc.nextcontrol.KineticState
 
@@ -50,4 +50,6 @@ class RunToVelocity @JvmOverloads constructor(
         goal,
         KineticState(Double.POSITIVE_INFINITY, velocityTolerance, Double.POSITIVE_INFINITY)
     )
+
 }
+>>>>>>> 4c4cc0e (refactor: Move subsystems to a subsystems package)
