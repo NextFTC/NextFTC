@@ -18,7 +18,7 @@
 
 package com.rowanmcalpin.nextftc.ftc.hardware
 
-import com.rowanmcalpin.nextftc.core.Subsystem
+import com.rowanmcalpin.nextftc.core.subsystems.Subsystem
 
 /**
  * An internal subsystem for the drivetrain used by commands that drive the robot.

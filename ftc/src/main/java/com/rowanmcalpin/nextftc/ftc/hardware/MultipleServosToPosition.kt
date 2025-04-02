@@ -19,7 +19,6 @@
 package com.rowanmcalpin.nextftc.ftc.hardware
 
 import com.qualcomm.robotcore.hardware.Servo
-import com.rowanmcalpin.nextftc.core.Subsystem
 import com.rowanmcalpin.nextftc.core.command.Command
 
 /**

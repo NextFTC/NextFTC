@@ -18,7 +18,7 @@
 
 package com.rowanmcalpin.nextftc.ftc.components
 
-import com.rowanmcalpin.nextftc.core.Subsystem
+import com.rowanmcalpin.nextftc.core.subsystems.Subsystem
 
 /**
  * This is a collection of Components and includes a modified mutating builder

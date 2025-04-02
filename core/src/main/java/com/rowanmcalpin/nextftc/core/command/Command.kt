@@ -18,7 +18,7 @@
 
 package com.rowanmcalpin.nextftc.core.command
 
-import com.rowanmcalpin.nextftc.core.Subsystem
+import com.rowanmcalpin.nextftc.core.subsystems.Subsystem
 import com.rowanmcalpin.nextftc.core.command.groups.ParallelDeadlineGroup
 import com.rowanmcalpin.nextftc.core.command.groups.ParallelGroup
 import com.rowanmcalpin.nextftc.core.command.groups.ParallelRaceGroup

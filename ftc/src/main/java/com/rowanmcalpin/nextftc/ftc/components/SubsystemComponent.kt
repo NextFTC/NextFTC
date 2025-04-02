@@ -18,8 +18,8 @@
 
 package com.rowanmcalpin.nextftc.ftc.components
 
-import com.rowanmcalpin.nextftc.core.Subsystem
-import com.rowanmcalpin.nextftc.core.SubsystemGroup
+import com.rowanmcalpin.nextftc.core.subsystems.Subsystem
+import com.rowanmcalpin.nextftc.core.subsystems.SubsystemGroup
 import com.rowanmcalpin.nextftc.core.command.CommandManager
 
 /**

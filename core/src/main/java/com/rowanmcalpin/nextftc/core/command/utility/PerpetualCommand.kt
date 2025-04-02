@@ -18,7 +18,6 @@
 
 package com.rowanmcalpin.nextftc.core.command.utility
 
-import com.rowanmcalpin.nextftc.core.Subsystem
 import com.rowanmcalpin.nextftc.core.command.Command
 
 class PerpetualCommand(val command: Command): Command() {

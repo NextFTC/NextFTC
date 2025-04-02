@@ -18,9 +18,7 @@
 
 package com.rowanmcalpin.nextftc.core.command.groups
 
-import com.rowanmcalpin.nextftc.core.Subsystem
 import com.rowanmcalpin.nextftc.core.command.Command
-import com.rowanmcalpin.nextftc.core.command.CommandManager
 
 class ParallelDeadlineGroup(private val deadline: Command, vararg otherCommands: Command): ParallelGroup(deadline, *otherCommands) {
 
