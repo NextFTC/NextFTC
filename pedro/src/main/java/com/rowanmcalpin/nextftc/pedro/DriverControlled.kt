@@ -68,7 +68,9 @@ class DriverControlled @JvmOverloads constructor(
 
     override val isDone: Boolean = false
 
-    override val subsystems: Set<Subsystem> = setOf(Drivetrain)
+    init {
+        setSubsystems(Drivetrain)
+    }
 
     override fun start() {
         if (PedroData.follower == null) {
