@@ -25,7 +25,7 @@ import kotlin.math.abs
  * @param T the type of the quantity
  * @author BeepBot99
  */
-abstract class Quantity<T: Quantity<T>> {
+abstract class Quantity<T : Quantity<T>> {
     /**
      * The value of the quantity
      */
@@ -51,11 +51,12 @@ abstract class Quantity<T: Quantity<T>> {
     fun greaterThan(other: T): Boolean = compareTo(other) > 0
     fun greaterThanOrEqualTo(other: T): Boolean = compareTo(other) >= 0
 
-    val sign: Int get() = when {
-        value > 0 -> 1
-        value < 0 -> -1
-        else -> 0
-    }
+    val sign: Int
+        get() = when {
+            value > 0 -> 1
+            value < 0 -> -1
+            else -> 0
+        }
 
     @get:JvmName("abs")
     val abs: T get() = newInstance(abs(value))
@@ -76,4 +77,4 @@ abstract class Quantity<T: Quantity<T>> {
     abstract fun newInstance(value: Double): T
 }
 
-fun <T: Quantity<T>> abs(quantity: T): T = quantity.abs
+fun <T : Quantity<T>> abs(quantity: T): T = quantity.abs

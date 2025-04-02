@@ -35,9 +35,9 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         // For PedroPathing:
-        maven(url = "https://maven.pedropathing.com/" )
+        maven(url = "https://maven.pedropathing.com/")
         // For Dashboard:
-        maven(url = "https://maven.brott.dev/" )
+        maven(url = "https://maven.brott.dev/")
         // For NextControl:
         maven(url = "https://maven.rowanmcalpin.com/")
     }

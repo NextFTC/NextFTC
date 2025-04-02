@@ -21,13 +21,13 @@ package com.rowanmcalpin.nextftc.ftc.components
 import com.rowanmcalpin.nextftc.core.command.CommandManager
 import com.rowanmcalpin.nextftc.core.components.Component
 import com.rowanmcalpin.nextftc.ftc.OpModeData
-import com.rowanmcalpin.nextftc.ftc.gamepad.GamepadManager
 import com.rowanmcalpin.nextftc.ftc.gamepad.GamepadEx
+import com.rowanmcalpin.nextftc.ftc.gamepad.GamepadManager
 
 /**
  * This component adds [GamepadEx] functionality to the OpMode
  */
-class GamepadComponent: Component {
+class GamepadComponent : Component {
     override fun preInit() {
         if (OpModeData.gamepad1 == null || OpModeData.gamepad2 == null) {
             throw UninitializedPropertyAccessException("Gamepad has not been initialized")

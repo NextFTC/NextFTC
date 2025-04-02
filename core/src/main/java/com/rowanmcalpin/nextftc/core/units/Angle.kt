@@ -18,7 +18,7 @@
 
 package com.rowanmcalpin.nextftc.core.units
 
-data class Angle private constructor(override val value: Double): Quantity<Angle>() {
+data class Angle private constructor(override val value: Double) : Quantity<Angle>() {
     companion object {
         private const val DEGREES_TO_RADIANS = Math.PI / 180
         private const val REVOLUTIONS_TO_RADIANS = 2 * Math.PI
@@ -29,56 +29,66 @@ data class Angle private constructor(override val value: Double): Quantity<Angle
          * Creates a new [Angle] from an angle in radians
          * @param radians the angle in radians
          */
-        @JvmStatic fun fromRad(radians: Double) = Angle(radians)
+        @JvmStatic
+        fun fromRad(radians: Double) = Angle(radians)
 
         /**
          * Creates a new [Angle] from an angle in radians
          * @param radians the angle in radians
          */
-        @JvmStatic fun fromRad(radians: Int) = fromRad(radians.toDouble())
+        @JvmStatic
+        fun fromRad(radians: Int) = fromRad(radians.toDouble())
 
         /**
          * Creates a new [Angle] from an angle in degrees
          * @param degrees the angle in degrees
          */
-        @JvmStatic fun fromDeg(degrees: Double) = fromUnit(degrees, DEGREES_TO_RADIANS)
+        @JvmStatic
+        fun fromDeg(degrees: Double) = fromUnit(degrees, DEGREES_TO_RADIANS)
 
         /**
          * Creates a new [Angle] from an angle in degrees
          * @param degrees the angle in degrees
          */
-        @JvmStatic fun fromDeg(degrees: Int) = fromDeg(degrees.toDouble())
+        @JvmStatic
+        fun fromDeg(degrees: Int) = fromDeg(degrees.toDouble())
 
         /**
          * Creates a new [Angle] from an angle in full revolutions
          * @param revolutions the angle in full revolutions
          */
-        @JvmStatic fun fromRev(revolutions: Double) = fromUnit(revolutions, REVOLUTIONS_TO_RADIANS)
+        @JvmStatic
+        fun fromRev(revolutions: Double) = fromUnit(revolutions, REVOLUTIONS_TO_RADIANS)
 
         /**
          * Creates a new [Angle] from an angle in full revolutions
          * @param revolutions the angle in full revolutions
          */
-        @JvmStatic fun fromRev(revolutions: Int) = fromRev(revolutions.toDouble())
+        @JvmStatic
+        fun fromRev(revolutions: Int) = fromRev(revolutions.toDouble())
 
         fun wrapAngle0To2Pi(angle: Double) = ((angle % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI)
-        fun wrapAnglePiToPi(angle: Double) = ((angle + Math.PI) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI) - Math.PI
+        fun wrapAnglePiToPi(angle: Double) =
+            ((angle + Math.PI) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI) - Math.PI
     }
 
     /**
      * The value of the angle in radians
      */
-    @JvmField val inRad = value
+    @JvmField
+    val inRad = value
 
     /**
      * The value of the angle in degrees
      */
-    @JvmField val inDeg = value / DEGREES_TO_RADIANS
+    @JvmField
+    val inDeg = value / DEGREES_TO_RADIANS
 
     /**
      * The value of the angle in full revolutions
      */
-    @JvmField val inRev = value / REVOLUTIONS_TO_RADIANS
+    @JvmField
+    val inRev = value / REVOLUTIONS_TO_RADIANS
 
     /**
      * A new [Angle] wrapped from 0 to 2pi

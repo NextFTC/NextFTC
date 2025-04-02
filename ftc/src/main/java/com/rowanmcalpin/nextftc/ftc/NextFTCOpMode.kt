@@ -18,14 +18,11 @@
 
 package com.rowanmcalpin.nextftc.ftc
 
-import com.qualcomm.hardware.lynx.LynxModule
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.rowanmcalpin.nextftc.core.command.CommandManager
 import com.rowanmcalpin.nextftc.ftc.components.Components
-import com.rowanmcalpin.nextftc.ftc.gamepad.GamepadManager
-import java.lang.RuntimeException
 
 
 /**
@@ -33,7 +30,7 @@ import java.lang.RuntimeException
  *  - Automatically initializes and runs the CommandManager
  *  - If desired, automatically implements and handles Gamepads
  */
-abstract class NextFTCOpMode: LinearOpMode() {
+abstract class NextFTCOpMode : LinearOpMode() {
 
     abstract val components: Components
 
@@ -95,27 +92,27 @@ abstract class NextFTCOpMode: LinearOpMode() {
     /**
      * This function runs ONCE when the init button is pressed.
      */
-    open fun onInit() { }
+    open fun onInit() {}
 
     /**
      * This function runs REPEATEDLY during initialization.
      */
-    open fun onWaitForStart() { }
+    open fun onWaitForStart() {}
 
     /**
      * This function runs ONCE when the start button is pressed.
      */
-    open fun onStartButtonPressed() { }
+    open fun onStartButtonPressed() {}
 
     /**
      * This function runs REPEATEDLY when the OpMode is running.
      */
-    open fun onUpdate() { }
+    open fun onUpdate() {}
 
     /**
      * This function runs ONCE when the stop button is pressed.
      */
-    open fun onStop() { }
+    open fun onStop() {}
 
     /**
      * This class automatically identifies what type of OpMode it is annotated as, thereby allowing

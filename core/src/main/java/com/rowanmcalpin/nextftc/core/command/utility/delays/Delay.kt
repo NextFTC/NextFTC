@@ -19,31 +19,31 @@
 package com.rowanmcalpin.nextftc.core.command.utility.delays
 
 import com.rowanmcalpin.nextftc.core.command.Command
-import com.rowanmcalpin.nextftc.core.units.TimeSpan
 import com.rowanmcalpin.nextftc.core.command.groups.ParallelGroup
+import com.rowanmcalpin.nextftc.core.units.TimeSpan
 import com.rowanmcalpin.nextftc.core.units.sec
 
 /**
- * A [Command] that does nothing except wait until a certain amount of time has passed. Like all 
+ * A [Command] that does nothing except wait until a certain amount of time has passed. Like all
  * delays, if placed directly in a [ParallelGroup], it will accomplish nothing except slowing loop
  * times and taking up memory.
  * @param time the desired duration of this command
  */
 class Delay(
     private val time: TimeSpan = TimeSpan.ZERO
-): Command() {
+) : Command() {
     /**
      * @param time the desired duration of this command, in seconds
      */
-    constructor(time: Double): this(time.sec)
+    constructor(time: Double) : this(time.sec)
 
     /**
      * @param time the desired duration of this command, in seconds
      */
-    constructor(time: Int): this(time.sec)
-    
+    constructor(time: Int) : this(time.sec)
+
     private var startTime: Double = 0.0
-    
+
     override val isDone: Boolean
         get() = (System.nanoTime() / 1E9) - startTime >= time.inSec
 

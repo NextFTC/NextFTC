@@ -18,8 +18,8 @@
 
 package com.rowanmcalpin.nextftc.hardware
 
-import com.rowanmcalpin.nextftc.core.subsystems.Subsystem
 import com.rowanmcalpin.nextftc.core.command.Command
+import com.rowanmcalpin.nextftc.core.subsystems.Subsystem
 import dev.nextftc.nextcontrol.ControlSystem
 import dev.nextftc.nextcontrol.KineticState
 
@@ -36,7 +36,8 @@ import dev.nextftc.nextcontrol.KineticState
 open class RunToState(
     val system: ControlSystem,
     val goal: KineticState,
-    val tolerance: KineticState = KineticState(10.0, 5.0, Double.POSITIVE_INFINITY)): Command() {
+    val tolerance: KineticState = KineticState(10.0, 5.0, Double.POSITIVE_INFINITY)
+) : Command() {
 
     override val isDone: Boolean
         get() = system.isWithinTolerance(tolerance)

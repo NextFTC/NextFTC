@@ -39,7 +39,7 @@ object OpModeData {
 
     @JvmField
     var hardwareMap: HardwareMap? = null
-    
+
     @JvmField
     var opMode: OpMode? = null
 
@@ -48,11 +48,13 @@ object OpModeData {
 
     @JvmField
     var gamepad1: Gamepad? = null
+
     @JvmField
     var gamepad2: Gamepad? = null
 
     @JvmField
     var alliance: Alliance = Alliance.NONE
+
     @JvmField
     var opModeType: OpModeType = OpModeType.NONE
 }

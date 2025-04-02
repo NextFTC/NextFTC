@@ -19,14 +19,14 @@
 package com.rowanmcalpin.nextftc.core.components
 
 interface Component {
-    fun preInit() { }
-    fun postInit() { }
-    fun preWaitForStart() { }
-    fun postWaitForStart() { }
-    fun preStartButtonPressed() { }
-    fun postStartButtonPressed() { }
-    fun preUpdate() { }
-    fun postUpdate() { }
-    fun preStop() { }
-    fun postStop() { }
+    fun preInit() {}
+    fun postInit() {}
+    fun preWaitForStart() {}
+    fun postWaitForStart() {}
+    fun preStartButtonPressed() {}
+    fun postStartButtonPressed() {}
+    fun preUpdate() {}
+    fun postUpdate() {}
+    fun preStop() {}
+    fun postStop() {}
 }

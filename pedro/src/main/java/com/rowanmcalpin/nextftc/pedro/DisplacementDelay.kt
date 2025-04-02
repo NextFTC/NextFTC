@@ -28,7 +28,7 @@ import com.rowanmcalpin.nextftc.core.command.Command
  *
  * @param distance the distance the robot must drive
  */
-class DisplacementDelay(private val distance: Double): Command() {
+class DisplacementDelay(private val distance: Double) : Command() {
     private lateinit var startPosition: Pose
 
     override val isDone: Boolean

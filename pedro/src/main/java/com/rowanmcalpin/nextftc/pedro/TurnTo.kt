@@ -29,7 +29,10 @@ import com.rowanmcalpin.nextftc.core.units.deg
  * @param tolerance the maximum error between the current heading and the target heading required to finish
  * @throws FollowerNotInitializedException if the follower is not set
  */
-class TurnTo @JvmOverloads constructor(private val targetHeading: Angle, private val tolerance: Angle = 5.deg): Command() {
+class TurnTo @JvmOverloads constructor(
+    private val targetHeading: Angle,
+    private val tolerance: Angle = 5.deg
+) : Command() {
     override val isDone: Boolean
         get() = abs(targetHeading.normalized - Angle.fromRad(PedroData.follower!!.totalHeading).normalized) <= tolerance.abs
 

@@ -23,11 +23,11 @@ import com.rowanmcalpin.nextftc.core.command.CommandManager
 import com.rowanmcalpin.nextftc.core.command.utility.NullCommand
 
 /**
- * A joystick has 2 [JoystickAxis] plus a button. 
+ * A joystick has 2 [JoystickAxis] plus a button.
  * @param xAxisValue the value of the x-axis to watch
  * @param yAxisValue the value of the y-axis to watch
  * @param buttonValue the value of the button to watch
- * @param horizontalThreshold the amount the horizontal axis has to be moved in either direction 
+ * @param horizontalThreshold the amount the horizontal axis has to be moved in either direction
  *                                  before it is considered 'displaced'
  * @param verticalThreshold the amount the vertical axis has to be moved in either direction before
  *                                  it is considered 'displaced'
@@ -35,13 +35,15 @@ import com.rowanmcalpin.nextftc.core.command.utility.NullCommand
  *                                  you decreases the value instead of increasing. When this is true,
  *                                  it will automatically correct for that.
  */
-class Joystick(private val xAxisValue: () -> Float, private val yAxisValue: () -> Float, 
-               private val buttonValue: () -> Boolean,
-               private val horizontalThreshold: Float = 0f, private val verticalThreshold: Float = 0f,
-               private val reverseVertical: Boolean = true): Control() {
+class Joystick(
+    private val xAxisValue: () -> Float, private val yAxisValue: () -> Float,
+    private val buttonValue: () -> Boolean,
+    private val horizontalThreshold: Float = 0f, private val verticalThreshold: Float = 0f,
+    private val reverseVertical: Boolean = true,
+) : Control() {
     /**
-     * This command will be scheduled every time the joystick moves off center. Note that it 
-     * receives a pair of floats; these are the x and y values.  
+     * This command will be scheduled every time the joystick moves off center. Note that it
+     * receives a pair of floats; these are the x and y values.
      */
     var displacedCommand: (Pair<Float, Float>) -> Command = { NullCommand() }
 

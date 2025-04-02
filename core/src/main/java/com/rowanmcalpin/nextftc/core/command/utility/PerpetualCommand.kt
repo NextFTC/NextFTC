@@ -20,7 +20,7 @@ package com.rowanmcalpin.nextftc.core.command.utility
 
 import com.rowanmcalpin.nextftc.core.command.Command
 
-class PerpetualCommand(val command: Command): Command() {
+class PerpetualCommand(val command: Command) : Command() {
 
     override val isDone: Boolean = false
 

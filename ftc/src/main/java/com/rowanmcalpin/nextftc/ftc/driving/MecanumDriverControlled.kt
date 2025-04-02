@@ -39,13 +39,38 @@ import kotlin.math.sin
  * @param turnSupplier a float supplier for the turn signal
  * @param robotCentric whether to use robot centric or field centric movement
  */
-class MecanumDriverControlled @JvmOverloads constructor(private val motors: Array<out Controllable>, val driveSupplier: () -> Float, val strafeSupplier: () -> Float, val turnSupplier: () -> Float, private val robotCentric: Boolean = true, private val imu: IMU? = null): Command() {
+class MecanumDriverControlled @JvmOverloads constructor(
+    private val motors: Array<out Controllable>,
+    val driveSupplier: () -> Float,
+    val strafeSupplier: () -> Float,
+    val turnSupplier: () -> Float,
+    private val robotCentric: Boolean = true,
+    private val imu: IMU? = null
+) : Command() {
 
     @JvmOverloads
-    constructor(motors: Array<out Controllable>, driveJoystick: Joystick, turnJoystick: Joystick, robotCentric: Boolean = true, imu: IMU? = null): this(motors, { driveJoystick.y }, { driveJoystick.x }, { turnJoystick.x }, robotCentric, imu)
+    constructor(
+        motors: Array<out Controllable>,
+        driveJoystick: Joystick,
+        turnJoystick: Joystick,
+        robotCentric: Boolean = true,
+        imu: IMU? = null
+    ) : this(
+        motors,
+        { driveJoystick.y },
+        { driveJoystick.x },
+        { turnJoystick.x },
+        robotCentric,
+        imu
+    )
 
     @JvmOverloads
-    constructor(motors: Array<out Controllable>, gamepad: GamepadEx, robotCentric: Boolean = true, imu: IMU? = null): this(motors, gamepad.leftStick, gamepad.rightStick, robotCentric, imu)
+    constructor(
+        motors: Array<out Controllable>,
+        gamepad: GamepadEx,
+        robotCentric: Boolean = true,
+        imu: IMU? = null
+    ) : this(motors, gamepad.leftStick, gamepad.rightStick, robotCentric, imu)
 
     override val isDone: Boolean = false
 
@@ -54,7 +79,9 @@ class MecanumDriverControlled @JvmOverloads constructor(private val motors: Arra
 
     var orientation: Double
         get() = imu!!.robotYawPitchRollAngles.getYaw(AngleUnit.RADIANS) - offset
-        set(value) { offset = imu!!.robotYawPitchRollAngles.getYaw(AngleUnit.RADIANS) - value }
+        set(value) {
+            offset = imu!!.robotYawPitchRollAngles.getYaw(AngleUnit.RADIANS) - value
+        }
 
     init {
         setSubsystems(Drivetrain)

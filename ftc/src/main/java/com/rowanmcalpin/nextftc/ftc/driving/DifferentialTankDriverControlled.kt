@@ -31,14 +31,24 @@ import com.rowanmcalpin.nextftc.ftc.hardware.controllables.Controllable
  * @param leftJoystick: The joystick to use to control the left side of the drivetrain
  * @param rightJoystick: The joystick to use to control the right side of the drivetrain
  */
-class DifferentialTankDriverControlled(val leftMotor: Controllable, val rightMotor: Controllable, val leftJoystick: Joystick, val rightJoystick: Joystick) : Command() {
+class DifferentialTankDriverControlled(
+    val leftMotor: Controllable,
+    val rightMotor: Controllable,
+    val leftJoystick: Joystick,
+    val rightJoystick: Joystick
+) : Command() {
 
     /**
      * @param leftMotor: The motor(s) on the left side of the drivetrain
      * @param rightMotor: The motor(s) on the right side of the drivetrain
      * @param gamepad: The gamepad to use the joysticks from
      */
-    constructor(leftMotor: Controllable, rightMotor: Controllable, gamepad: GamepadEx): this(leftMotor, rightMotor, gamepad.leftStick, gamepad.rightStick)
+    constructor(leftMotor: Controllable, rightMotor: Controllable, gamepad: GamepadEx) : this(
+        leftMotor,
+        rightMotor,
+        gamepad.leftStick,
+        gamepad.rightStick
+    )
 
     override val isDone: Boolean = false
 

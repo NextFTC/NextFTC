@@ -33,14 +33,24 @@ import kotlin.math.max
  * @param driveJoystick: The joystick to use for forward movement
  * @param turnJoystick: The joystick to use for turning
  */
-class DifferentialArcadeDriverControlled(val leftMotor: Controllable, val rightMotor: Controllable, val driveJoystick: Joystick, val turnJoystick: Joystick): Command() {
+class DifferentialArcadeDriverControlled(
+    val leftMotor: Controllable,
+    val rightMotor: Controllable,
+    val driveJoystick: Joystick,
+    val turnJoystick: Joystick
+) : Command() {
 
     /**
      * @param leftMotor: The motor(s) on the left side of the drivetrain
      * @param rightMotor: The motor(s) on the right side of the drivetrain
      * @param gamepad: The gamepad to use the joysticks from
      */
-    constructor(leftMotor: Controllable, rightMotor: Controllable, gamepad: GamepadEx): this(leftMotor, rightMotor, gamepad.leftStick, gamepad.rightStick)
+    constructor(leftMotor: Controllable, rightMotor: Controllable, gamepad: GamepadEx) : this(
+        leftMotor,
+        rightMotor,
+        gamepad.leftStick,
+        gamepad.rightStick
+    )
 
     override val isDone: Boolean = false
 

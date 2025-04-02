@@ -18,8 +18,8 @@
 
 package com.rowanmcalpin.nextftc.core.command.utility
 
-import com.rowanmcalpin.nextftc.core.subsystems.Subsystem
 import com.rowanmcalpin.nextftc.core.command.Command
+import com.rowanmcalpin.nextftc.core.subsystems.Subsystem
 import java.util.function.Consumer
 import java.util.function.Supplier
 
@@ -29,7 +29,7 @@ import java.util.function.Supplier
  * @author BeepBot99
  */
 
-open class LambdaCommand: Command() {
+open class LambdaCommand : Command() {
     private var isDoneLambda = Supplier<Boolean> { true }
     private var startLambda = Runnable { }
     private var updateLambda = Runnable { }
@@ -59,12 +59,14 @@ open class LambdaCommand: Command() {
     /**
      * Sets the subsystems that the command implements
      */
-    override fun setSubsystems(subsystems: Set<Subsystem>) = apply { super.setSubsystems(subsystems) }
+    override fun setSubsystems(subsystems: Set<Subsystem>) =
+        apply { super.setSubsystems(subsystems) }
 
     /**
      * Sets the subsystems that the command implements
      */
-    override fun setSubsystems(vararg subsystems: Subsystem) = apply { super.setSubsystems(*subsystems) }
+    override fun setSubsystems(vararg subsystems: Subsystem) =
+        apply { super.setSubsystems(*subsystems) }
 
     /**
      * Sets the function that returns whether the command has finished running
@@ -74,5 +76,6 @@ open class LambdaCommand: Command() {
     /**
      * Sets whether the command can be stopped due to an overlap of subsystems
      */
-    override fun setInterruptible(interruptible: Boolean) = apply { super.setInterruptible(interruptible) }
+    override fun setInterruptible(interruptible: Boolean) =
+        apply { super.setInterruptible(interruptible) }
 }

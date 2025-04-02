@@ -19,7 +19,6 @@
 package com.rowanmcalpin.nextftc.core.command.groups
 
 import com.rowanmcalpin.nextftc.core.command.Command
-import com.rowanmcalpin.nextftc.core.command.CommandManager
 
 /**
  * A [CommandGroup] that runs its children one at a time.
