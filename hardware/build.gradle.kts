@@ -55,9 +55,6 @@ android {
 dependencies {
     implementation(project(":core"))
     implementation(libs.nextcontrol)
-
-    compileOnly(libs.ftc.robotcore)
-    compileOnly(libs.ftc.hardware)
 }
 
 // CONFIGURE PUBLISHING
