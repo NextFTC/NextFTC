@@ -18,4 +18,6 @@
 
 package com.rowanmcalpin.nextftc.core.subsystems
 
-open class SubsystemGroup(vararg val subsystems: Subsystem): Subsystem()
+open class SubsystemGroup(vararg children: Subsystem) : Subsystem {
+    override val subsystems: Set<Subsystem> = children.flatMap { it.subsystems }.toSet() + this
+}
