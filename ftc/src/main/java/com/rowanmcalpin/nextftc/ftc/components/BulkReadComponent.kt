@@ -25,12 +25,12 @@ import com.rowanmcalpin.nextftc.ftc.OpModeData
 /**
  * This component automatically sets up bulk reading for your control and expansion hubs
  */
-class BulkReadComponent: Component {
+class BulkReadComponent : Component {
     private lateinit var allHubs: List<LynxModule>
     override fun postInit() {
-        if (OpModeData.hardwareMap == null) {
-            throw UninitializedPropertyAccessException("hardwareMap has not been initialized")
-        }
+
+        OpModeData.hardwareMap
+            ?: throw UninitializedPropertyAccessException("hardwareMap has not been initialized")
         allHubs = OpModeData.hardwareMap!!.getAll(LynxModule::class.java)
 
         allHubs.forEach {
@@ -38,13 +38,11 @@ class BulkReadComponent: Component {
         }
     }
 
-    override fun postWaitForStart() {
-        allHubs.forEach {
-            it.clearBulkCache()
-        }
-    }
+    override fun postWaitForStart() = clearCache()
 
-    override fun postUpdate() {
+    override fun postUpdate() = clearCache()
+
+    private fun clearCache() {
         allHubs.forEach {
             it.clearBulkCache()
         }
