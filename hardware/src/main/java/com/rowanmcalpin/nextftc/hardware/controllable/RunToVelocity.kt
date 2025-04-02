@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.rowanmcalpin.nextftc.hardware
+package com.rowanmcalpin.nextftc.hardware.controllable
 
 import com.rowanmcalpin.nextftc.core.subsystems.Subsystem
 import dev.nextftc.nextcontrol.ControlSystem
@@ -32,22 +32,24 @@ import dev.nextftc.nextcontrol.KineticState
  * @param subsystems  the list of [Subsystem]s this command interacts with (should be whatever
  *                      subsystem holds this command)
  */
-class RunToPosition @JvmOverloads constructor(
+class RunToVelocity @JvmOverloads constructor(
     system: ControlSystem,
     goal: Double,
-    tolerance: KineticState = KineticState(10.0, 5.0, Double.POSITIVE_INFINITY)
+    tolerance: KineticState = KineticState(Double.POSITIVE_INFINITY, 5.0, Double.POSITIVE_INFINITY)
 ) : RunToState(
     system,
-    KineticState(goal),
+    KineticState(velocity = goal),
     tolerance
 ) {
     constructor(
         system: ControlSystem,
         goal: Double,
-        positionTolerance: Double
+        velocityTolerance: Double
     ) : this(
         system,
         goal,
-        KineticState(positionTolerance, 5.0, Double.POSITIVE_INFINITY)
+        KineticState(Double.POSITIVE_INFINITY, velocityTolerance, Double.POSITIVE_INFINITY)
     )
+
 }
+>>>>>>> 4c4cc0e (refactor: Move subsystems to a subsystems package)
