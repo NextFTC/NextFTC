@@ -16,15 +16,16 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.rowanmcalpin.nextftc.hardware
+package com.rowanmcalpin.nextftc.hardware.controllable
 
+import com.rowanmcalpin.nextftc.core.command.Command
 import com.rowanmcalpin.nextftc.core.subsystems.Subsystem
 import dev.nextftc.nextcontrol.ControlSystem
 import dev.nextftc.nextcontrol.KineticState
 
 /**
- * This command sets a controller goal to a specified position, and then waits until the controller
- * is within a specified tolerance
+ * This command sets a [ControlSystem] goal to the [goal], and then waits until the
+ * system is within the [tolerance]
  *
  * @param system the system to control
  * @param goal the goal for the [system]
@@ -32,23 +33,16 @@ import dev.nextftc.nextcontrol.KineticState
  * @param subsystems  the list of [Subsystem]s this command interacts with (should be whatever
  *                      subsystem holds this command)
  */
-class RunToVelocity @JvmOverloads constructor(
-    system: ControlSystem,
-    goal: Double,
-    tolerance: KineticState = KineticState(Double.POSITIVE_INFINITY, 5.0, Double.POSITIVE_INFINITY)
-) : RunToState(
-    system,
-    KineticState(velocity = goal),
-    tolerance
-) {
-    constructor(
-        system: ControlSystem,
-        goal: Double,
-        velocityTolerance: Double
-    ) : this(
-        system,
-        goal,
-        KineticState(Double.POSITIVE_INFINITY, velocityTolerance, Double.POSITIVE_INFINITY)
-    )
+open class RunToState(
+    val system: ControlSystem,
+    val goal: KineticState,
+    val tolerance: KineticState = KineticState(10.0, 5.0, Double.POSITIVE_INFINITY)
+) : Command() {
 
+    override val isDone: Boolean
+        get() = system.isWithinTolerance(tolerance)
+
+    override fun start() {
+        system.goal = goal
+    }
 }
