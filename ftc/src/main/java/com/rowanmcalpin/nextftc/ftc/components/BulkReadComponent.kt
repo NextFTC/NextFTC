@@ -19,12 +19,13 @@
 package com.rowanmcalpin.nextftc.ftc.components
 
 import com.qualcomm.hardware.lynx.LynxModule
+import com.rowanmcalpin.nextftc.core.components.Component
 import com.rowanmcalpin.nextftc.ftc.OpModeData
 
 /**
  * This component automatically sets up bulk reading for your control and expansion hubs
  */
-class BulkReadComponent: NextComponent {
+class BulkReadComponent: Component {
     private lateinit var allHubs: List<LynxModule>
     override fun postInit() {
         if (OpModeData.hardwareMap == null) {

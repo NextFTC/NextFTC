@@ -87,7 +87,7 @@ abstract class NextFTCOpMode: LinearOpMode() {
         } catch (e: Exception) {
             // Rethrow the exception as a RuntimeException with the original stack trace at the top
             val runtimeException = RuntimeException(e.message)
-            runtimeException.setStackTrace(e.stackTrace)  // Set the original stack trace at the top
+            runtimeException.stackTrace = e.stackTrace  // Set the original stack trace at the top
             throw runtimeException  // Throw the custom RuntimeException
         }
     }

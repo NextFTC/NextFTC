@@ -16,9 +16,9 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.rowanmcalpin.nextftc.ftc.components
+package com.rowanmcalpin.nextftc.core.components
 
-interface NextComponent {
+interface Component {
     fun preInit() { }
     fun postInit() { }
     fun preWaitForStart() { }
