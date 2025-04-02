@@ -54,7 +54,7 @@ abstract class NextFTCOpMode: LinearOpMode() {
             components.postInit()
 
             // Wait for start
-            while (!isStarted && !isStopRequested) {
+            while (opModeInInit()) {
                 components.preWaitForStart()
                 CommandManager.run()
                 onWaitForStart()
@@ -68,7 +68,7 @@ abstract class NextFTCOpMode: LinearOpMode() {
                 onStartButtonPressed()
                 components.postStartButtonPressed()
 
-                while (!isStopRequested && isStarted) {
+                while (opModeIsActive()) {
                     components.preUpdate()
                     CommandManager.run()
                     onUpdate()
@@ -122,12 +122,10 @@ abstract class NextFTCOpMode: LinearOpMode() {
      * it to set the [OpModeData.opModeType] variable correctly.
      */
     private fun processAnnotations() {
-        for (annotation in this::class.annotations) {
-            if (annotation is TeleOp) {
-                OpModeData.opModeType = OpModeData.OpModeType.TELEOP
-            }
-            if (annotation is Autonomous) {
-                OpModeData.opModeType = OpModeData.OpModeType.AUTO
+        this::class.annotations.forEach {
+            when (it) {
+                is TeleOp -> OpModeData.opModeType = OpModeData.OpModeType.TELEOP
+                is Autonomous -> OpModeData.opModeType = OpModeData.OpModeType.AUTO
             }
         }
     }
