@@ -27,6 +27,7 @@ import com.rowanmcalpin.nextftc.core.command.utility.PerpetualCommand
 import com.rowanmcalpin.nextftc.core.command.utility.delays.Delay
 import com.rowanmcalpin.nextftc.core.units.TimeSpan
 import com.rowanmcalpin.nextftc.core.units.sec
+import com.rowanmcalpin.nextftc.core.command.utility.ForcedParallelCommand
 
 /**
  * A discrete unit of functionality that runs simultaneous to all other commands.
@@ -236,6 +237,11 @@ abstract class Command : Runnable {
         this,
         *commands
     )
+
+    /**
+     * Returns a [ForcedParallelCommand] with this command
+     */
+    fun forcedParallel() = ForcedParallelCommand(this)
 
     // endregion
 }
