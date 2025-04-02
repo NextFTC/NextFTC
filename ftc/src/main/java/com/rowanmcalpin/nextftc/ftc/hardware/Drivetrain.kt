@@ -23,4 +23,4 @@ import com.rowanmcalpin.nextftc.core.subsystems.Subsystem
 /**
  * An internal subsystem for the drivetrain used by commands that drive the robot.
  */
-object Drivetrain : Subsystem()
+object Drivetrain : Subsystem
