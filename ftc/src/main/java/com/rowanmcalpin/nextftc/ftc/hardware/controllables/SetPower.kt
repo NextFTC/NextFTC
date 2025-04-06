@@ -20,6 +20,7 @@ package com.rowanmcalpin.nextftc.ftc.hardware.controllables
 
 import com.rowanmcalpin.nextftc.core.command.Command
 import com.rowanmcalpin.nextftc.core.subsystems.Subsystem
+import com.rowanmcalpin.nextftc.hardware.controllable.Controllable
 
 /**
  * Sets a controllable to a specific power without any internal feedback

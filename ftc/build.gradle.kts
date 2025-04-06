@@ -54,6 +54,7 @@ android {
 
 dependencies {
     implementation(project(":core"))
+    compileOnly(project(":hardware"))
 
     compileOnly(libs.ftc.robotcore)
     compileOnly(libs.ftc.hardware)
