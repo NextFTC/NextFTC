@@ -27,7 +27,7 @@ import com.rowanmcalpin.nextftc.core.command.groups.ParallelGroup
  * up memory.
  * @param check the check to repeatedly check to see if it should continue
  */
-class WaitUntil(private val check: () -> Boolean) : Command() {
+open class WaitUntil(private val check: () -> Boolean) : Command() {
     override val isDone: Boolean
         get() = check()
 }

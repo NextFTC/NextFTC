@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.rowanmcalpin.nextftc.ftc.hardware
+package com.rowanmcalpin.nextftc.hardware.driving
 
 import com.rowanmcalpin.nextftc.core.subsystems.Subsystem
 
