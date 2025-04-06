@@ -16,25 +16,29 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.rowanmcalpin.nextftc.pedro
+package com.rowanmcalpin.nextftc.hardware.driving
 
-import com.rowanmcalpin.nextftc.hardware.driving.DriverControlledCommand
-import com.rowanmcalpin.nextftc.pedro.PedroComponent.PedroFollower.follower
+import com.rowanmcalpin.nextftc.hardware.controllable.Controllable
 import java.util.function.Supplier
 
-class PedroDriverControlled(
-    drivePower: Supplier<Float>,
-    strafePower: Supplier<Float>,
-    turnPower: Supplier<Float>,
-    val robotCentric: Boolean = true
-) : DriverControlledCommand(drivePower, strafePower, turnPower) {
-
-    override fun start() {
-        follower.startTeleopDrive()
-    }
+/**
+ * Drives a differential drivetrain as a tank drive.
+ * @param leftMotor: The motor(s) on the left side of the drivetrain
+ * @param rightMotor: The motor(s) on the right side of the drivetrain
+ * @param leftPower: The power to use to control the left side of the drivetrain
+ * @param rightPower: The power to use to control the right side of the drivetrain
+ */
+class DifferentialTankDriverControlled(
+    val leftMotor: Controllable,
+    val rightMotor: Controllable,
+    val leftPower: Supplier<Float>,
+    val rightPower: Supplier<Float>
+) : DriverControlledCommand(leftPower, rightPower) {
 
     override fun calculateAndSetPowers(powers: DoubleArray) {
-        val (forward, lateral, heading) = powers
-        follower.setTeleOpMovementVectors(forward, lateral, heading, robotCentric)
+        val (leftPower, rightPower) = powers
+
+        leftMotor.power = leftPower
+        rightMotor.power = rightPower
     }
 }

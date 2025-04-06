@@ -21,14 +21,14 @@ package com.rowanmcalpin.nextftc.pedro
 import com.pedropathing.pathgen.Path
 import com.pedropathing.pathgen.PathChain
 import com.rowanmcalpin.nextftc.core.command.Command
-import com.rowanmcalpin.nextftc.ftc.hardware.Drivetrain
+import com.rowanmcalpin.nextftc.hardware.driving.Drivetrain
+import com.rowanmcalpin.nextftc.pedro.PedroComponent.PedroFollower.follower
 
 /**
  * This Command tells the PedroPath follower to follow a specific path or pathchain
  * @param path the path to follow
  * @param holdEnd whether to actively hold position after the path is done being followed
  * @param maxPower the max power, between 0 and 1. If maxPower is null then the default (set in `FConstants` or with `follower.setMaxPower`) is used.
- * @throws FollowerNotInitializedException if the follower is not set
  * @throws IllegalArgumentException if maxPower is not null or in the interval [0, 1]
  */
 class FollowPath @JvmOverloads constructor(
@@ -45,19 +45,18 @@ class FollowPath @JvmOverloads constructor(
     )
 
     override val isDone: Boolean
-        get() = !PedroData.follower!!.isBusy
+        get() = !follower.isBusy
 
     init {
         setSubsystems(Drivetrain)
     }
 
     override fun start() {
-        if (PedroData.follower == null) throw FollowerNotInitializedException()
         require(maxPower == null || maxPower in 0.0..1.0) { "maxPower must be null or between 0 and 1" }
 
         if (maxPower == null)
-            PedroData.follower!!.followPath(path, holdEnd)
+            follower.followPath(path, holdEnd)
         else
-            PedroData.follower!!.followPath(path, maxPower, holdEnd)
+            follower.followPath(path, maxPower, holdEnd)
     }
 }

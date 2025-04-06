@@ -16,20 +16,25 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.rowanmcalpin.nextftc.pedro
+package com.rowanmcalpin.nextftc.hardware.driving
 
 import com.rowanmcalpin.nextftc.core.command.Command
+import java.util.function.Supplier
 
-/**
- * This command updates the Pedro Path follower continuously as long as the OpMode is running.
- */
-class UpdateFollower : Command() {
+abstract class DriverControlledCommand(vararg val joystickPowers: Supplier<Float>) : Command() {
+    final override val isDone: Boolean = false
 
-    override val isDone: Boolean = false
+    var scalar: Double = 1.0
 
-    override fun update() {
-        if (PedroData.follower == null) throw FollowerNotInitializedException()
+    init {
+        setSubsystems(Drivetrain)
+    }
 
-        PedroData.follower!!.update()
+    abstract fun calculateAndSetPowers(powers: DoubleArray)
+
+    final override fun update() {
+        val scaledPowers =
+            joystickPowers.map { it.get() }.map { it * scalar.toFloat() }.toFloatArray()
+        calculateAndSetPowers(scaledPowers.map { it.toDouble() }.toDoubleArray())
     }
 }

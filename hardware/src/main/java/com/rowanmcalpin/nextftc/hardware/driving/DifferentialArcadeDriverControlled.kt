@@ -16,25 +16,32 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.rowanmcalpin.nextftc.pedro
+package com.rowanmcalpin.nextftc.hardware.driving
 
-import com.rowanmcalpin.nextftc.hardware.driving.DriverControlledCommand
-import com.rowanmcalpin.nextftc.pedro.PedroComponent.PedroFollower.follower
+import com.rowanmcalpin.nextftc.hardware.controllable.Controllable
 import java.util.function.Supplier
+import kotlin.math.abs
+import kotlin.math.max
 
-class PedroDriverControlled(
+/**
+ * Drives a differential drivetrain as a tank drive.
+ * @param leftMotor: The motor(s) on the left side of the drivetrain
+ * @param rightMotor: The motor(s) on the right side of the drivetrain
+ * @param drivePower: The power to use for forward movement
+ * @param turnPower: The power to use for turning
+ */
+class DifferentialArcadeDriverControlled(
+    val leftMotor: Controllable,
+    val rightMotor: Controllable,
     drivePower: Supplier<Float>,
-    strafePower: Supplier<Float>,
-    turnPower: Supplier<Float>,
-    val robotCentric: Boolean = true
-) : DriverControlledCommand(drivePower, strafePower, turnPower) {
-
-    override fun start() {
-        follower.startTeleopDrive()
-    }
+    turnPower: Supplier<Float>
+) : DriverControlledCommand(drivePower, turnPower) {
 
     override fun calculateAndSetPowers(powers: DoubleArray) {
-        val (forward, lateral, heading) = powers
-        follower.setTeleOpMovementVectors(forward, lateral, heading, robotCentric)
+        val (y, rx) = powers
+        val denominator = max(abs(y) + abs(rx), 1.0)
+
+        leftMotor.power = ((y + rx) / denominator)
+        rightMotor.power = ((y - rx) / denominator)
     }
 }
