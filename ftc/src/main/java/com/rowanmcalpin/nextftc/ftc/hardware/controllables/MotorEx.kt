@@ -23,6 +23,7 @@ import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction
 import com.rowanmcalpin.nextftc.ftc.OpModeData
+import com.rowanmcalpin.nextftc.hardware.controllable.Controllable
 import kotlin.math.abs
 
 /**

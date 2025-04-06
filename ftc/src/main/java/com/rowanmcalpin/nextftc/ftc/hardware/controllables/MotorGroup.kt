@@ -19,6 +19,7 @@
 package com.rowanmcalpin.nextftc.ftc.hardware.controllables
 
 import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior
+import com.rowanmcalpin.nextftc.hardware.controllable.Controllable
 
 /**
  * A MotorGroup is a collection of [MotorEx]s that are all controlled by a single encoder (connected
