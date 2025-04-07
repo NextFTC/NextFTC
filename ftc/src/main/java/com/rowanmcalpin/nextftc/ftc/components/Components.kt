@@ -37,14 +37,6 @@ class Components {
         return this
     }
 
-    /**
-     * Adds a [GamepadComponent] to your OpMode
-     */
-    fun useGamepads(): Components {
-        components += GamepadComponent()
-
-        return this
-    }
 
     /**
      * Adds a [BulkReadComponent] to your OpMode
