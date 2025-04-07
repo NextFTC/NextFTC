@@ -39,7 +39,7 @@ class MotorEx(cacheTolerance: Double, motorFactory: () -> DcMotorEx) :
     constructor(
         name: String,
         cacheTolerance: Double = 0.01
-    ) : this(cacheTolerance, { OpModeData.hardwareMap!![DcMotorEx::class.java, name] })
+    ) : this(cacheTolerance, { OpModeData.hardwareMap!![name] as DcMotorEx })
 
     private var offset = 0.0
     private var center = 0.0
@@ -89,7 +89,7 @@ class MotorEx(cacheTolerance: Double, motorFactory: () -> DcMotorEx) :
     /**
      * Gets / sets the current power of the motor (automatically implements power caching)
      */
-    override var power: Double by Caching(0.0, cacheTolerance) {
+    override var power: Double by Caching(cacheTolerance) {
         hardware.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
         it?.let { hardware.power = it }
     }
