@@ -21,14 +21,15 @@ package com.rowanmcalpin.nextftc.ftc.hardware
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.rowanmcalpin.nextftc.ftc.OpModeData
+import com.rowanmcalpin.nextftc.ftc.hardware.delegates.Caching
+import com.rowanmcalpin.nextftc.ftc.hardware.delegates.Offsetable
 import com.rowanmcalpin.nextftc.hardware.controllable.Controllable
 
 /**
  * Wrapper class for motors that implements controllable (and can therefore be used with RunToPosition
  * commands).
  */
-class MotorEx(cacheTolerance: Double, motorFactory: () -> DcMotorEx) :
-    Hardware<DcMotorEx>(motorFactory), Controllable {
+class MotorEx(cacheTolerance: Double, motorFactory: () -> DcMotorEx) : Controllable {
 
     constructor(motorFactory: () -> DcMotorEx) : this(0.01, motorFactory)
 
@@ -41,30 +42,22 @@ class MotorEx(cacheTolerance: Double, motorFactory: () -> DcMotorEx) :
         cacheTolerance: Double = 0.01
     ) : this(cacheTolerance, { OpModeData.hardwareMap!![name] as DcMotorEx })
 
-    private var offset = 0.0
-    private var center = 0.0
-    var direction = 1
-        set(value) {
-            require(
-                value in intArrayOf(
-                    -1,
-                    1
-                )
-            ) { "direction must be either 1 or -1 but was $value." }
-            center = currentPosition
-            field = value
-        }
+    val motor by lazy { motorFactory() }
 
     /**
      * Gives the unmodified raw tick value of the motor
      */
     val rawTicks: Double
-        get() = hardware.currentPosition.toDouble()
+        get() = motor.currentPosition.toDouble()
+
+    val offsetable = Offsetable { rawTicks }
+
+    var direction by offsetable::direction
 
     /**
      * Zero Power Behavior for the motor
      */
-    var zeroPowerBehavior: DcMotor.ZeroPowerBehavior by hardware::zeroPowerBehavior
+    var zeroPowerBehavior: DcMotor.ZeroPowerBehavior by motor::zeroPowerBehavior
 
 
     /**
@@ -74,24 +67,19 @@ class MotorEx(cacheTolerance: Double, motorFactory: () -> DcMotorEx) :
      * Setting this value tells it that its current position is actually the position you've set the variable to,
      * which will get accounted for automatically when getting this value.
      */
-    override var currentPosition: Double
-        get() = (offset + rawTicks - center) * direction + center
-        set(value) {
-            center = value
-            offset = rawTicks - value
-        }
+    override var currentPosition by offsetable
 
     /**
      * Current velocity of the motor
      */
-    override val velocity: Double by hardware::velocity
+    override val velocity: Double by motor::velocity
 
     /**
      * Gets / sets the current power of the motor (automatically implements power caching)
      */
     override var power: Double by Caching(cacheTolerance) {
-        hardware.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
-        it?.let { hardware.power = it }
+        motor.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
+        it?.let { motor.power = it }
     }
 
     fun reverse() {

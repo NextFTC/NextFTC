@@ -18,26 +18,39 @@
 
 package com.rowanmcalpin.nextftc.ftc.hardware
 
+import com.qualcomm.robotcore.hardware.AnalogInput
 import com.qualcomm.robotcore.hardware.Servo
 import com.rowanmcalpin.nextftc.ftc.OpModeData
-import com.rowanmcalpin.nextftc.ftc.hardware.delegates.Caching
-import com.rowanmcalpin.nextftc.hardware.positionable.Positionable
+import com.rowanmcalpin.nextftc.ftc.hardware.delegates.AnalogFeedback
 
-open class ServoEx(cacheTolerance: Double, servoFactory: () -> Servo) : Positionable {
+class FeedbackServoEx(
+    cacheTolerance: Double,
+    feedbackFactory: () -> AnalogInput,
+    servoFactory: () -> Servo
+) : ServoEx(cacheTolerance, servoFactory) {
 
-    val servo by lazy { servoFactory() }
+    val feedback by lazy { feedbackFactory() }
 
-    constructor(servoFactory: () -> Servo) : this(0.01, servoFactory)
+    constructor(feedbackFactory: () -> AnalogInput, servoFactory: () -> Servo) : this(
+        0.01,
+        feedbackFactory,
+        servoFactory
+    )
 
     @JvmOverloads
-    constructor(servo: Servo, cacheTolerance: Double = 0.01) : this(cacheTolerance, { servo })
-
-    @JvmOverloads
-    constructor(name: String, cacheTolerance: Double = 0.01) : this(
+    constructor(feedback: AnalogInput, servo: Servo, cacheTolerance: Double = 0.01) : this(
         cacheTolerance,
-        { OpModeData.hardwareMap!![name] as Servo })
+        { feedback },
+        { servo })
 
-    override var position: Double by Caching(cacheTolerance) {
-        it?.let { servo.position = it }
-    }
+    @JvmOverloads
+    constructor(feedbackName: String, servoName: String, cacheTolerance: Double = 0.01) : this(
+        cacheTolerance,
+        { OpModeData.hardwareMap!![feedbackName] as AnalogInput },
+        { OpModeData.hardwareMap!![servoName] as Servo })
+
+    /**
+     * The current position, in radians
+     */
+    val currentPosition by AnalogFeedback(feedbackFactory)
 }
