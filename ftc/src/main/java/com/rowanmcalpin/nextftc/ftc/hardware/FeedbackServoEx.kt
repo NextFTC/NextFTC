@@ -52,5 +52,5 @@ class FeedbackServoEx(
     /**
      * The current position, in radians
      */
-    val currentPosition by AnalogFeedback(feedbackFactory)
+    val currentPosition by AnalogFeedback { feedback.voltage }
 }
