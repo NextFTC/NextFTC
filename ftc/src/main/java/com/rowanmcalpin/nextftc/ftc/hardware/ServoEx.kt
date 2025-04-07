@@ -18,36 +18,24 @@
 
 package com.rowanmcalpin.nextftc.ftc.hardware
 
-import kotlin.math.abs
-import kotlin.properties.ReadWriteProperty
-import kotlin.reflect.KProperty
+import com.qualcomm.robotcore.hardware.Servo
+import com.rowanmcalpin.nextftc.ftc.OpModeData
+import com.rowanmcalpin.nextftc.hardware.positionable.Positionable
 
-abstract class Hardware<T>(initializer: () -> T) {
-    val hardware: T by lazy { initializer() }
-}
+class ServoEx(cacheTolerance: Double, servoFactory: () -> Servo) : Hardware<Servo>(servoFactory),
+    Positionable {
 
-class Caching(
-    private val cacheTolerance: Double,
-    private val whenSet: (Double?) -> Unit
-) : ReadWriteProperty<Any?, Double> {
+    constructor(servoFactory: () -> Servo) : this(0.01, servoFactory)
 
-    private var cachedValue = 0.0
+    @JvmOverloads
+    constructor(servo: Servo, cacheTolerance: Double = 0.01) : this(cacheTolerance, { servo })
 
-    override fun getValue(
-        thisRef: Any?,
-        property: KProperty<*>
-    ): Double = cachedValue
+    @JvmOverloads
+    constructor(name: String, cacheTolerance: Double = 0.01) : this(
+        cacheTolerance,
+        { OpModeData.hardwareMap!![name] as Servo })
 
-    override fun setValue(
-        thisRef: Any?,
-        property: KProperty<*>,
-        value: Double
-    ) {
-        if (abs(cachedValue - value) > cacheTolerance) {
-            cachedValue = value
-            whenSet(value)
-        } else {
-            whenSet(null)
-        }
+    override var position: Double by Caching(cacheTolerance) {
+        it?.let { hardware.position = it }
     }
 }
