@@ -18,26 +18,25 @@
 
 package com.rowanmcalpin.nextftc.ftc.hardware
 
+import com.qualcomm.robotcore.hardware.AnalogInput
 import com.qualcomm.robotcore.hardware.CRServo
-import com.rowanmcalpin.nextftc.ftc.OpModeData
-import com.rowanmcalpin.nextftc.ftc.hardware.delegates.Caching
-import com.rowanmcalpin.nextftc.hardware.powerable.Powerable
+import com.rowanmcalpin.nextftc.ftc.hardware.delegates.AnalogFeedback
+import com.rowanmcalpin.nextftc.ftc.hardware.delegates.Velocity
+import com.rowanmcalpin.nextftc.hardware.controllable.Controllable
 
-open class CRServoEx(cacheTolerance: Double, servoFactory: () -> CRServo) : Powerable {
+class FeedbackCRServoEx(
+    cacheTolerance: Double,
+    feedbackFactory: () -> AnalogInput,
+    servoFactory: () -> CRServo
+) :
+    CRServoEx(cacheTolerance, servoFactory), Controllable {
 
-    val servo by lazy { servoFactory() }
+    val feedback by lazy { feedbackFactory() }
 
-    constructor(servoFactory: () -> CRServo) : this(0.01, servoFactory)
+    override val velocity: Double by Velocity { currentPosition }
 
-    @JvmOverloads
-    constructor(servo: CRServo, cacheTolerance: Double = 0.01) : this(cacheTolerance, { servo })
-
-    @JvmOverloads
-    constructor(name: String, cacheTolerance: Double = 0.01) : this(
-        cacheTolerance,
-        { OpModeData.hardwareMap!![name] as CRServo })
-
-    override var power: Double by Caching(cacheTolerance) {
-        it?.let { servo.power = it }
-    }
+    /**
+     * The current position, in radians
+     */
+    override val currentPosition by AnalogFeedback { feedback.voltage }
 }

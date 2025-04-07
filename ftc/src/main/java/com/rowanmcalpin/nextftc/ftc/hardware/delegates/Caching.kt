@@ -16,21 +16,34 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.rowanmcalpin.nextftc.hardware.controllable
+package com.rowanmcalpin.nextftc.ftc.hardware.delegates
 
-import com.rowanmcalpin.nextftc.hardware.powerable.Powerable
+import kotlin.math.abs
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
 
-/**
- * An entity with a position and velocity whose power can be set
- */
-interface Controllable : Powerable {
-    /**
-     * The entity's current position
-     */
-    val currentPosition: Double
+class Caching(
+    private val cacheTolerance: Double,
+    private val whenSet: (Double?) -> Unit
+) : ReadWriteProperty<Any?, Double> {
 
-    /**
-     * The entity's current velocity
-     */
-    val velocity: Double
+    private var cachedValue = 0.0
+
+    override fun getValue(
+        thisRef: Any?,
+        property: KProperty<*>
+    ): Double = cachedValue
+
+    override fun setValue(
+        thisRef: Any?,
+        property: KProperty<*>,
+        value: Double
+    ) {
+        if (abs(cachedValue - value) > cacheTolerance) {
+            cachedValue = value
+            whenSet(value)
+        } else {
+            whenSet(null)
+        }
+    }
 }
