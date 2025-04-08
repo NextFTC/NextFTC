@@ -1,15 +1,35 @@
+/*
+ * NextFTC: a user-friendly control library for FIRST Tech Challenge
+ *     Copyright (C) 2025 Rowan McAlpin
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package com.rowanmcalpin.nextftc.ftc.components
 
-import com.rowanmcalpin.nextftc.core.Subsystem
+import com.rowanmcalpin.nextftc.core.components.Component
+import com.rowanmcalpin.nextftc.core.components.SubsystemComponent
+import com.rowanmcalpin.nextftc.core.subsystems.Subsystem
 
 /**
  * This is a collection of Components and includes a modified mutating builder
  */
 class Components {
-    private var components: List<NextComponent> = listOf()
+    private var components: List<Component> = listOf()
 
     /**
-     * Adds a [SubsystemComponent] to your OpMode
+     * Adds a [com.rowanmcalpin.nextftc.core.components.SubsystemComponent] to your OpMode
      */
     fun useSubsystems(vararg subsystems: Subsystem): Components {
         components += SubsystemComponent(*subsystems)
@@ -17,14 +37,6 @@ class Components {
         return this
     }
 
-    /**
-     * Adds a [GamepadComponent] to your OpMode
-     */
-    fun useGamepads(): Components {
-        components += GamepadComponent()
-
-        return this
-    }
 
     /**
      * Adds a [BulkReadComponent] to your OpMode
@@ -36,9 +48,9 @@ class Components {
     }
 
     /**
-     * Adds a custom [NextComponent] to your OpMode
+     * Adds a custom [Component] to your OpMode
      */
-    fun use(component: NextComponent): Components {
+    fun use(component: Component): Components {
         components += component
 
         return this
