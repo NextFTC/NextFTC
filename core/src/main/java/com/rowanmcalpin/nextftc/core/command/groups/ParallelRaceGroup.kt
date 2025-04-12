@@ -24,7 +24,9 @@ import com.rowanmcalpin.nextftc.core.command.Command
  * A [CommandGroup] that runs all of its children simultaneously until one of its children is done,
  * at which point it stops all of its children.
  */
-class ParallelRaceGroup(vararg commands: Command) : ParallelGroup(*commands) {
+class ParallelRaceGroup(commands: List<Command>) : ParallelGroup(commands) {
+    constructor(vararg commands: Command) : this(commands.toList())
+    constructor(commands: Collection<Command>) : this(commands.toList())
 
     /**
      * This will return false until one of its children is done

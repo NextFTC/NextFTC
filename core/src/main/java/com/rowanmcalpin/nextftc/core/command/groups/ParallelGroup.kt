@@ -23,7 +23,10 @@ import com.rowanmcalpin.nextftc.core.command.Command
 /**
  * A [CommandGroup] that runs all of its children simultaneously.
  */
-open class ParallelGroup(vararg commands: Command) : CommandGroup(*commands) {
+open class ParallelGroup(commands: List<Command>) : CommandGroup(commands) {
+    constructor(vararg commands: Command) : this(commands.toList())
+    constructor(commands: Collection<Command>) : this(commands.toList())
+
     /**
      * This will return false until all of its children are done
      */

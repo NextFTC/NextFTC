@@ -24,12 +24,14 @@ import com.rowanmcalpin.nextftc.core.command.EmptyGroupException
 /**
  * A command that schedules other commands at certain times. Inherits all subsystems of its children.
  */
-abstract class CommandGroup(vararg val commands: Command) : Command() {
+abstract class CommandGroup(val commands: List<Command>) : Command() {
+    constructor(vararg commands: Command) : this(commands.toList())
+    constructor(commands: Collection<Command>) : this(commands.toList())
 
     /**
      * The collection of all commands within this group.
      */
-    val children: ArrayDeque<Command> = ArrayDeque(commands.toList())
+    val children: ArrayDeque<Command> = ArrayDeque(commands)
 
     init {
         setSubsystems(commands.flatMap { it.subsystems }.toSet())

@@ -23,7 +23,10 @@ import com.rowanmcalpin.nextftc.core.command.Command
 /**
  * A [CommandGroup] that runs its children one at a time.
  */
-class SequentialGroup(vararg commands: Command) : CommandGroup(*commands) {
+class SequentialGroup(commands: List<Command>) : CommandGroup(commands) {
+    constructor(vararg commands: Command) : this(commands.toList())
+    constructor(commands: Collection<Command>) : this(commands.toList())
+
     /**
      * This returns true once all of its children have finished running.
      */

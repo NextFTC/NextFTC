@@ -20,8 +20,11 @@ package com.rowanmcalpin.nextftc.core.command.groups
 
 import com.rowanmcalpin.nextftc.core.command.Command
 
-class ParallelDeadlineGroup(private val deadline: Command, vararg otherCommands: Command) :
-    ParallelGroup(deadline, *otherCommands) {
+class ParallelDeadlineGroup(private val deadline: Command, otherCommands: List<Command>) :
+    ParallelGroup(deadline, *otherCommands.toTypedArray()) {
+
+    constructor(deadline: Command, vararg otherCommands: Command) : this(deadline, otherCommands.toList())
+    constructor(deadline: Command, otherCommands: Collection<Command>) : this(deadline, otherCommands.toList())
 
     /**
      * This will return false until the deadline command is done.
