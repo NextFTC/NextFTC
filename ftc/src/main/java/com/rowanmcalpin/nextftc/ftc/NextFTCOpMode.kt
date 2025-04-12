@@ -22,7 +22,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.rowanmcalpin.nextftc.core.command.CommandManager
-import com.rowanmcalpin.nextftc.ftc.components.Components
+import com.rowanmcalpin.nextftc.core.components.Component
 
 
 /**
@@ -32,7 +32,12 @@ import com.rowanmcalpin.nextftc.ftc.components.Components
  */
 abstract class NextFTCOpMode : LinearOpMode() {
 
-    abstract val components: Components
+    private val _components: MutableSet<Component> = mutableSetOf()
+    val components: Set<Component> by ::_components
+
+    fun addComponents(vararg components: Component) {
+        _components.addAll(components)
+    }
 
     override fun runOpMode() {
         try {
@@ -46,36 +51,36 @@ abstract class NextFTCOpMode : LinearOpMode() {
 
             CommandManager.runningCommands.clear()
 
-            components.preInit()
+            components.forEach { it.preInit() }
             onInit()
-            components.postInit()
+            components.reversed().forEach { it.postInit() }
 
             // Wait for start
             while (opModeInInit()) {
-                components.preWaitForStart()
+                components.forEach { it.preWaitForStart() }
                 CommandManager.run()
                 onWaitForStart()
-                components.postWaitForStart()
+                components.reversed().forEach { it.postWaitForStart() }
             }
 
             // If we pressed stop after init (instead of start) we want to skip the rest of the OpMode
             // and jump straight to the end
             if (!isStopRequested) {
-                components.preStartButtonPressed()
+                components.forEach { it.preStartButtonPressed() }
                 onStartButtonPressed()
-                components.postStartButtonPressed()
+                components.reversed().forEach { it.postStartButtonPressed() }
 
                 while (opModeIsActive()) {
-                    components.preUpdate()
+                    components.forEach { it.preUpdate() }
                     CommandManager.run()
                     onUpdate()
-                    components.postUpdate()
+                    components.reversed().forEach { it.postUpdate() }
                 }
             }
 
-            components.preStop()
+            components.forEach { it.preStop() }
             onStop()
-            components.postStop()
+            components.forEach { it.postStop() }
 
             // Since users might schedule a command that stops things, we want to be able to run it
             // (one update of it, anyways) before we cancel all of our commands.
