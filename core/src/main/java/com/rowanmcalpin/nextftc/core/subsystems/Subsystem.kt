@@ -25,6 +25,7 @@ import com.rowanmcalpin.nextftc.core.command.utility.NullCommand
  * A [Subsystem] represents a real-world system (such as a lift, intake, or claw) that cannot be
  * controlled by multiple commands simultaneously.
  */
+@JvmDefaultWithoutCompatibility
 interface Subsystem {
     val defaultCommand: Command
         get() = NullCommand()
