@@ -55,6 +55,7 @@ android {
 
 dependencies {
     api(libs.commons.math3)
+    compileOnly(libs.nextbindings)
 }
 
 // CONFIGURE PUBLISHING
