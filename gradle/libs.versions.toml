@@ -7,8 +7,9 @@ pedro = "1.0.9"
 ftc = "10.1.1"
 dokka = "1.9.24"
 nextcontrol = "1.0.0-rc.1"
+nextbindings = "1.0.0-rc.1"
 
-nextftc = "0.7.0"
+nextftc = "0.8.0"
 
 [libraries]
 commons-math3 = { module = "org.apache.commons:commons-math3", version.ref = "commons-math3" }
@@ -16,6 +17,7 @@ pedro = { module = "com.pedropathing:pedro", version.ref = "pedro" }
 ftc-robotcore = { group = "org.firstinspires.ftc", name = "RobotCore", version.ref = "ftc" }
 ftc-hardware = { group = "org.firstinspires.ftc", name = "Hardware", version.ref = "ftc" }
 nextcontrol = { module = "dev.nextftc:nextcontrol", version.ref = "nextcontrol" }
+nextbindings = { module = 'dev.nextftc:bindings', version.ref = "nextbindings" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
