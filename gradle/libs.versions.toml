@@ -3,7 +3,7 @@ agp = "8.7.3"
 kotlin = "1.9.0"
 
 commons-math3 = "3.6.1"
-pedro = "1.0.8"
+pedro = "1.0.9"
 ftc = "10.1.1"
 dokka = "1.9.24"
 nextcontrol = "1.0.0-rc.1"
@@ -13,8 +13,8 @@ nextftc = "0.7.0"
 [libraries]
 commons-math3 = { module = "org.apache.commons:commons-math3", version.ref = "commons-math3" }
 pedro = { module = "com.pedropathing:pedro", version.ref = "pedro" }
-ftc-robotcore = { group = "org.firstinspires.ftc", name="RobotCore", version.ref = "ftc" }
-ftc-hardware = { group = "org.firstinspires.ftc", name="Hardware", version.ref = "ftc" }
+ftc-robotcore = { group = "org.firstinspires.ftc", name = "RobotCore", version.ref = "ftc" }
+ftc-hardware = { group = "org.firstinspires.ftc", name = "Hardware", version.ref = "ftc" }
 nextcontrol = { module = "dev.nextftc:nextcontrol", version.ref = "nextcontrol" }
 
 [plugins]

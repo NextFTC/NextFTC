@@ -1,3 +1,21 @@
+/*
+ * NextFTC: a user-friendly control library for FIRST Tech Challenge
+ *     Copyright (C) 2025 Rowan McAlpin
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package com.rowanmcalpin.nextftc.core.command.utility.statemachine
 
 import com.rowanmcalpin.nextftc.core.command.Command
@@ -8,7 +26,7 @@ import com.rowanmcalpin.nextftc.core.command.StateNotSetException
  * @throws StateNotSetException if the command returned by [advance] or [retreat] is called before a state has been added
  * @author BeepBot99
  */
-class AdvancingCommand: StateMachineCommand<Int>() {
+class AdvancingCommand : StateMachineCommand<Int>() {
     private var states: Int = 0
 
     /**
@@ -16,17 +34,15 @@ class AdvancingCommand: StateMachineCommand<Int>() {
      * @param command the [Command] to add
      * @return the [AdvancingCommand] for use with a Fluent API
      */
-    fun add(command: Command): AdvancingCommand {
-        return state(states++, command) as AdvancingCommand
-    }
+    fun add(command: Command): AdvancingCommand = state(states++, command) as AdvancingCommand
 
     /**
      * Advances to the next command, looping back if it's on the last command
      * @return a [Command] that advances and ends instantly
      */
     fun advance(): Command {
-        require(states != 0 && currentState != null) { StateNotSetException() }
-        return setState { (currentState!! + 1) % states  }
+        if (states == 0 || currentState == null) throw StateNotSetException()
+        return setState { (currentState!! + 1) % states }
     }
 
     /**
@@ -34,7 +50,7 @@ class AdvancingCommand: StateMachineCommand<Int>() {
      * @return a [Command] that retreats and ends instantly
      */
     fun retreat(): Command {
-        require(states != 0 && currentState != null) { StateNotSetException() }
+        if (states == 0 || currentState == null) throw StateNotSetException()
         return setState { (currentState!! - 1 + states) % states }
     }
 }

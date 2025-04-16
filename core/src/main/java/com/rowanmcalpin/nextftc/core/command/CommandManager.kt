@@ -1,29 +1,29 @@
 /*
-NextFTC: a user-friendly control library for FIRST Tech Challenge
-    Copyright (C) 2025 Rowan McAlpin
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * NextFTC: a user-friendly control library for FIRST Tech Challenge
+ *     Copyright (C) 2025 Rowan McAlpin
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.rowanmcalpin.nextftc.core.command
 
-import com.rowanmcalpin.nextftc.core.Subsystem
-import com.rowanmcalpin.nextftc.core.SubsystemGroup
 import com.rowanmcalpin.nextftc.core.command.groups.CommandGroup
+import com.rowanmcalpin.nextftc.core.subsystems.Subsystem
+import com.rowanmcalpin.nextftc.core.subsystems.SubsystemGroup
 
 /**
- * This is the central controller for running commands in NextFTC. 
+ * This is the central controller for running commands in NextFTC.
  */
 object CommandManager {
 
@@ -52,7 +52,7 @@ object CommandManager {
         cancelCommands()
         for (command in runningCommands) {
             command.update()
-            
+
             if (command.isDone) {
                 commandsToCancel += Pair(command, false)
             }
@@ -95,7 +95,7 @@ object CommandManager {
         // init functions
         commandsToSchedule.clear()
 
-        for(command in newCommands) {
+        for (command in newCommands) {
             initCommand(command)
         }
     }
@@ -109,7 +109,7 @@ object CommandManager {
         // Clear before looping so we don't clear any commands that get cancelled inside of stop functions
         commandsToCancel.clear()
 
-        for(pair in commands) {
+        for (pair in commands) {
             cancel(pair.key, pair.value)
         }
         commandsToCancel.clear()
@@ -139,7 +139,7 @@ object CommandManager {
                 }
             }
         }
-        
+
         command.start()
         runningCommands += command
     }
@@ -196,7 +196,10 @@ object CommandManager {
      * @param check the lambda used to determine what kind of command should be found
      * @param commands the list of commands to scan, uses runningCommands by default
      */
-    private fun findCommand(check: (Command) -> Boolean, commands : List<Command> = runningCommands) =
+    private fun findCommand(
+        check: (Command) -> Boolean,
+        commands: List<Command> = runningCommands
+    ) =
         findCommands(check, commands).firstOrNull()
 
     /**
@@ -205,7 +208,10 @@ object CommandManager {
      * @param check the lambda used to determine what kind of commands should be found
      * @param commands the list of commands to scan, uses runningCommands by default
      */
-    private fun findCommands(check: (Command) -> Boolean, commands : List<Command> = runningCommands):
+    private fun findCommands(
+        check: (Command) -> Boolean,
+        commands: List<Command> = runningCommands
+    ):
             List<Command> {
         val foundCommands = mutableListOf<Command>()
         for (command in commands) {
@@ -218,7 +224,7 @@ object CommandManager {
         }
         return foundCommands
     }
-    
+
     fun hasCommandsUsing(subsystem: Subsystem): Boolean {
         return runningCommands.any { it.subsystems.contains(subsystem) }
     }
