@@ -29,14 +29,5 @@ interface Positionable {
      */
     var position: Double
 
-    infix fun to(position: Double) = PositionableState(this, position)
+    infix fun to(position: Double) = Pair(this, position)
 }
-
-/**
- * A state a [Positionable] can be in
- * @param positionable The [Positionable] the state is for
- * @param position the state of [positionable]
- *
- * @author BeepBot99
- */
-data class PositionableState(val positionable: Positionable, val position: Double)
