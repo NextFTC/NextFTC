@@ -28,10 +28,8 @@ import com.rowanmcalpin.nextftc.hardware.positionable.SetPositions
  *
  * @author BeepBot99
  */
-open class SetPositions(vararg val states: PositionableState) : InstantCommand({
-    states.forEach {
-        it.positionable.position = it.position
-    }
+open class SetPositions(vararg val states: Pair<Positionable, Double>) : InstantCommand({
+    states.forEach { it.first.position = it.second }
 })
 
 class SetPosition(positionable: Positionable, position: Double) : SetPositions(positionable to position)

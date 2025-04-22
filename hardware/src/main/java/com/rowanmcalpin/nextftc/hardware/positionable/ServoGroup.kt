@@ -18,13 +18,10 @@
 
 package com.rowanmcalpin.nextftc.hardware.positionable
 
-class ServoGroup(vararg val positionables: Positionable) : Positionable {
-    override var position: Double = 0.0
-        set(position) {
-            field = position
-            positionables.forEach {
-                it.position = position
-            }
-        }
+import kotlin.properties.Delegates.observable
 
+class ServoGroup(vararg val positionables: Positionable) : Positionable {
+    override var position by observable(0.0) { _, _, value ->
+        positionables.forEach { it.position = value }
+    }
 }
