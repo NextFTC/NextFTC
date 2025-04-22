@@ -22,7 +22,7 @@ import com.rowanmcalpin.nextftc.hardware.driving.DriverControlledCommand
 import com.rowanmcalpin.nextftc.pedro.PedroComponent.PedroFollower.follower
 import java.util.function.Supplier
 
-class PedroDriverControlled(
+class PedroDriverControlled @JvmOverloads constructor(
     drivePower: Supplier<Float>,
     strafePower: Supplier<Float>,
     turnPower: Supplier<Float>,
