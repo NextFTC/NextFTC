@@ -49,14 +49,11 @@ class FollowPath @JvmOverloads constructor(
 
     init {
         setSubsystems(Drivetrain)
+        require(maxPower == null || maxPower in 0.0..1.0) { "maxPower must be null or between 0 and 1" }
     }
 
     override fun start() {
-        require(maxPower == null || maxPower in 0.0..1.0) { "maxPower must be null or between 0 and 1" }
-
-        if (maxPower == null)
-            follower.followPath(path, holdEnd)
-        else
-            follower.followPath(path, maxPower, holdEnd)
+        maxPower?.let { follower.followPath(path, it, holdEnd) }
+            ?: follower.followPath(path, holdEnd)
     }
 }
