@@ -16,7 +16,6 @@ class DisplacementDelay(private val distance: Double): Command() {
     override val isDone: Boolean
         get() {
             if (PedroData.follower == null) throw FollowerNotInitializedException()
-
             return startPosition.distanceFrom(PedroData.follower!!.pose) >= distance
         }
 
