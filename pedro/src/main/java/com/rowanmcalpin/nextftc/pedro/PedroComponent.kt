@@ -20,7 +20,9 @@ package com.rowanmcalpin.nextftc.pedro
 
 import com.pedropathing.follower.Follower
 import com.rowanmcalpin.nextftc.core.components.Component
+import com.rowanmcalpin.nextftc.core.units.Angle
 import com.rowanmcalpin.nextftc.ftc.OpModeData
+import java.util.function.Supplier
 
 /**
  * This component adds PedroPathing to your OpMode. It automatically sets the constants and
@@ -47,5 +49,8 @@ class PedroComponent(val fConstants: Class<*>, val lConstants: Class<*>) : Compo
         val follower: Follower
             get() = _follower
                 ?: error("Follower is not initialized. Make sure to add PedroComponent to your OpMode!")
+
+        @JvmField
+        val gyro: Supplier<Angle> = Supplier { Angle.fromRad(follower.totalHeading) }
     }
 }
