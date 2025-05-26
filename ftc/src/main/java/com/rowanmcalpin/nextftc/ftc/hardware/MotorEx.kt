@@ -94,6 +94,8 @@ class MotorEx(cacheTolerance: Double, motorFactory: () -> DcMotorEx) : Controlla
 
     fun zeroed() = apply { zero() }
 
+    fun atPosition(position: Double) = apply { currentPosition = position }
+
     fun floatMode() = apply { zeroPowerBehavior = DcMotor.ZeroPowerBehavior.FLOAT }
     fun brakeMode() = apply { zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE }
 }
