@@ -42,7 +42,7 @@ class MotorEx(cacheTolerance: Double, motorFactory: () -> DcMotorEx) : Controlla
         cacheTolerance: Double = 0.01
     ) : this(cacheTolerance, { OpModeData.hardwareMap!![name] as DcMotorEx })
 
-    val motor by lazy { motorFactory() }
+    val motor by lazy(motorFactory)
 
     /**
      * Gives the unmodified raw tick value of the motor

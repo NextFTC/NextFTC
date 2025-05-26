@@ -25,7 +25,7 @@ import com.rowanmcalpin.nextftc.hardware.positionable.Positionable
 
 open class ServoEx(cacheTolerance: Double, servoFactory: () -> Servo) : Positionable {
 
-    val servo by lazy { servoFactory() }
+    val servo by lazy(servoFactory)
 
     constructor(servoFactory: () -> Servo) : this(0.01, servoFactory)
 
