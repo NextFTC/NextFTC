@@ -1,7 +1,24 @@
+/*
+ * NextFTC: a user-friendly control library for FIRST Tech Challenge
+ *     Copyright (C) 2025 Rowan McAlpin
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package com.rowanmcalpin.nextftc.core.command.utility.statemachine
 
 import com.rowanmcalpin.nextftc.core.command.Command
-import com.rowanmcalpin.nextftc.core.command.CommandManager
 import com.rowanmcalpin.nextftc.core.command.StateNotSetException
 import com.rowanmcalpin.nextftc.core.command.utility.InstantCommand
 
@@ -13,18 +30,17 @@ import com.rowanmcalpin.nextftc.core.command.utility.InstantCommand
  * @throws StateNotSetException if the command is scheduled before a state has been added
  * @author BeepBot99
  */
-open class StateMachineCommand<T>: Command() {
+open class StateMachineCommand<T> : Command() {
     private val stateCommandMap: MutableMap<T, Command> = mutableMapOf()
 
     protected var currentState: T? = null
         set(value) {
-            if (value in stateCommandMap.keys)
-                field = value
-            else
-                throw IllegalArgumentException("state must be added to the state machine with .state() before using")
+            require(value in stateCommandMap.keys) { "State must be added to the state machine with .state() before using" }
+            field = value
         }
     private var previousState: T? = null
     private lateinit var currentCommand: Command
+    private var currentCommandRunning = false
 
     override var isDone: Boolean = false
 
@@ -36,10 +52,12 @@ open class StateMachineCommand<T>: Command() {
      * @param commandFactory a factory that returns a command to run when the current state is the set state
      * @return the [StateMachineCommand] for use with a Fluent API
      */
-    fun state(state: T, commandFactory: (StateMachineCommand<T>) -> Command): StateMachineCommand<T> {
+    fun state(
+        state: T,
+        commandFactory: (StateMachineCommand<T>) -> Command
+    ): StateMachineCommand<T> = apply {
         currentState = currentState ?: state
         stateCommandMap[state] = commandFactory(this)
-        return this
     }
 
     /**
@@ -48,40 +66,45 @@ open class StateMachineCommand<T>: Command() {
      * @param command the command to run when the current state is the set state
      * @return the [StateMachineCommand] for use with a Fluent API
      */
-    fun state(state: T, command: Command): StateMachineCommand<T> {
-        return state(state) { command }
-    }
+    fun state(state: T, command: Command) = state(state) { command }
 
     override fun start() {
-        require(currentState != null) { throw StateNotSetException() }
+        currentState ?: throw StateNotSetException()
         previousState = currentState
         currentCommand = stateCommandMap[currentState]!!
-        CommandManager.scheduleCommand(currentCommand)
+        currentCommand.start()
+        currentCommandRunning = true
     }
 
     override fun update() {
+        if (currentCommandRunning) currentCommand.update()
         if (previousState == currentState) return
 
-        CommandManager.cancelCommand(currentCommand)
+        currentCommand.stop(true)
         currentCommand = stateCommandMap[currentState]!!
-        CommandManager.scheduleCommand(currentCommand)
+        currentCommand.start()
 
         previousState = currentState
     }
 
-    override fun stop(interrupted: Boolean) {
-        CommandManager.cancelCommand(currentCommand)
-    }
+    override fun stop(interrupted: Boolean) = currentCommand.stop(interrupted)
 
     /**
      * Stops the state machine
      */
-    fun end() = InstantCommand({ isDone = true })
+    fun end() = InstantCommand { isDone = true }
 
     /**
      * Sets the state of the state machine
      * @param state a factory that returns the state to set
      * @return a [Command] that sets the state and ends instantly
      */
-    fun setState(state: () -> T) = InstantCommand({ currentState = state() })
+    fun setState(state: () -> T) = InstantCommand { currentState = state() }
+
+    /**
+     * Sets the state of the state machine
+     * @param state the state to set
+     * @return a [Command] that sets the state and ends instantly
+     */
+    fun setState(state: T) = setState { state }
 }

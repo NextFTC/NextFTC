@@ -2,7 +2,7 @@ name: Deploy Dokka Documentation
 
 on:
   release:
-    types: [published]
+    types: [ published ]
 
 jobs:
   build_and_deploy:

@@ -1,25 +1,25 @@
 /*
-NextFTC: a user-friendly control library for FIRST Tech Challenge
-    Copyright (C) 2025 Rowan McAlpin
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * NextFTC: a user-friendly control library for FIRST Tech Challenge
+ *     Copyright (C) 2025 Rowan McAlpin
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.rowanmcalpin.nextftc.core.command.utility
 
-import com.rowanmcalpin.nextftc.core.Subsystem
 import com.rowanmcalpin.nextftc.core.command.Command
+import com.rowanmcalpin.nextftc.core.subsystems.Subsystem
 import java.util.function.Consumer
 import java.util.function.Supplier
 
@@ -29,13 +29,11 @@ import java.util.function.Supplier
  * @author BeepBot99
  */
 
-open class LambdaCommand: Command() {
+open class LambdaCommand : Command() {
     private var isDoneLambda = Supplier<Boolean> { true }
     private var startLambda = Runnable { }
     private var updateLambda = Runnable { }
     private var stopLambda = Consumer<Boolean> { }
-    override var subsystems: Set<Subsystem> = setOf()
-    override var interruptible: Boolean = true
 
     override val isDone: Boolean get() = isDoneLambda.get()
     override fun start() = startLambda.run()
@@ -61,32 +59,14 @@ open class LambdaCommand: Command() {
     /**
      * Sets the subsystems that the command implements
      */
-    fun setSubsystems(subsystemsSet: Set<Subsystem>) = apply { subsystems = subsystemsSet }
+    override fun setSubsystems(subsystems: Set<Subsystem>) =
+        apply { super.setSubsystems(subsystems) }
 
     /**
      * Sets the subsystems that the command implements
      */
-    fun setSubsystems(vararg subsystemsArr: Subsystem) = apply { subsystems = subsystemsArr.toSet() }
-
-    /**
-     * Sets the subsystem that the command implements
-     */
-    fun setSubsystem(subsystem: Subsystem) = apply { subsystems = setOf(subsystem) }
-
-    /**
-     * Adds subsystems to the set of subsystems that the command implements
-     */
-    fun addSubsystems(subsystemsSet: Set<Subsystem>) = apply { subsystems += subsystemsSet }
-
-    /**
-     * Adds subsystems to the set of subsystems that the command implements
-     */
-    fun addSubsystems(vararg subsystemsArr: Subsystem) = apply{ subsystems += subsystemsArr.toSet() }
-
-    /**
-     * Adds a subsystem to the set of subsystems that the command implements
-     */
-    fun addSubsystem(subsystem: Subsystem) = apply { subsystems += subsystem }
+    override fun setSubsystems(vararg subsystems: Subsystem) =
+        apply { super.setSubsystems(*subsystems) }
 
     /**
      * Sets the function that returns whether the command has finished running
@@ -96,5 +76,6 @@ open class LambdaCommand: Command() {
     /**
      * Sets whether the command can be stopped due to an overlap of subsystems
      */
-    fun setInterruptible(isInterruptible: Boolean) = apply { interruptible = isInterruptible }
+    override fun setInterruptible(interruptible: Boolean) =
+        apply { super.setInterruptible(interruptible) }
 }

@@ -1,3 +1,21 @@
+/*
+ * NextFTC: a user-friendly control library for FIRST Tech Challenge
+ *     Copyright (C) 2025 Rowan McAlpin
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package com.rowanmcalpin.nextftc.core.units
 
 import kotlin.math.abs
@@ -7,7 +25,7 @@ import kotlin.math.abs
  * @param T the type of the quantity
  * @author BeepBot99
  */
-abstract class Quantity<T: Quantity<T>> {
+abstract class Quantity<T : Quantity<T>> {
     /**
      * The value of the quantity
      */
@@ -33,11 +51,12 @@ abstract class Quantity<T: Quantity<T>> {
     fun greaterThan(other: T): Boolean = compareTo(other) > 0
     fun greaterThanOrEqualTo(other: T): Boolean = compareTo(other) >= 0
 
-    val sign: Int get() = when {
-        value > 0 -> 1
-        value < 0 -> -1
-        else -> 0
-    }
+    val sign: Int
+        get() = when {
+            value > 0 -> 1
+            value < 0 -> -1
+            else -> 0
+        }
 
     @get:JvmName("abs")
     val abs: T get() = newInstance(abs(value))
@@ -58,4 +77,4 @@ abstract class Quantity<T: Quantity<T>> {
     abstract fun newInstance(value: Double): T
 }
 
-fun <T: Quantity<T>> abs(quantity: T): T = quantity.abs
+fun <T : Quantity<T>> abs(quantity: T): T = quantity.abs

@@ -1,3 +1,21 @@
+/*
+ * NextFTC: a user-friendly control library for FIRST Tech Challenge
+ *     Copyright (C) 2025 Rowan McAlpin
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package com.rowanmcalpin.nextftc.core.units
 
 /**
@@ -5,7 +23,7 @@ package com.rowanmcalpin.nextftc.core.units
  * @param value the distance in millimeters
  * @author BeepBot99
  */
-data class Distance private constructor(override val value: Double): Quantity<Distance>() {
+data class Distance private constructor(override val value: Double) : Quantity<Distance>() {
     companion object {
         private const val CENTIMETERS_TO_MILLIMETERS = 10.0
         private const val METERS_TO_MILLIMETERS = 1000.0
@@ -19,104 +37,122 @@ data class Distance private constructor(override val value: Double): Quantity<Di
          * Creates a new [Distance] from a distance in millimeters
          * @param millimeters the distance in millimeters
          */
-        @JvmStatic fun fromMm(millimeters: Double) = Distance(millimeters)
+        @JvmStatic
+        fun fromMm(millimeters: Double) = Distance(millimeters)
 
         /**
          * Creates a new [Distance] from a distance in millimeters
          * @param millimeters the distance in millimeters
          */
-        @JvmStatic fun fromMm(millimeters: Int) = fromMm(millimeters.toDouble())
+        @JvmStatic
+        fun fromMm(millimeters: Int) = fromMm(millimeters.toDouble())
 
         /**
          * Creates a new [Distance] from a distance in centimeters
          * @param centimeters the distance in centimeters
          */
-        @JvmStatic fun fromCm(centimeters: Double) = fromUnit(centimeters, CENTIMETERS_TO_MILLIMETERS)
+        @JvmStatic
+        fun fromCm(centimeters: Double) = fromUnit(centimeters, CENTIMETERS_TO_MILLIMETERS)
 
         /**
          * Creates a new [Distance] from a distance in centimeters
          * @param centimeters the distance in centimeters
          */
-        @JvmStatic fun fromCm(centimeters: Int) = fromCm(centimeters.toDouble())
+        @JvmStatic
+        fun fromCm(centimeters: Int) = fromCm(centimeters.toDouble())
 
         /**
          * Creates a new [Distance] from a distance in meters
          * @param meters the distance in meters
          */
-        @JvmStatic fun fromMeters(meters: Double) = fromUnit(meters, METERS_TO_MILLIMETERS)
+        @JvmStatic
+        fun fromMeters(meters: Double) = fromUnit(meters, METERS_TO_MILLIMETERS)
 
         /**
          * Creates a new [Distance] from a distance in meters
          * @param meters the distance in meters
          */
-        @JvmStatic fun fromMeters(meters: Int) = fromMeters(meters.toDouble())
+        @JvmStatic
+        fun fromMeters(meters: Int) = fromMeters(meters.toDouble())
 
         /**
          * Creates a new [Distance] from a distance in inches
          * @param inches the distance in inches
          */
-        @JvmStatic fun fromIn(inches: Double) = fromUnit(inches, INCHES_TO_MILLIMETERS)
+        @JvmStatic
+        fun fromIn(inches: Double) = fromUnit(inches, INCHES_TO_MILLIMETERS)
 
         /**
          * Creates a new [Distance] from a distance in inches
          * @param inches the distance in inches
          */
-        @JvmStatic fun fromIn(inches: Int) = fromIn(inches.toDouble())
+        @JvmStatic
+        fun fromIn(inches: Int) = fromIn(inches.toDouble())
 
         /**
          * Creates a new [Distance] from a distance in feet
          * @param feet the distance in feet
          */
-        @JvmStatic fun fromFt(feet: Double) = fromUnit(feet, FEET_TO_MILLIMETERS)
+        @JvmStatic
+        fun fromFt(feet: Double) = fromUnit(feet, FEET_TO_MILLIMETERS)
 
         /**
          * Creates a new [Distance] from a distance in feet
          * @param feet the distance in feet
          */
-        @JvmStatic fun fromFt(feet: Int) = fromFt(feet.toDouble())
+        @JvmStatic
+        fun fromFt(feet: Int) = fromFt(feet.toDouble())
 
         /**
          * Creates a new [Distance] from a distance in yards
          * @param yards the distance in yards
          */
-        @JvmStatic fun fromYd(yards: Double) = fromUnit(yards, YARDS_TO_MILLIMETERS)
+        @JvmStatic
+        fun fromYd(yards: Double) = fromUnit(yards, YARDS_TO_MILLIMETERS)
 
         /**
          * Creates a new [Distance] from a distance in yards
          * @param yards the distance in yards
          */
-        @JvmStatic fun fromYd(yards: Int) = fromYd(yards.toDouble())
+        @JvmStatic
+        fun fromYd(yards: Int) = fromYd(yards.toDouble())
     }
 
     /**
      * The value of the distance in millimeters
      */
-    @JvmField val inMm = value
+    @JvmField
+    val inMm = value
 
     /**
      * The value of the distance in centimeters
      */
-    @JvmField val inCm = value / CENTIMETERS_TO_MILLIMETERS
+    @JvmField
+    val inCm = value / CENTIMETERS_TO_MILLIMETERS
 
     /**
      * The value of the distance in meters
      */
-    @JvmField val inMeters = value / METERS_TO_MILLIMETERS
+    @JvmField
+    val inMeters = value / METERS_TO_MILLIMETERS
 
     /**
      * The value of the distance in inches
      */
-    @JvmField val inIn = value / INCHES_TO_MILLIMETERS
+    @JvmField
+    val inIn = value / INCHES_TO_MILLIMETERS
 
     /**
      * The value of the distance in feet
      */
-    @JvmField val inFt = value / FEET_TO_MILLIMETERS
+    @JvmField
+    val inFt = value / FEET_TO_MILLIMETERS
 
     /**
      * The value of the distance in yards
      */
-    @JvmField val inYd = value / YARDS_TO_MILLIMETERS
+    @JvmField
+    val inYd = value / YARDS_TO_MILLIMETERS
 
     /**
      * Creates a new instance of [Distance] with the given value

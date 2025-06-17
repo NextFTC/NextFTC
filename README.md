@@ -4,14 +4,14 @@
 
 # NextFTC
 
-NextFTC is an advanced and open-source toolkit designed specifically for the First Tech Challenge 
-(FTC) robotics competition. This library provides a comprehensive suite of functionalities that 
-facilitate the development of robust and efficient robot control systems. It aims to simplify the 
-coding process for FTC participants by offering reusable components and intuitive interfaces, making 
+NextFTC is an advanced and open-source toolkit designed specifically for the First Tech Challenge
+(FTC) robotics competition. This library provides a comprehensive suite of functionalities that
+facilitate the development of robust and efficient robot control systems. It aims to simplify the
+coding process for FTC participants by offering reusable components and intuitive interfaces, making
 it easier to implement complex robotic behaviors.
 
-NextFTC is built with Kotlin and leverages modern software practices to ensure high performance and 
-reliability. By integrating NextFTC, teams can enhance their robots' capabilities, streamline their 
+NextFTC is built with Kotlin and leverages modern software practices to ensure high performance and
+reliability. By integrating NextFTC, teams can enhance their robots' capabilities, streamline their
 development workflows, and focus more on innovation and strategic planning for the competition.
 
 NextFTC is officially supported by [Pedro Pathing](https://pedropathing.com) and integrates
@@ -21,7 +21,10 @@ Join the NextFTC Discord server [here](https://discord.gg/PjP9Ze6fkX)
 
 ## Installation
 
-In your project's `build.dependencies.gradle` file, add the following lines to the `repositories` block:
+### Install NextFTC using Gradle
+
+In your project's `build.dependencies.gradle` file, add the following lines to the `repositories`
+block:
 
 ```groovy
 maven { url = "https://maven.rowanmcalpin.com/" }
@@ -39,8 +42,5 @@ implementation 'com.pedropathing:pedro:1.0.8'
 implementation 'com.acmerobotics.dashboard:dashboard:0.4.16'
 ```
 
-Finally, sync Gradle. This will add NextFTC, as well as its requirements (PedroPathing and FTC Dashboard)
-
-## Contributing
-
-Please see the [CONTRIBUTING.md](https://github.com/NextFTC/.github/blob/main/CONTRIBUTING.md).
+Finally, sync Gradle. This will add NextFTC, as well as its requirements (PedroPathing and FTC
+Dashboard)
