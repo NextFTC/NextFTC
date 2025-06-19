@@ -21,10 +21,7 @@ Join the NextFTC Discord server [here](https://discord.gg/PjP9Ze6fkX)
 
 ## Installation
 
-### Install NextFTC using Gradle
-
-In your project's `build.dependencies.gradle` file, add the following lines to the `repositories`
-block:
+In your project's `build.dependencies.gradle` file, add the following lines to the `repositories` block:
 
 ```groovy
 maven { url = "https://maven.rowanmcalpin.com/" }
@@ -42,5 +39,8 @@ implementation 'com.pedropathing:pedro:1.0.8'
 implementation 'com.acmerobotics.dashboard:dashboard:0.4.16'
 ```
 
-Finally, sync Gradle. This will add NextFTC, as well as its requirements (PedroPathing and FTC
-Dashboard)
+Finally, sync Gradle. This will add NextFTC, as well as its requirements (PedroPathing and FTC Dashboard)
+
+## Contributing
+
+Please see the [CONTRIBUTING.md](https://github.com/NextFTC/.github/blob/main/CONTRIBUTING.md).
