@@ -1,26 +1,18 @@
 [versions]
-agp = "8.7.3"
-kotlin = "1.9.0"
-
-commons-math3 = "3.6.1"
-pedro = "1.0.9"
-ftc = "10.1.1"
-dokka = "1.9.24"
-nextcontrol = "1.0.0-rc.1"
-nextbindings = "1.0.0-rc.1"
-
-nextftc = "0.8.0"
+kotlin = "2.1.20"
+ftc = "10.3.0"
 
 [libraries]
-commons-math3 = { module = "org.apache.commons:commons-math3", version.ref = "commons-math3" }
-pedro = { module = "com.pedropathing:pedro", version.ref = "pedro" }
-ftc-robotcore = { group = "org.firstinspires.ftc", name = "RobotCore", version.ref = "ftc" }
+ftc-robot-core = { group = "org.firstinspires.ftc", name = "RobotCore", version.ref = "ftc" }
 ftc-hardware = { group = "org.firstinspires.ftc", name = "Hardware", version.ref = "ftc" }
-nextcontrol = { module = "dev.nextftc:nextcontrol", version.ref = "nextcontrol" }
-nextbindings = { module = 'dev.nextftc:bindings', version.ref = "nextbindings" }
+nextftc-control = { group = "dev.nextftc", name = "control", version = "1.0.0-beta.1" }
+nextftc-bindings = { group = "dev.nextftc", name = "bindings", version = "1.0.0-rc.9" }
+
+[bundles]
+ftc = ["ftc-robot-core", "ftc-hardware"]
 
 [plugins]
-android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-android-library = { id = "com.android.library", version.ref = "agp" }
-dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+android-library = { id = "com.android.library", version = "8.7.3" }
+nextftc-publishing = { id = "dev.nextftc.publishing.multi-module", version = "1.0.0" }
