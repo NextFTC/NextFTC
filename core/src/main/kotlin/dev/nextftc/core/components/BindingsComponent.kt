@@ -20,7 +20,7 @@ package dev.nextftc.core.components
 
 import dev.nextftc.bindings.BindingManager
 
-class BindingsComponent : Component {
+object BindingsComponent : Component {
     override fun preWaitForStart() = BindingManager.update()
     override fun preUpdate() = BindingManager.update()
     override fun postStop() = BindingManager.reset()

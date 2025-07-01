@@ -25,7 +25,7 @@ import dev.nextftc.ftc.ActiveOpMode
 /**
  * This component automatically sets up bulk reading for your control and expansion hubs
  */
-class BulkReadComponent : Component {
+object BulkReadComponent : Component {
     private lateinit var allHubs: List<LynxModule>
     override fun postInit() {
 
