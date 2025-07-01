@@ -25,7 +25,8 @@ android {
     }
 }
 
-description = "The FTC-dependent library for NextFTC, a user-friendly library for FTC. Includes OpModes and FTC-specific components."
+description =
+    "The FTC-dependent library for NextFTC, a user-friendly library for FTC. Includes OpModes and FTC-specific components."
 
 dependencies {
     api(project(":core"))
