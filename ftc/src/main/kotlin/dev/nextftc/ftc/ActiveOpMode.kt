@@ -93,11 +93,7 @@ object ActiveOpMode : OpModeManagerNotifier.Notifications {
         it = opMode
     }
 
-    override fun onOpModePreStart(opMode: OpMode?) {
-        TODO("Not yet implemented")
-    }
+    override fun onOpModePreStart(opMode: OpMode?) {}
 
-    override fun onOpModePostStop(opMode: OpMode?) {
-        TODO("Not yet implemented")
-    }
+    override fun onOpModePostStop(opMode: OpMode?) {}
 }
