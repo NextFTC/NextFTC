@@ -15,4 +15,4 @@ ftc = ["ftc-robot-core", "ftc-hardware"]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version = "8.7.3" }
-nextftc-publishing = { id = "dev.nextftc.publishing.multi-module", version = "1.0.0" }
+nextftc-publishing = { id = "dev.nextftc.publishing.multi-module", version = "1.0.1" }
