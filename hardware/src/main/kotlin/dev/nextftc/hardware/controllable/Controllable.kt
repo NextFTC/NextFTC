@@ -18,11 +18,13 @@
 
 package dev.nextftc.hardware.controllable
 
+import dev.nextftc.control.KineticState
 import dev.nextftc.hardware.powerable.Powerable
 
 /**
  * An entity with a position and velocity whose power can be set
  */
+@JvmDefaultWithoutCompatibility
 interface Controllable : Powerable {
     /**
      * The entity's current position
@@ -33,4 +35,6 @@ interface Controllable : Powerable {
      * The entity's current velocity
      */
     val velocity: Double
+
+    val state get() = KineticState(currentPosition, velocity)
 }
