@@ -158,7 +158,7 @@ object CommandManager {
 
         for (subsystem in subsystems) {
             if (subsystem is SubsystemGroup) {
-                expanded plusAssign expandSubsystemGroup(subsystem)
+                expanded += expandSubsystemGroup(subsystem)
             }
             expanded += subsystem
         }

@@ -17,4 +17,7 @@ nextFTCPublishing {
 
 kotlin {
     jvmToolchain(8)
+    compilerOptions {
+        freeCompilerArgs.add("-Xjvm-default=all")
+    }
 }
