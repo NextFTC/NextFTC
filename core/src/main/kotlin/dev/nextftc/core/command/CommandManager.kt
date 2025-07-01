@@ -19,6 +19,7 @@
 package dev.nextftc.core.command
 
 import dev.nextftc.core.command.groups.CommandGroup
+import dev.nextftc.core.components.Component
 import dev.nextftc.core.subsystems.Subsystem
 import dev.nextftc.core.subsystems.SubsystemGroup
 import kotlin.collections.iterator
@@ -27,7 +28,7 @@ import kotlin.collections.plusAssign
 /**
  * This is the central controller for running commands in NextFTC.
  */
-object CommandManager {
+object CommandManager : Component {
 
     /**
      * Actively running commands.
@@ -250,4 +251,12 @@ object CommandManager {
             commandsToCancel += Pair(command, true)
         }
     }
+
+    override fun preInit() = runningCommands.clear()
+
+    override fun postWaitForStart()  = run()
+
+    override fun postUpdate() = run()
+
+    override fun postStop() = cancelAll()
 }

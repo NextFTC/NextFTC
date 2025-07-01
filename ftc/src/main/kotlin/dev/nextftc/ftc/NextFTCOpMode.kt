@@ -39,9 +39,6 @@ abstract class NextFTCOpMode : LinearOpMode() {
 
     override fun runOpMode() {
         try {
-            ActiveOpMode.it = this
-
-            CommandManager.runningCommands.clear()
 
             components.forEach { it.preInit() }
             onInit()
@@ -50,7 +47,6 @@ abstract class NextFTCOpMode : LinearOpMode() {
             // Wait for start
             while (opModeInInit()) {
                 components.forEach { it.preWaitForStart() }
-                CommandManager.run()
                 onWaitForStart()
                 components.reversed().forEach { it.postWaitForStart() }
             }
@@ -73,11 +69,6 @@ abstract class NextFTCOpMode : LinearOpMode() {
             components.forEach { it.preStop() }
             onStop()
             components.forEach { it.postStop() }
-
-            // Since users might schedule a command that stops things, we want to be able to run it
-            // (one update of it, anyways) before we cancel all of our commands.
-            CommandManager.run()
-            CommandManager.cancelAll()
         } catch (e: Exception) {
             // Rethrow the exception as a RuntimeException with the original stack trace at the top
             val runtimeException = RuntimeException(e.message)
