@@ -20,7 +20,7 @@ package dev.nextftc.hardware.impl
 
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorEx
-import dev.nextftc.ftc.OpModeData
+import dev.nextftc.ftc.ActiveOpMode
 import dev.nextftc.hardware.delegates.Caching
 import dev.nextftc.hardware.delegates.Offsetable
 import dev.nextftc.hardware.controllable.Controllable
@@ -40,7 +40,7 @@ class MotorEx(cacheTolerance: Double, motorFactory: () -> DcMotorEx) : Controlla
     constructor(
         name: String,
         cacheTolerance: Double = 0.01
-    ) : this(cacheTolerance, { OpModeData.hardwareMap!![name] as DcMotorEx })
+    ) : this(cacheTolerance, { ActiveOpMode.hardwareMap[name] as DcMotorEx })
 
     val motor by lazy(motorFactory)
 

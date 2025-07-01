@@ -18,9 +18,7 @@
 
 package dev.nextftc.ftc
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import dev.nextftc.core.command.CommandManager
 import dev.nextftc.core.components.Component
 
@@ -41,13 +39,7 @@ abstract class NextFTCOpMode : LinearOpMode() {
 
     override fun runOpMode() {
         try {
-            processAnnotations()
-
-            OpModeData.opMode = this
-            OpModeData.hardwareMap = hardwareMap
-            OpModeData.gamepad1 = gamepad1
-            OpModeData.gamepad2 = gamepad2
-            OpModeData.telemetry = telemetry
+            ActiveOpMode.it = this
 
             CommandManager.runningCommands.clear()
 
@@ -118,17 +110,4 @@ abstract class NextFTCOpMode : LinearOpMode() {
      * This function runs ONCE when the stop button is pressed.
      */
     open fun onStop() {}
-
-    /**
-     * This class automatically identifies what type of OpMode it is annotated as, thereby allowing
-     * it to set the [OpModeData.opModeType] variable correctly.
-     */
-    private fun processAnnotations() {
-        this::class.annotations.forEach {
-            when (it) {
-                is TeleOp -> OpModeData.opModeType = OpModeData.OpModeType.TELEOP
-                is Autonomous -> OpModeData.opModeType = OpModeData.OpModeType.AUTO
-            }
-        }
-    }
 }

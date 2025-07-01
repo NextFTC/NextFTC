@@ -21,7 +21,7 @@ package dev.nextftc.hardware.impl
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot
 import com.qualcomm.robotcore.hardware.IMU
 import dev.nextftc.core.units.Angle
-import dev.nextftc.ftc.OpModeData
+import dev.nextftc.ftc.ActiveOpMode
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
 import java.util.function.Supplier
 
@@ -36,7 +36,7 @@ class IMUEx(imuFactory: () -> IMU) : Supplier<Angle> {
         logoFacingDirection: Direction,
         usbFacingDirection: Direction
     ) : this({
-        val imu = OpModeData.hardwareMap!![name] as IMU
+        val imu = ActiveOpMode.hardwareMap[name] as IMU
         imu.initialize(
             IMU.Parameters(
                 RevHubOrientationOnRobot(

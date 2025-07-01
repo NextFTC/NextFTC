@@ -20,7 +20,7 @@ package dev.nextftc.hardware.impl
 
 import com.qualcomm.robotcore.hardware.AnalogInput
 import com.qualcomm.robotcore.hardware.Servo
-import dev.nextftc.ftc.OpModeData
+import dev.nextftc.ftc.ActiveOpMode
 import dev.nextftc.hardware.delegates.AnalogFeedback
 
 class FeedbackServoEx(
@@ -46,8 +46,8 @@ class FeedbackServoEx(
     @JvmOverloads
     constructor(feedbackName: String, servoName: String, cacheTolerance: Double = 0.01) : this(
         cacheTolerance,
-        { OpModeData.hardwareMap!![feedbackName] as AnalogInput },
-        { OpModeData.hardwareMap!![servoName] as Servo })
+        { ActiveOpMode.hardwareMap[feedbackName] as AnalogInput },
+        { ActiveOpMode.hardwareMap[servoName] as Servo })
 
     /**
      * The current position, in radians

@@ -19,7 +19,7 @@
 package dev.nextftc.hardware.impl
 
 import com.qualcomm.robotcore.hardware.Servo
-import dev.nextftc.ftc.OpModeData
+import dev.nextftc.ftc.ActiveOpMode
 import dev.nextftc.hardware.delegates.Caching
 import dev.nextftc.hardware.positionable.Positionable
 
@@ -35,7 +35,7 @@ open class ServoEx(cacheTolerance: Double, servoFactory: () -> Servo) : Position
     @JvmOverloads
     constructor(name: String, cacheTolerance: Double = 0.01) : this(
         cacheTolerance,
-        { OpModeData.hardwareMap!![name] as Servo })
+        { ActiveOpMode.hardwareMap[name] as Servo })
 
     override var position: Double by Caching(cacheTolerance) {
         it?.let { servo.position = it }

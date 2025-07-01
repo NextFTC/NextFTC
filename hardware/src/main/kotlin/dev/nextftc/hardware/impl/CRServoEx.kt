@@ -19,7 +19,7 @@
 package dev.nextftc.hardware.impl
 
 import com.qualcomm.robotcore.hardware.CRServo
-import dev.nextftc.ftc.OpModeData
+import dev.nextftc.ftc.ActiveOpMode
 import dev.nextftc.hardware.delegates.Caching
 import dev.nextftc.hardware.powerable.Powerable
 
@@ -35,7 +35,7 @@ open class CRServoEx(cacheTolerance: Double, servoFactory: () -> CRServo) : Powe
     @JvmOverloads
     constructor(name: String, cacheTolerance: Double = 0.01) : this(
         cacheTolerance,
-        { OpModeData.hardwareMap!![name] as CRServo })
+        { ActiveOpMode.hardwareMap[name] as CRServo })
 
     override var power: Double by Caching(cacheTolerance) {
         it?.let { servo.power = it }

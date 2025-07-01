@@ -20,7 +20,7 @@ package dev.nextftc.ftc.components
 
 import com.qualcomm.hardware.lynx.LynxModule
 import dev.nextftc.core.components.Component
-import dev.nextftc.ftc.OpModeData
+import dev.nextftc.ftc.ActiveOpMode
 
 /**
  * This component automatically sets up bulk reading for your control and expansion hubs
@@ -29,9 +29,7 @@ class BulkReadComponent : Component {
     private lateinit var allHubs: List<LynxModule>
     override fun postInit() {
 
-        OpModeData.hardwareMap
-            ?: throw UninitializedPropertyAccessException("hardwareMap has not been initialized")
-        allHubs = OpModeData.hardwareMap!!.getAll(LynxModule::class.java)
+        allHubs = ActiveOpMode.hardwareMap.getAll(LynxModule::class.java)
 
         allHubs.forEach {
             it.bulkCachingMode = LynxModule.BulkCachingMode.MANUAL
