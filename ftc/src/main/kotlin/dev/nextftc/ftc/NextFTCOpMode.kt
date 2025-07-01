@@ -19,8 +19,13 @@
 package dev.nextftc.ftc
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
+import com.qualcomm.robotcore.eventloop.opmode.OpMode
+import com.qualcomm.robotcore.hardware.DcMotorEx
 import dev.nextftc.core.command.CommandManager
 import dev.nextftc.core.components.Component
+import dev.nextftc.ftc.components.Initializer
+import kotlin.properties.ReadOnlyProperty
+import kotlin.reflect.KProperty
 
 
 /**
@@ -75,6 +80,17 @@ abstract class NextFTCOpMode : LinearOpMode() {
             runtimeException.stackTrace = e.stackTrace  // Set the original stack trace at the top
             throw runtimeException  // Throw the custom RuntimeException
         }
+    }
+
+    /**
+     * Used to generate properties upon OpMode initialization.
+     *
+     * @param block function to be evaluated upon initialization
+     */
+    fun <V> onInit(block: OpMode.() -> V): Initializer<V> {
+        val initializer = Initializer(block)
+        addComponents(initializer)
+        return initializer
     }
 
     /**
