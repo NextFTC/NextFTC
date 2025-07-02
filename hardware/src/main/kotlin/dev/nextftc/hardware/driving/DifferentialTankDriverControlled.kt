@@ -31,8 +31,8 @@ import java.util.function.Supplier
 class DifferentialTankDriverControlled(
     val leftMotor: Controllable,
     val rightMotor: Controllable,
-    val leftPower: Supplier<Float>,
-    val rightPower: Supplier<Float>
+    val leftPower: Supplier<Double>,
+    val rightPower: Supplier<Double>
 ) : DriverControlledCommand(leftPower, rightPower) {
 
     override fun calculateAndSetPowers(powers: DoubleArray) {

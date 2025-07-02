@@ -33,8 +33,8 @@ import kotlin.math.max
 class DifferentialArcadeDriverControlled(
     val leftMotor: Controllable,
     val rightMotor: Controllable,
-    drivePower: Supplier<Float>,
-    turnPower: Supplier<Float>
+    drivePower: Supplier<Double>,
+    turnPower: Supplier<Double>
 ) : DriverControlledCommand(drivePower, turnPower) {
 
     override fun calculateAndSetPowers(powers: DoubleArray) {

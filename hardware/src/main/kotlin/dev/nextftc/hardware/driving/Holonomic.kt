@@ -37,19 +37,19 @@ data class HolonomicDrivePowers(val x: Double, val y: Double, val heading: Doubl
 
 sealed class HolonomicMode {
     abstract fun rotate(powers: HolonomicDrivePowers): HolonomicDrivePowers
+}
 
-    object RobotCentric : HolonomicMode() {
-        override fun rotate(powers: HolonomicDrivePowers): HolonomicDrivePowers = powers
-    }
+object RobotCentric : HolonomicMode() {
+    override fun rotate(powers: HolonomicDrivePowers): HolonomicDrivePowers = powers
+}
 
-    class FieldCentric(
-        val headingSupplier: Supplier<Angle>
-    ) : HolonomicMode() {
-        override fun rotate(powers: HolonomicDrivePowers): HolonomicDrivePowers {
-            val heading = headingSupplier.get().inRad
-            val rotX = powers.x * cos(-heading) - powers.y * sin(heading)
-            val rotY = powers.x * sin(-heading) + powers.y * cos(-heading)
-            return powers.copy(x = rotX, y = rotY)
-        }
+class FieldCentric(
+    val headingSupplier: Supplier<Angle>
+) : HolonomicMode() {
+    override fun rotate(powers: HolonomicDrivePowers): HolonomicDrivePowers {
+        val heading = headingSupplier.get().inRad
+        val rotX = powers.x * cos(-heading) - powers.y * sin(heading)
+        val rotY = powers.x * sin(-heading) + powers.y * cos(-heading)
+        return powers.copy(x = rotX, y = rotY)
     }
 }

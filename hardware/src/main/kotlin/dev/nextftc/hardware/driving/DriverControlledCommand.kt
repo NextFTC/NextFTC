@@ -21,7 +21,7 @@ package dev.nextftc.hardware.driving
 import dev.nextftc.core.command.Command
 import java.util.function.Supplier
 
-abstract class DriverControlledCommand(vararg val joystickPowers: Supplier<Float>) : Command() {
+abstract class DriverControlledCommand(vararg val joystickPowers: Supplier<Double>) : Command() {
     final override val isDone: Boolean = false
 
     var scalar: Double = 1.0
@@ -34,7 +34,7 @@ abstract class DriverControlledCommand(vararg val joystickPowers: Supplier<Float
 
     final override fun update() {
         val scaledPowers =
-            joystickPowers.map { it.get() }.map { it * scalar.toFloat() }.toFloatArray()
-        calculateAndSetPowers(scaledPowers.map { it.toDouble() }.toDoubleArray())
+            joystickPowers.map { it.get() }.map { it * scalar.toFloat() }.toDoubleArray()
+        calculateAndSetPowers(scaledPowers)
     }
 }
