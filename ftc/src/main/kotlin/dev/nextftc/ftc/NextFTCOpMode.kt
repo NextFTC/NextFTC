@@ -35,7 +35,7 @@ import kotlin.reflect.KProperty
  */
 abstract class NextFTCOpMode : LinearOpMode() {
 
-    private val _components: MutableSet<Component> = mutableSetOf()
+    private val _components: MutableSet<Component> = mutableSetOf(CommandManager)
     val components: Set<Component> by ::_components
 
     fun addComponents(vararg components: Component) {
