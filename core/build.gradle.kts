@@ -18,6 +18,6 @@ nextFTCPublishing {
 kotlin {
     jvmToolchain(8)
     compilerOptions {
-        freeCompilerArgs.add("-Xjvm-default=all")
+        freeCompilerArgs.addAll("-Xjvm-default=all", "-Xconsistent-data-class-copy-visibility")
     }
 }
