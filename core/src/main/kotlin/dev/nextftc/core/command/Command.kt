@@ -97,6 +97,8 @@ abstract class Command : Runnable {
 
     override fun run() = schedule()
 
+    fun cancel() = CommandManager.cancelCommand(this)
+
     // region Property Setters
 
     open fun setSubsystems(vararg subsystems: Subsystem) = apply {

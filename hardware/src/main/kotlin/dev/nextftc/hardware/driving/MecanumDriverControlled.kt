@@ -18,26 +18,21 @@
 
 package dev.nextftc.hardware.driving
 
-import dev.nextftc.core.units.Angle
 import dev.nextftc.hardware.controllable.Controllable
 import java.util.function.Supplier
 import kotlin.math.absoluteValue
-import kotlin.math.cos
 import kotlin.math.max
-import kotlin.math.sin
 
 class MecanumDriverControlled @JvmOverloads constructor(
     val frontLeftMotor: Controllable,
     val frontRightMotor: Controllable,
     val backLeftMotor: Controllable,
     val backRightMotor: Controllable,
-    drivePower: Supplier<Float>,
-    strafePower: Supplier<Float>,
-    turnPower: Supplier<Float>,
-    val mode: HolonomicMode = HolonomicMode.RobotCentric
+    drivePower: Supplier<Double>,
+    strafePower: Supplier<Double>,
+    turnPower: Supplier<Double>,
+    val mode: HolonomicMode = RobotCentric
 ) : DriverControlledCommand(strafePower, drivePower, turnPower) {
-
-
     override fun calculateAndSetPowers(powers: DoubleArray) {
         val (x, y, rx) = HolonomicDrivePowers.from(powers)
             .rotate(mode)
