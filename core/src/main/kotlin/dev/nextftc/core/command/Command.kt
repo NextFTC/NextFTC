@@ -55,6 +55,11 @@ abstract class Command : Runnable {
     val requirements: MutableSet<Any> = mutableSetOf()
 
     /**
+     * The name of this command for use in telemetry/logs.
+     */
+    open var name = this::class.simpleName ?: "Command"
+
+    /**
      * Called once when the command is first started
      */
     open fun start() {}
@@ -122,6 +127,10 @@ abstract class Command : Runnable {
 
     open fun setInterruptible(interruptible: Boolean) = apply {
         this.interruptible = interruptible
+    }
+
+    fun named(name: String) = apply {
+        this.name = name
     }
 
     // endregion

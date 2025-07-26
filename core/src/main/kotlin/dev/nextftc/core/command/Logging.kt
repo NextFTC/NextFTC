@@ -29,7 +29,7 @@ internal object CommandLogSerializer : KSerializer<Command> {
 
     override fun serialize(encoder: Encoder, value: Command) =
         encoder.encodeStructure(descriptor) {
-            encodeStringElement(descriptor, 0, value::class.simpleName?: "Unknown Command")
+            encodeStringElement(descriptor, 0, value.name)
             encodeStringElement(descriptor, 1, value.requirements.map { it::class.simpleName?: "Unknown Requirement" }.toString())
         }
 
