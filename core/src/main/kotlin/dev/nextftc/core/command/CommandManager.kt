@@ -258,5 +258,8 @@ object CommandManager : Component {
 
     override fun postUpdate() = run()
 
-    override fun postStop() = cancelAll()
+    override fun postStop() {
+        run()
+        cancelAll()
+    }
 }
