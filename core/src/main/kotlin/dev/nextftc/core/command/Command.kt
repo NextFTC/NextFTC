@@ -25,7 +25,6 @@ import dev.nextftc.core.command.groups.SequentialGroup
 import dev.nextftc.core.command.utility.ForcedParallelCommand
 import dev.nextftc.core.command.utility.PerpetualCommand
 import dev.nextftc.core.command.utility.delays.Delay
-import dev.nextftc.core.subsystems.Subsystem
 import dev.nextftc.core.units.TimeSpan
 import dev.nextftc.core.units.sec
 
@@ -43,15 +42,17 @@ abstract class Command : Runnable {
     abstract val isDone: Boolean
 
     /**
-     * Whether this command can be stopped due to a conflict of [Subsystem]s.
+     * Whether this command can be stopped due to a conflict of [requirements].
      */
     var interruptible = true
         private set
 
     /**
-     * A set of all Subsystems this command implements.
+     * A Command's requirements are objects that the command directly uses.
+     * These are often, but not always, [Subsystem]s.
+     * The Command Manager checks for conflicts of requirements when a command is to be scheduled.
      */
-    val subsystems: MutableSet<Subsystem> = mutableSetOf()
+    val requirements: MutableSet<Any> = mutableSetOf()
 
     /**
      * Called once when the command is first started
@@ -101,22 +102,22 @@ abstract class Command : Runnable {
 
     // region Property Setters
 
-    open fun setSubsystems(vararg subsystems: Subsystem) = apply {
-        this.subsystems.clear()
-        this.subsystems.addAll(subsystems)
+    open fun setRequirements(vararg requirements: Any) = apply {
+        this.requirements.clear()
+        this.requirements.addAll(requirements)
     }
 
-    open fun setSubsystems(subsystems: Set<Subsystem>) = apply {
-        this.subsystems.clear()
-        this.subsystems.addAll(subsystems)
+    open fun setSubsystems(requirements: Set<Any>) = apply {
+        this.requirements.clear()
+        this.requirements.addAll(requirements)
     }
 
-    fun addSubsystems(vararg subsystems: Subsystem) = apply {
-        this.subsystems.addAll(subsystems)
+    fun addSubsystems(vararg requirements: Any) = apply {
+        this.requirements.addAll(requirements)
     }
 
-    fun addSubsystems(subsystems: Set<Subsystem>) = apply {
-        this.subsystems.addAll(subsystems)
+    fun addSubsystems(requirements: Set<Any>) = apply {
+        this.requirements.addAll(requirements)
     }
 
     open fun setInterruptible(interruptible: Boolean) = apply {
