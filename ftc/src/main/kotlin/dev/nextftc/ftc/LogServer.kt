@@ -13,25 +13,24 @@ object LogServer {
     @WebHandlerRegistrar
     @JvmStatic
     fun registerRoutes(context: Context, manager: WebHandlerManager) {
-        manager.register("/nextftc/logs") {
-            val sb = StringBuilder()
-            sb.append("<!doctype html><html><head><title>Logs</title></head><body><ul>")
-            val fs = LOG_ROOT.listFiles()!!
-            fs.sortByDescending { it.lastModified() }
-            for (f in fs) {
-                sb.append("<li><a href=\"/logs/download?file=")
-                sb.append(f.name)
-                sb.append("\" download=\"")
-                sb.append(f.name)
-                sb.append("\">")
-                sb.append(f.name)
-                sb.append("</a> (")
-                sb.append(f.length())
-                sb.append(" bytes)</li>")
+        manager.register("/nextftc/logs") { session ->
+            val fs = LOG_ROOT.listFiles()!!.sortedByDescending { it.lastModified() }
+            val html = buildString {
+                append("<!doctype html><html><head><title>Logs</title></head><body><ul>")
+                append(
+                    fs.joinToString("\n") { f ->
+                        """
+                        <li>
+                            <a href="/logs/download?file=${f.name}" download="${f.name}">${f.name}</a>
+                            (${f.length()} bytes)
+                        </li>
+                        """.trimIndent()
+                    }
+                )
+                append("</ul></body></html>")
             }
-            sb.append("</ul></body></html>")
             NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.OK,
-                NanoHTTPD.MIME_HTML, sb.toString())
+                NanoHTTPD.MIME_HTML, html)
         }
 
         manager.register("/nextftc/logs/download") { session: IHTTPSession ->
