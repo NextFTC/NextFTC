@@ -77,7 +77,7 @@ internal object TimestampLogSerializer : KSerializer<Duration> {
     override val descriptor = SerialDescriptor("Timestamp", primitive)
 
     override fun serialize(encoder: Encoder, value: Duration) {
-        encoder.encodeString("${value.toDouble(DurationUnit.MILLISECONDS)}ms")
+        encoder.encodeString("${value.toDouble(DurationUnit.SECONDS)}s")
     }
 
     override fun deserialize(decoder: Decoder): Duration {
