@@ -119,10 +119,13 @@ object CommandManager : Component {
     }
 
     /**
-     * Initializes a command. This function first scans to find any conflicts (other commands using
-     * the same subsystem). It then checks to see if any of those commands are not interruptible. If
-     * some of them aren't interruptible, it ends the initialization process and does not schedule
-     * the new command. Otherwise, it cancels the conflicts, runs the new command's start function,
+     * Initializes a command.
+     * This function first scans to find any conflicts
+     * (other commands using the same requirement).
+     * It then checks to see if any of those commands are not interruptible.
+     * If some of them aren't interruptible,
+     * it ends the initialization process and does not schedule the new command.
+     * Otherwise, it cancels the conflicts, runs the new command's start function,
      * and adds it to the list of runningCommands.
      * @param command the new command being initialized
      */
@@ -130,10 +133,10 @@ object CommandManager : Component {
         val requirements = expandRequirements(command.requirements)
 
         for (otherCommand in runningCommands) {
-            val otherSubsystems = expandRequirements(otherCommand.requirements)
+            val otherRequirements = expandRequirements(otherCommand.requirements)
 
             for (requirement in requirements) {
-                if (otherSubsystems.contains(requirement)) {
+                if (otherRequirements.contains(requirement)) {
                     if (otherCommand.interruptible) {
                         commandsToCancel += Pair(otherCommand, true)
                     } else {
@@ -165,7 +168,8 @@ object CommandManager : Component {
 
 
     /**
-     * Recursively expands requirements to ensure collection
+     * Recursively expands requirements to ensure they are not hidden
+     * behind SubsystemGroups or other collections
      */
     private fun expandRequirements(reqs: Collection<*>): Set<Any> =
         reqs.map {

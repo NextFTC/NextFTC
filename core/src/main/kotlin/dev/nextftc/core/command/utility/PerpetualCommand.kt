@@ -20,12 +20,18 @@ package dev.nextftc.core.command.utility
 
 import dev.nextftc.core.command.Command
 
+/**
+ * This command executes indefinitely until stopped due to a conflict of requirements.
+ * It uses the [start], [update], and [stop] functions of the passed command.
+ *
+ * @param command the command to execute
+ */
 class PerpetualCommand(val command: Command) : Command() {
 
     override val isDone: Boolean = false
 
     init {
-        setSubsystems(command.subsystems)
+        setRequirements(command.requirements)
     }
 
     override fun start() = command.start()

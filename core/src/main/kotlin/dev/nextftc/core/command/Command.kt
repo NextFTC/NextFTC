@@ -107,16 +107,16 @@ abstract class Command : Runnable {
         this.requirements.addAll(requirements)
     }
 
-    open fun setSubsystems(requirements: Set<Any>) = apply {
+    open fun setRequirements(requirements: Set<Any>) = apply {
         this.requirements.clear()
         this.requirements.addAll(requirements)
     }
 
-    fun addSubsystems(vararg requirements: Any) = apply {
+    fun addRequirements(vararg requirements: Any) = apply {
         this.requirements.addAll(requirements)
     }
 
-    fun addSubsystems(requirements: Set<Any>) = apply {
+    fun addRequirements(requirements: Set<Any>) = apply {
         this.requirements.addAll(requirements)
     }
 
