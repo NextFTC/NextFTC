@@ -1,6 +1,7 @@
 [versions]
 kotlin = "2.0.0"
 ftc = "10.3.0"
+kotlinx-serialization = "1.9.0"
 
 [libraries]
 ftc-robot-core = { group = "org.firstinspires.ftc", name = "RobotCore", version.ref = "ftc" }
@@ -8,6 +9,7 @@ ftc-hardware = { group = "org.firstinspires.ftc", name = "Hardware", version.ref
 ftc-common = { group = "org.firstinspires.ftc", name = "FtcCommon", version.ref = "ftc" }
 nextftc-control = { group = "dev.nextftc", name = "control", version = "1.0.0-beta.2" }
 nextftc-bindings = { group = "dev.nextftc", name = "bindings", version = "1.0.0-rc.9" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 
 [bundles]
 ftc = ["ftc-robot-core", "ftc-hardware", "ftc-common"]
@@ -17,3 +19,4 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version = "8.7.3" }
 nextftc-publishing = { id = "dev.nextftc.publishing.multi-module", version = "1.0.1" }
+kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin"}

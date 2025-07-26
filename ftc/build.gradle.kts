@@ -1,6 +1,7 @@
 plugins {
     kotlin("android")
     id("com.android.library")
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 android {
@@ -31,6 +32,7 @@ description =
 dependencies {
     api(project(":core"))
     compileOnly(libs.bundles.ftc)
+    implementation(libs.kotlinx.serialization.json)
 }
 
 nextFTCPublishing {

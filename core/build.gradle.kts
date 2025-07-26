@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm")
     id("java-library")
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 description = "The base for NextFTC, a user-friendly library for FTC. Includes commands, components, and subsystems."
@@ -8,6 +9,7 @@ description = "The base for NextFTC, a user-friendly library for FTC. Includes c
 dependencies {
     api(libs.nextftc.bindings)
     api(libs.nextftc.control)
+    implementation(libs.kotlinx.serialization.json)
 }
 
 nextFTCPublishing {
