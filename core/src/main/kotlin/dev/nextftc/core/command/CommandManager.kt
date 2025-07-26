@@ -42,6 +42,12 @@ object CommandManager : Component {
     private val commandsToCancel = mutableMapOf<Command, Boolean>()
 
     /**
+     * A snapshot should be logged every loop that a new command is scheduled or ends.
+     */
+    var shouldLog = false
+        private set
+
+    /**
      * This function should be run repeatedly every loop. It adds commands if the corresponding
      * Gamepad buttons are being pushed, it runs the periodic functions in Subsystems, it schedules
      * & cancels any commands that need to be started or stopped, and it executes running
@@ -51,6 +57,7 @@ object CommandManager : Component {
      */
     // exercise is healthy (and fun!)
     fun run() {
+        shouldLog = false
         scheduleCommands()
         cancelCommands()
         for (command in runningCommands) {
@@ -94,6 +101,10 @@ object CommandManager : Component {
         // We have to do it like this in order to prevent concurrentmodificationexceptions when
         // scheduling command groups
         val newCommands = commandsToSchedule.toList()
+
+        // if there are new commands to be scheduled, we should log a snapshot this loop
+        if (newCommands.isNotEmpty()) shouldLog = true
+
         // Clear before looping so that we don't clear out any commands that get scheduled inside of
         // init functions
         commandsToSchedule.clear()
@@ -111,6 +122,9 @@ object CommandManager : Component {
         val commands = commandsToCancel.toMap()
         // Clear before looping so we don't clear any commands that get cancelled inside of stop functions
         commandsToCancel.clear()
+
+        // if a command is being cancelled, we should log a snapshot this loop
+        if (commands.isNotEmpty()) shouldLog = true
 
         for (pair in commands) {
             cancel(pair.key, pair.value)
