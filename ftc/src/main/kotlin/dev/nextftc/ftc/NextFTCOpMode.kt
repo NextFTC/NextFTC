@@ -19,8 +19,13 @@
 package dev.nextftc.ftc
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
+import com.qualcomm.robotcore.eventloop.opmode.OpMode
+import com.qualcomm.robotcore.hardware.DcMotorEx
 import dev.nextftc.core.command.CommandManager
 import dev.nextftc.core.components.Component
+import dev.nextftc.ftc.components.Initializer
+import kotlin.properties.ReadOnlyProperty
+import kotlin.reflect.KProperty
 
 
 /**
@@ -30,7 +35,7 @@ import dev.nextftc.core.components.Component
  */
 abstract class NextFTCOpMode : LinearOpMode() {
 
-    private val _components: MutableSet<Component> = mutableSetOf()
+    private val _components: MutableSet<Component> = mutableSetOf(CommandManager)
     val components: Set<Component> by ::_components
 
     fun addComponents(vararg components: Component) {
@@ -39,9 +44,6 @@ abstract class NextFTCOpMode : LinearOpMode() {
 
     override fun runOpMode() {
         try {
-            ActiveOpMode.it = this
-
-            CommandManager.runningCommands.clear()
 
             components.forEach { it.preInit() }
             onInit()
@@ -50,7 +52,6 @@ abstract class NextFTCOpMode : LinearOpMode() {
             // Wait for start
             while (opModeInInit()) {
                 components.forEach { it.preWaitForStart() }
-                CommandManager.run()
                 onWaitForStart()
                 components.reversed().forEach { it.postWaitForStart() }
             }
@@ -73,17 +74,23 @@ abstract class NextFTCOpMode : LinearOpMode() {
             components.forEach { it.preStop() }
             onStop()
             components.forEach { it.postStop() }
-
-            // Since users might schedule a command that stops things, we want to be able to run it
-            // (one update of it, anyways) before we cancel all of our commands.
-            CommandManager.run()
-            CommandManager.cancelAll()
         } catch (e: Exception) {
             // Rethrow the exception as a RuntimeException with the original stack trace at the top
             val runtimeException = RuntimeException(e.message)
             runtimeException.stackTrace = e.stackTrace  // Set the original stack trace at the top
             throw runtimeException  // Throw the custom RuntimeException
         }
+    }
+
+    /**
+     * Used to generate properties upon OpMode initialization.
+     *
+     * @param block function to be evaluated upon initialization
+     */
+    fun <V> onInit(block: OpMode.() -> V): Initializer<V> {
+        val initializer = Initializer(block)
+        addComponents(initializer)
+        return initializer
     }
 
     /**

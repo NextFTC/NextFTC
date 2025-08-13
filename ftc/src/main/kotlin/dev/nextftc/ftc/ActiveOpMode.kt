@@ -18,13 +18,18 @@
 
 package dev.nextftc.ftc
 
+import android.content.Context
+import com.qualcomm.ftccommon.FtcEventLoop
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
+import com.qualcomm.robotcore.eventloop.opmode.OpMode
+import com.qualcomm.robotcore.eventloop.opmode.OpModeManagerNotifier
 import com.qualcomm.robotcore.hardware.Gamepad
 import com.qualcomm.robotcore.hardware.HardwareMap
+import org.firstinspires.ftc.ftccommon.external.OnCreateEventLoop
 import org.firstinspires.ftc.robotcore.external.Telemetry
 
 @Suppress("unused")
-object ActiveOpMode {
+object ActiveOpMode : OpModeManagerNotifier.Notifications {
 
     private fun <T> opMode(function: LinearOpMode.() -> T): T =
         it?.function() ?: error("OpMode has not yet been initialized.")
@@ -72,5 +77,23 @@ object ActiveOpMode {
 
     @JvmStatic
     @get:JvmName("hardwareMap")
-    val hardwareMap: HardwareMap get() = opMode { hardwareMap }
+    lateinit var hardwareMap: HardwareMap
+        private set
+
+    @OnCreateEventLoop
+    @JvmStatic
+    fun register(context: Context, eventLoop: FtcEventLoop) {
+        eventLoop.opModeManager.registerListener(this)
+        hardwareMap = eventLoop.opModeManager.hardwareMap
+    }
+
+    override fun onOpModePreInit(opMode: OpMode?) {
+        if (opMode == null || opMode !is LinearOpMode) return
+
+        it = opMode
+    }
+
+    override fun onOpModePreStart(opMode: OpMode?) {}
+
+    override fun onOpModePostStop(opMode: OpMode?) {}
 }
