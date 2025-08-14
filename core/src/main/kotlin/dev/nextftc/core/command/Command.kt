@@ -42,14 +42,14 @@ abstract class Command : Runnable {
     abstract val isDone: Boolean
 
     /**
-     * Whether this command can be stopped due to a conflict of [requirements].
+     * Whether this command can be stopped due to a conflict of requirements.
      */
     var interruptible = true
         private set
 
     /**
      * A Command's requirements are objects that the command directly uses.
-     * These are often, but not always, [Subsystem]s.
+     * These are often, but not always, [dev.nextftc.core.subsystems.Subsystem]s.
      * The Command Manager checks for conflicts of requirements when a command is to be scheduled.
      */
     val requirements: MutableSet<Any> = mutableSetOf()
@@ -102,20 +102,45 @@ abstract class Command : Runnable {
 
     // region Property Setters
 
+    /**
+     * Sets the requirements of this command to the passed requirements,
+     * overwriting any previous requirements.
+     * @param requirements the requirements to set
+     */
+    open fun requires(vararg requirements: Any) = setRequirements(*requirements)
+
+    /**
+     * Sets the requirements of this command to the passed requirements,
+     * overwriting any previous requirements.
+     * @param requirements the requirements to set
+     */
     open fun setRequirements(vararg requirements: Any) = apply {
         this.requirements.clear()
         this.requirements.addAll(requirements)
     }
 
+    /**
+     * Sets the requirements of this command to the passed requirements,
+     * overwriting any previous requirements.
+     * @param requirements the requirements to set
+     */
     open fun setRequirements(requirements: Set<Any>) = apply {
         this.requirements.clear()
         this.requirements.addAll(requirements)
     }
 
+    /**
+     * Adds the passed requirements to this command's requirements.
+     * @param requirements the requirements to add
+     */
     fun addRequirements(vararg requirements: Any) = apply {
         this.requirements.addAll(requirements)
     }
 
+    /**
+     * Adds the passed requirements to this command's requirements.
+     * @param requirements the requirements to add
+     */
     fun addRequirements(requirements: Set<Any>) = apply {
         this.requirements.addAll(requirements)
     }

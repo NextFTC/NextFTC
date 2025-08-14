@@ -25,7 +25,6 @@ package dev.nextftc.core.command.utility
  * All code should be put in the lambda argument.
  *
  * @param lambda the lambda to execute
- * @param requirements a set of requirements this command implements
  */
 open class InstantCommand(lambda: Runnable) : LambdaCommand() {
     init {
