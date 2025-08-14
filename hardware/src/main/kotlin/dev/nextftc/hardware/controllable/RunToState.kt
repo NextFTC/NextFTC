@@ -19,7 +19,6 @@
 package dev.nextftc.hardware.controllable
 
 import dev.nextftc.core.command.Command
-import dev.nextftc.core.subsystems.Subsystem
 import dev.nextftc.control.ControlSystem
 import dev.nextftc.control.KineticState
 

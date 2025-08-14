@@ -20,7 +20,6 @@ package dev.nextftc.hardware.positionable
 
 import dev.nextftc.core.command.Command
 import dev.nextftc.core.command.utility.InstantCommand
-import dev.nextftc.hardware.positionable.SetPositions
 
 /**
  * A [Command] that moves one or more [Positionable]s to one or more positions
