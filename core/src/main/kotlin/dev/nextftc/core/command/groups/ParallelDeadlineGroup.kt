@@ -24,7 +24,7 @@ class ParallelDeadlineGroup(private val deadline: Command, vararg otherCommands:
     ParallelGroup(deadline, *otherCommands) {
 
     init {
-        named("ParallelDeadlineGroup(${deadline.name} | ${children.joinToString { it.name }})")
+        named("ParallelDeadlineGroup(${deadline.name} | ${otherCommands.joinToString { it.name }})")
     }
 
     /**
