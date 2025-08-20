@@ -32,6 +32,10 @@ import dev.nextftc.core.command.groups.ParallelGroup
 class Delay(
     private val time: TimeSpan = TimeSpan.Companion.ZERO
 ) : Command() {
+    init {
+        named("Delay(${time.inSec}s)")
+    }
+
     /**
      * @param time the desired duration of this command, in seconds
      */
