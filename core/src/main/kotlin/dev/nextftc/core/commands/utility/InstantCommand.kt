@@ -24,9 +24,16 @@ package dev.nextftc.core.commands.utility
  * (since the command finishes instantly).
  * All code should be put in the lambda argument.
  *
+ * @param name the name of the command
  * @param lambda the lambda to execute
  */
-open class InstantCommand(lambda: Runnable) : LambdaCommand() {
+open class InstantCommand(name: String, lambda: Runnable) : LambdaCommand(name) {
+    /**
+     * Creates an InstantCommand with the given lambda.
+     * @param lambda the lambda to execute
+     */
+    constructor(lambda: Runnable) : this("InstantCommand", lambda)
+
     init {
         super.setStart(lambda)
         super.setIsDone { true }
