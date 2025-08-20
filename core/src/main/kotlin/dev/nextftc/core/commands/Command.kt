@@ -64,6 +64,8 @@ abstract class Command : Runnable {
     var name: String = this::class.simpleName ?: "Command"
         private set
 
+    override fun toString() = name
+
     /**
      * Called once when the command is first started
      */
