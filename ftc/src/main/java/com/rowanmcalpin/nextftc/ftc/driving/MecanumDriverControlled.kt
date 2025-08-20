@@ -98,10 +98,10 @@ class MecanumDriverControlled @JvmOverloads constructor(private val motors: Arra
             val frontRightPower = (y - x - rx) / denominator
             val backRightPower = (y + x - rx) / denominator
 
-            motors[0].power = (frontLeftPower)
-            motors[1].power = (frontRightPower)
-            motors[2].power = (backLeftPower)
-            motors[3].power = (backRightPower)
+            motors[0].power = (frontLeftPower * scalar)
+            motors[1].power = (frontRightPower * scalar)
+            motors[2].power = (backLeftPower * scalar)
+            motors[3].power = (backRightPower * scalar)
         }
     }
 }
