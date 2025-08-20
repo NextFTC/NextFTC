@@ -25,10 +25,15 @@ import java.util.function.Supplier
 /**
  * A [Command] that is created using lambdas to define each function instead of manually overriding
  * the functions.
+ * @param name The name of the command
  * @author BeepBot99
  */
 
-open class LambdaCommand : Command() {
+open class LambdaCommand @JvmOverloads constructor(name: String = "LambdaCommand") : Command() {
+    init {
+        named(name)
+    }
+
     private var isDoneLambda = Supplier<Boolean> { true }
     private var startLambda = Runnable { }
     private var updateLambda = Runnable { }
@@ -83,4 +88,16 @@ open class LambdaCommand : Command() {
      */
     override fun setInterruptible(interruptible: Boolean) =
         apply { super.setInterruptible(interruptible) }
+
+
+    /**
+     * Sets the name of this command for use in debugging and telemetry.
+     */
+    override fun named(name: String) =
+        apply { super.named(name) }
+
+    /**
+     * Sets the name of this command for use in debugging and telemetry.
+     */
+    override fun setName(name: String) = named(name)
 }

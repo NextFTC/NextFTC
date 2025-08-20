@@ -170,7 +170,7 @@ abstract class Command : Runnable {
     /**
      * Sets the name of this command for use in debugging and telemetry.
      */
-    open fun withName(name: String) = named(name)
+    open fun setName(name: String) = named(name)
 
     // endregion
 
