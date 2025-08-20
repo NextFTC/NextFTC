@@ -23,6 +23,10 @@ import dev.nextftc.core.commands.Command
 class ParallelDeadlineGroup(private val deadline: Command, vararg otherCommands: Command) :
     ParallelGroup(deadline, *otherCommands) {
 
+    init {
+        named("ParallelDeadlineGroup(${deadline.name} | ${otherCommands.joinToString { it.name }})")
+    }
+
     /**
      * This will return false until the deadline command is done.
      */

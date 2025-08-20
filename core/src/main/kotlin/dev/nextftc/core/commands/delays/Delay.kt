@@ -24,6 +24,7 @@ import dev.nextftc.core.units.JDuration
 import kotlin.time.ComparableTimeMark
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
+import kotlin.time.DurationUnit
 import kotlin.time.TimeSource.Monotonic.markNow
 import kotlin.time.toKotlinDuration
 
@@ -36,6 +37,10 @@ import kotlin.time.toKotlinDuration
 class Delay(
     private val time: Duration
 ) : Command() {
+    init {
+        named("Delay(${time.toDouble(DurationUnit.SECONDS)}s)")
+    }
+
     /**
      * @param time the desired duration of this command, in seconds
      */

@@ -25,6 +25,9 @@ import dev.nextftc.core.commands.Command
  * at which point it stops all of its children.
  */
 class ParallelRaceGroup(vararg commands: Command) : ParallelGroup(*commands) {
+    init {
+        named("ParallelRaceGroup(${children.joinToString { it.name }})")
+    }
 
     /**
      * This will return false until one of its children is done
