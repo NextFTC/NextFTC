@@ -19,11 +19,12 @@
 package dev.nextftc.core.commands.utility
 
 /**
- * This is a LambdaCommand that sets isDone to true instantly. As such, there is no update or stop
- * lambda (since the command finishes instantly). All code should be put in the startLambda.
+ * This is a LambdaCommand that sets isDone to true instantly.
+ * As such, there is no update or stop lambda
+ * (since the command finishes instantly).
+ * All code should be put in the lambda argument.
  *
  * @param lambda the lambda to execute
- * @param subsystemCollection a set of subsystems this command implements
  */
 open class InstantCommand(lambda: Runnable) : LambdaCommand() {
     init {

@@ -32,7 +32,7 @@ open class ParallelGroup(vararg commands: Command) : CommandGroup(*commands) {
 
     init {
         val noConflicts = commands
-            .flatMap { it.subsystems }
+            .flatMap { it.requirements }
             .groupBy { it }
             .none { it.value.size > 1 }
         check(noConflicts) { "Two or more commands passed to ParallelGroup share one or more requirements" }

@@ -45,15 +45,17 @@ abstract class Command : Runnable {
     abstract val isDone: Boolean
 
     /**
-     * Whether this command can be stopped due to a conflict of [Subsystem]s.
+     * Whether this command can be stopped due to a conflict of requirements.
      */
     var interruptible = true
         private set
 
     /**
-     * A set of all Subsystems this command implements.
+     * A Command's requirements are objects that the command directly uses.
+     * These are often, but not always, [dev.nextftc.core.subsystems.Subsystem]s.
+     * [CommandManager] checks for conflicts of requirements when a command is to be scheduled.
      */
-    val subsystems: MutableSet<Subsystem> = mutableSetOf()
+    val requirements: MutableSet<Any> = mutableSetOf()
 
     /**
      * Called once when the command is first started
@@ -103,22 +105,48 @@ abstract class Command : Runnable {
 
     // region Property Setters
 
-    open fun setSubsystems(vararg subsystems: Subsystem) = apply {
-        this.subsystems.clear()
-        this.subsystems.addAll(subsystems)
+    /**
+     * Adds the passed requirements to this command's requirements.
+     * @param requirements the requirements to add
+     */
+    open fun requires(vararg requirements: Any) = apply {
+        this.requirements.addAll(requirements)
     }
 
-    open fun setSubsystems(subsystems: Set<Subsystem>) = apply {
-        this.subsystems.clear()
-        this.subsystems.addAll(subsystems)
+    /**
+     * Sets the requirements of this command to the passed requirements,
+     * overwriting any previous requirements.
+     * @param requirements the requirements to set
+     */
+    open fun setRequirements(vararg requirements: Any) = apply {
+        this.requirements.clear()
+        this.requirements.addAll(requirements)
     }
 
-    fun addSubsystems(vararg subsystems: Subsystem) = apply {
-        this.subsystems.addAll(subsystems)
+    /**
+     * Sets the requirements of this command to the passed requirements,
+     * overwriting any previous requirements.
+     * @param requirements the requirements to set
+     */
+    open fun setRequirements(requirements: Set<Any>) = apply {
+        this.requirements.clear()
+        this.requirements.addAll(requirements)
     }
 
-    fun addSubsystems(subsystems: Set<Subsystem>) = apply {
-        this.subsystems.addAll(subsystems)
+    /**
+     * Adds the passed requirements to this command's requirements.
+     * @param requirements the requirements to add
+     */
+    fun addRequirements(vararg requirements: Any) = apply {
+        this.requirements.addAll(requirements)
+    }
+
+    /**
+     * Adds the passed requirements to this command's requirements.
+     * @param requirements the requirements to add
+     */
+    fun addRequirements(requirements: Set<Any>) = apply {
+        this.requirements.addAll(requirements)
     }
 
     open fun setInterruptible(interruptible: Boolean) = apply {

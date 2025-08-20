@@ -33,7 +33,7 @@ object CommandManager : Component {
     /**
      * Actively running commands.
      */
-    val runningCommands = mutableListOf<Command>()
+    private val runningCommands = mutableListOf<Command>()
 
     /**
      * Commands that haven't been started yet.
@@ -119,21 +119,24 @@ object CommandManager : Component {
     }
 
     /**
-     * Initializes a command. This function first scans to find any conflicts (other commands using
-     * the same subsystem). It then checks to see if any of those commands are not interruptible. If
-     * some of them aren't interruptible, it ends the initialization process and does not schedule
-     * the new command. Otherwise, it cancels the conflicts, runs the new command's start function,
+     * Initializes a command.
+     * This function first scans to find any conflicts
+     * (other commands using the same requirement).
+     * It then checks to see if any of those commands are not interruptible.
+     * If some of them aren't interruptible,
+     * it ends the initialization process and does not schedule the new command.
+     * Otherwise, it cancels the conflicts, runs the new command's start function,
      * and adds it to the list of runningCommands.
      * @param command the new command being initialized
      */
     private fun initCommand(command: Command) {
-        val subsystems = expandSubsystems(command.subsystems)
+        val requirements = expandRequirements(command.requirements)
 
         for (otherCommand in runningCommands) {
-            val otherSubsystems = expandSubsystems(otherCommand.subsystems)
+            val otherRequirements = expandRequirements(otherCommand.requirements)
 
-            for (requirement in subsystems) {
-                if (otherSubsystems.contains(requirement)) {
+            for (requirement in requirements) {
+                if (otherRequirements.contains(requirement)) {
                     if (otherCommand.interruptible) {
                         commandsToCancel += Pair(otherCommand, true)
                     } else {
@@ -148,29 +151,9 @@ object CommandManager : Component {
     }
 
     /**
-     * Given a set of subsystems (including groups), this extracts the subsystems from within those
-     * groups and returns the set of the subsystems in the set plus the subsystems that are children
-     * of the groups (if any).
-     * @param subsystems the set of subsystems to expand
-     * @return the expanded set of subsystems
-     */
-    fun expandSubsystems(subsystems: Set<Subsystem>): Set<Subsystem> {
-        val expanded = mutableListOf<Subsystem>()
-
-        for (subsystem in subsystems) {
-            if (subsystem is SubsystemGroup) {
-                expanded += expandSubsystemGroup(subsystem)
-            }
-            expanded += subsystem
-        }
-
-        return expanded.toSet()
-    }
-
-    /**
      * Expands a subsystem group (recursively)
      */
-    private fun expandSubsystemGroup(group: SubsystemGroup): List<Subsystem> {
+    private fun expandSubsystemGroup(group: SubsystemGroup): Set<Subsystem> {
         val expanded = mutableListOf<Subsystem>()
 
         for (child in group.subsystems) {
@@ -180,8 +163,22 @@ object CommandManager : Component {
             expanded += child
         }
 
-        return expanded
+        return expanded.toSet()
     }
+
+
+    /**
+     * Recursively expands requirements to ensure they are not hidden
+     * behind SubsystemGroups or other collections
+     */
+    private fun expandRequirements(reqs: Collection<*>): Set<Any> =
+        reqs.map {
+            when (it) {
+                is SubsystemGroup -> expandSubsystemGroup(it)
+                is Collection<*> -> expandRequirements(it)
+                else -> setOf(it)
+            }
+        }.toSet()
 
     /**
      * Ends a command and removes it from the runningCommands list.
@@ -228,16 +225,16 @@ object CommandManager : Component {
         return foundCommands
     }
 
-    fun hasCommandsUsing(subsystem: Subsystem): Boolean {
-        return runningCommands.any { it.subsystems.contains(subsystem) }
+    fun hasCommandsUsing(requirement: Any): Boolean {
+        return runningCommands.any { it.requirements.contains(requirement) }
     }
 
     fun findConflicts(command: Command): List<Command> {
         val foundConflicts: MutableList<Command> = mutableListOf()
 
         for (otherCommand in runningCommands) {
-            for (requirement in command.subsystems) {
-                if (otherCommand.subsystems.contains(requirement)) {
+            for (requirement in command.requirements) {
+                if (otherCommand.requirements.contains(requirement)) {
                     foundConflicts += otherCommand
                 }
             }

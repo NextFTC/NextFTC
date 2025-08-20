@@ -29,8 +29,6 @@ import dev.nextftc.control.KineticState
  * @param system the system to control
  * @param goal the goal for the [system]
  * @param tolerance tolerance to be considered "at" the [goal]
- * @param subsystems  the list of [Subsystem]s this command interacts with (should be whatever
- *                      subsystem holds this command)
  */
 class RunToPosition @JvmOverloads constructor(
     system: ControlSystem,

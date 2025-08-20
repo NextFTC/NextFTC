@@ -27,7 +27,7 @@ abstract class DriverControlledCommand(vararg val joystickPowers: Supplier<Doubl
     var scalar: Double = 1.0
 
     init {
-        setSubsystems(Drivetrain)
+        requires(Drivetrain)
     }
 
     abstract fun calculateAndSetPowers(powers: DoubleArray)

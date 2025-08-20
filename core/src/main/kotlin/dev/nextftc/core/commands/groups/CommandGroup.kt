@@ -22,7 +22,8 @@ import dev.nextftc.core.commands.Command
 import dev.nextftc.core.commands.EmptyGroupException
 
 /**
- * A command that schedules other commands at certain times. Inherits all subsystems of its children.
+ * A command that schedules other commands at certain times.
+ * Inherits all requirements of its children.
  */
 abstract class CommandGroup(vararg val commands: Command) : Command() {
 
@@ -32,7 +33,7 @@ abstract class CommandGroup(vararg val commands: Command) : Command() {
     val children: ArrayDeque<Command> = ArrayDeque(commands.toList())
 
     init {
-        setSubsystems(commands.flatMap { it.subsystems }.toSet())
+        setRequirements(commands.flatMap { it.requirements }.toSet())
         if (commands.isEmpty()) throw EmptyGroupException()
     }
 

@@ -19,7 +19,6 @@
 package dev.nextftc.core.commands.utility
 
 import dev.nextftc.core.commands.Command
-import dev.nextftc.core.subsystems.Subsystem
 import java.util.function.Consumer
 import java.util.function.Supplier
 
@@ -57,16 +56,22 @@ open class LambdaCommand : Command() {
     fun setStop(stop: Consumer<Boolean>) = apply { stopLambda = stop }
 
     /**
-     * Sets the subsystems that the command implements
+     * Adds [requirements] to the requirements that the command implements
      */
-    override fun setSubsystems(subsystems: Set<Subsystem>) =
-        apply { super.setSubsystems(subsystems) }
+    override fun requires(vararg requirements: Any) =
+        apply { super.requires(requirements) }
 
     /**
-     * Sets the subsystems that the command implements
+     * Sets the requirements that the command implements
      */
-    override fun setSubsystems(vararg subsystems: Subsystem) =
-        apply { super.setSubsystems(*subsystems) }
+    override fun setRequirements(requirements: Set<Any>) =
+        apply { super.setRequirements(requirements) }
+
+    /**
+     * Sets the requirements that the command implements
+     */
+    override fun setRequirements(vararg requirements: Any) =
+        apply { super.setRequirements(*requirements) }
 
     /**
      * Sets the function that returns whether the command has finished running
@@ -74,7 +79,7 @@ open class LambdaCommand : Command() {
     fun setIsDone(done: Supplier<Boolean>) = apply { isDoneLambda = done }
 
     /**
-     * Sets whether the command can be stopped due to an overlap of subsystems
+     * Sets whether the command can be stopped due to an overlap of requirements
      */
     override fun setInterruptible(interruptible: Boolean) =
         apply { super.setInterruptible(interruptible) }
