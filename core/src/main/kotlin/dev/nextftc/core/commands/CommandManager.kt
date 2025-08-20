@@ -42,12 +42,6 @@ object CommandManager : Component {
     val snapshot: List<String> get() = runningCommands.map { it.name }
 
     /**
-     * The names of the current [runningCommands].
-     */
-    @get:JvmName("snapshot")
-    val snapshot: List<String> get() = runningCommands.map { it.name }
-
-    /**
      * Commands that haven't been started yet.
      */
     private val commandsToSchedule = mutableListOf<Command>()
