@@ -103,12 +103,10 @@ abstract class Command : Runnable {
     // region Property Setters
 
     /**
-     * Sets the requirements of this command to the passed requirements,
-     * overwriting any previous requirements.
-     * @param requirements the requirements to set
+     * Adds the passed requirements to this command's requirements.
+     * @param requirements the requirements to add
      */
     open fun requires(vararg requirements: Any) = apply {
-        this.requirements.clear()
         this.requirements.addAll(requirements)
     }
 
@@ -117,7 +115,10 @@ abstract class Command : Runnable {
      * overwriting any previous requirements.
      * @param requirements the requirements to set
      */
-    open fun setRequirements(vararg requirements: Any) = requires(requirements)
+    open fun setRequirements(vararg requirements: Any) = apply {
+        this.requirements.clear()
+        this.requirements.addAll(requirements)
+    }
 
     /**
      * Sets the requirements of this command to the passed requirements,
