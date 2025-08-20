@@ -24,6 +24,10 @@ import dev.nextftc.core.command.Command
  * A [CommandGroup] that runs all of its children simultaneously.
  */
 open class ParallelGroup(vararg commands: Command) : CommandGroup(*commands) {
+    init {
+        named("ParallelGroup(${children.joinToString { it.name }})")
+    }
+
     /**
      * This will return false until all of its children are done
      */
