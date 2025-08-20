@@ -21,6 +21,7 @@ subprojects {
             }
             developer("Davis Luxenberg", "davis.luxenberg@outlook.com", url = "https://github.com/BeepBot99")
             developer("Rowan McAlpin", "rowan@nextftc.dev", url = "https://rowanmcalpin.com")
+            developer("Zach Harel", "ftc@zharel.me", url = "https://github.com/zachwaffle4")
         }
     }
 }
