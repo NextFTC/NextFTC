@@ -16,20 +16,18 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.nextftc.core.command.utility
-
-import dev.nextftc.core.command.Command
-import dev.nextftc.core.command.CommandManager
+package dev.nextftc.core.commands.utility
 
 /**
- * This is a command that will run in parallel even if it's in a SequentialGroup.
+ * This is a LambdaCommand that sets isDone to true instantly. As such, there is no update or stop
+ * lambda (since the command finishes instantly). All code should be put in the startLambda.
  *
- * @param command the command to run in parallel
+ * @param lambda the lambda to execute
+ * @param subsystemCollection a set of subsystems this command implements
  */
-class ForcedParallelCommand(val command: Command) : Command() {
-    override val isDone = true
-
-    override fun start() {
-        CommandManager.scheduleCommand(command)
+open class InstantCommand(lambda: Runnable) : LambdaCommand() {
+    init {
+        super.setStart(lambda)
+        super.setIsDone { true }
     }
 }

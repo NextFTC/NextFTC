@@ -16,28 +16,15 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.nextftc.core.command.groups
+package dev.nextftc.core.commands.utility
 
-import dev.nextftc.core.command.Command
-import dev.nextftc.core.command.EmptyGroupException
+import dev.nextftc.core.commands.Command
 
 /**
- * A command that schedules other commands at certain times. Inherits all subsystems of its children.
+ * This command does nothing and serves as a placeholder. It is designed to use up as little
+ * processing space as possible, by setting isDone to true instantly.
+ * @param parameters used for when it is a placeholder for a command that takes parameters
  */
-abstract class CommandGroup(vararg val commands: Command) : Command() {
-
-    /**
-     * The collection of all commands within this group.
-     */
-    val children: ArrayDeque<Command> = ArrayDeque(commands.toList())
-
-    init {
-        setSubsystems(commands.flatMap { it.subsystems }.toSet())
-        if (commands.isEmpty()) throw EmptyGroupException()
-    }
-
-    override fun stop(interrupted: Boolean) {
-        children.clear()
-        children.addAll(commands)
-    }
+class NullCommand(vararg parameters: Any) : Command() {
+    override val isDone = true
 }

@@ -16,9 +16,9 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.nextftc.core.command
+package dev.nextftc.core.commands
 
-import dev.nextftc.core.command.groups.CommandGroup
+import dev.nextftc.core.commands.groups.CommandGroup
 import dev.nextftc.core.components.Component
 import dev.nextftc.core.subsystems.Subsystem
 import dev.nextftc.core.subsystems.SubsystemGroup

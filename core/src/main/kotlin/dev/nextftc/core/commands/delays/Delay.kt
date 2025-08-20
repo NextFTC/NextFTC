@@ -16,10 +16,10 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.nextftc.core.command.utility.delays
+package dev.nextftc.core.commands.delays
 
-import dev.nextftc.core.command.Command
-import dev.nextftc.core.command.groups.ParallelGroup
+import dev.nextftc.core.commands.Command
+import dev.nextftc.core.commands.groups.ParallelGroup
 import dev.nextftc.core.units.JDuration
 import kotlin.time.ComparableTimeMark
 import kotlin.time.Duration

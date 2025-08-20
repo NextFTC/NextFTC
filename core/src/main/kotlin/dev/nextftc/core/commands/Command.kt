@@ -16,15 +16,15 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.nextftc.core.command
+package dev.nextftc.core.commands
 
-import dev.nextftc.core.command.groups.ParallelDeadlineGroup
-import dev.nextftc.core.command.groups.ParallelGroup
-import dev.nextftc.core.command.groups.ParallelRaceGroup
-import dev.nextftc.core.command.groups.SequentialGroup
-import dev.nextftc.core.command.utility.ForcedParallelCommand
-import dev.nextftc.core.command.utility.PerpetualCommand
-import dev.nextftc.core.command.utility.delays.Delay
+import dev.nextftc.core.commands.groups.ParallelDeadlineGroup
+import dev.nextftc.core.commands.groups.ParallelGroup
+import dev.nextftc.core.commands.groups.ParallelRaceGroup
+import dev.nextftc.core.commands.groups.SequentialGroup
+import dev.nextftc.core.commands.utility.ForcedParallelCommand
+import dev.nextftc.core.commands.utility.PerpetualCommand
+import dev.nextftc.core.commands.delays.Delay
 import dev.nextftc.core.subsystems.Subsystem
 import dev.nextftc.core.units.JDuration
 import kotlin.time.Duration

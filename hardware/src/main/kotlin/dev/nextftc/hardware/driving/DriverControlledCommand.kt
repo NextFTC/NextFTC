@@ -18,7 +18,7 @@
 
 package dev.nextftc.hardware.driving
 
-import dev.nextftc.core.command.Command
+import dev.nextftc.core.commands.Command
 import java.util.function.Supplier
 
 abstract class DriverControlledCommand(vararg val joystickPowers: Supplier<Double>) : Command() {

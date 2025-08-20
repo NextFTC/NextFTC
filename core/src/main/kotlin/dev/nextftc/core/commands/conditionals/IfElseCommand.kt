@@ -16,23 +16,23 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.nextftc.core.command.utility.conditionals
+package dev.nextftc.core.commands.conditionals
 
-import dev.nextftc.core.command.Command
-import dev.nextftc.core.command.utility.NullCommand
+import dev.nextftc.core.commands.Command
+import dev.nextftc.core.commands.utility.NullCommand
 
 /**
- * This behaves like the command-form of a switch statement. You provide it with a value to
- * reference, and a list of options of outcomes. It is blocking, meaning `isDone` will not return
- * `true` until the scheduled command(s) have completed running.
- * @param value the value to reference
- * @param outcomes all of the options for outcomes
- * @param default the command to schedule if none of the outcomes are fulfilled
+ * This command behaves as an `if` statement, and schedules commands based on the result of the if
+ * statement. It is blocking, meaning `isDone` will not return `true` until the scheduled command
+ * has completed running.
+ * @param condition the condition to reference
+ * @param trueCommand the command to schedule if the reference is true
+ * @param falseCommand the command to schedule if the reference is false
  */
-class SwitchCommand<T> @JvmOverloads constructor(
-    private val value: () -> T,
-    private val outcomes: Map<T, Command> = emptyMap(),
-    private val default: Command = NullCommand()
+class IfElseCommand @JvmOverloads constructor(
+    private val condition: () -> Boolean,
+    private val trueCommand: Command,
+    private val falseCommand: Command = NullCommand()
 ) : Command() {
 
     private lateinit var selectedCommand: Command
@@ -40,16 +40,11 @@ class SwitchCommand<T> @JvmOverloads constructor(
     override val isDone: Boolean by selectedCommand::isDone
 
     override fun start() {
-        selectedCommand = outcomes[value()] ?: default
+        selectedCommand = if (condition()) trueCommand else falseCommand
         selectedCommand.start()
     }
 
     override fun update() = selectedCommand.update()
 
     override fun stop(interrupted: Boolean) = selectedCommand.stop(interrupted)
-
-    fun withCase(case: T, command: Command) =
-        SwitchCommand(value, outcomes + (case to command), default)
-
-    fun withDefault(command: Command) = SwitchCommand(value, outcomes, command)
 }

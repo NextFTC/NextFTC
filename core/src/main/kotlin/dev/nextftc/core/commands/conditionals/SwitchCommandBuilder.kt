@@ -16,13 +16,28 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.nextftc.core.command
+package dev.nextftc.core.commands.conditionals
 
-class GamepadNotConnectedException(val gamepad: Int) :
-    Exception("Gamepad $gamepad is not connected.")
+import dev.nextftc.core.commands.Command
+import dev.nextftc.core.commands.utility.NullCommand
 
-class EmptyGroupException() :
-    IllegalArgumentException("CommandGroups must contain at least one element.")
+class SwitchCommandBuilder<T> internal constructor(val value: () -> T) {
+    var default: Command = NullCommand()
+    private val outcomes: MutableMap<T, Command> = mutableMapOf()
 
-class StateNotSetException() :
-    IllegalStateException("State must be set before scheduling the command")
+    fun case(case: T, command: Command) {
+        outcomes += case to command
+    }
+
+    internal fun build() = SwitchCommand(
+        value,
+        outcomes,
+        default
+    )
+}
+
+fun <T> switchCommand(value: () -> T, init: SwitchCommandBuilder<T>.() -> Unit): SwitchCommand<T> {
+    val builder = SwitchCommandBuilder(value)
+    builder.init()
+    return builder.build()
+}

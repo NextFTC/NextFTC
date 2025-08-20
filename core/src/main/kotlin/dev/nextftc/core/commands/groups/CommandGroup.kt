@@ -16,28 +16,28 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.nextftc.core.command.utility.conditionals
+package dev.nextftc.core.commands.groups
 
-import dev.nextftc.core.command.Command
-import dev.nextftc.core.command.utility.NullCommand
+import dev.nextftc.core.commands.Command
+import dev.nextftc.core.commands.EmptyGroupException
 
-class SwitchCommandBuilder<T> internal constructor(val value: () -> T) {
-    var default: Command = NullCommand()
-    private val outcomes: MutableMap<T, Command> = mutableMapOf()
+/**
+ * A command that schedules other commands at certain times. Inherits all subsystems of its children.
+ */
+abstract class CommandGroup(vararg val commands: Command) : Command() {
 
-    fun case(case: T, command: Command) {
-        outcomes += case to command
+    /**
+     * The collection of all commands within this group.
+     */
+    val children: ArrayDeque<Command> = ArrayDeque(commands.toList())
+
+    init {
+        setSubsystems(commands.flatMap { it.subsystems }.toSet())
+        if (commands.isEmpty()) throw EmptyGroupException()
     }
 
-    internal fun build() = SwitchCommand(
-        value,
-        outcomes,
-        default
-    )
-}
-
-fun <T> switchCommand(value: () -> T, init: SwitchCommandBuilder<T>.() -> Unit): SwitchCommand<T> {
-    val builder = SwitchCommandBuilder(value)
-    builder.init()
-    return builder.build()
+    override fun stop(interrupted: Boolean) {
+        children.clear()
+        children.addAll(commands)
+    }
 }

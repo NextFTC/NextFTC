@@ -16,15 +16,13 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.nextftc.core.command.groups
+package dev.nextftc.core.commands
 
-import dev.nextftc.core.command.Command
+class GamepadNotConnectedException(val gamepad: Int) :
+    Exception("Gamepad $gamepad is not connected.")
 
-class ParallelDeadlineGroup(private val deadline: Command, vararg otherCommands: Command) :
-    ParallelGroup(deadline, *otherCommands) {
+class EmptyGroupException() :
+    IllegalArgumentException("CommandGroups must contain at least one element.")
 
-    /**
-     * This will return false until the deadline command is done.
-     */
-    override val isDone: Boolean by deadline::isDone
-}
+class StateNotSetException() :
+    IllegalStateException("State must be set before scheduling the command")

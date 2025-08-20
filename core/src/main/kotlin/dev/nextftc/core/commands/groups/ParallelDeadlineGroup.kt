@@ -16,15 +16,15 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.nextftc.core.command.utility
+package dev.nextftc.core.commands.groups
 
-import dev.nextftc.core.command.Command
+import dev.nextftc.core.commands.Command
 
-/**
- * This command does nothing and serves as a placeholder. It is designed to use up as little
- * processing space as possible, by setting isDone to true instantly.
- * @param parameters used for when it is a placeholder for a command that takes parameters
- */
-class NullCommand(vararg parameters: Any) : Command() {
-    override val isDone = true
+class ParallelDeadlineGroup(private val deadline: Command, vararg otherCommands: Command) :
+    ParallelGroup(deadline, *otherCommands) {
+
+    /**
+     * This will return false until the deadline command is done.
+     */
+    override val isDone: Boolean by deadline::isDone
 }
