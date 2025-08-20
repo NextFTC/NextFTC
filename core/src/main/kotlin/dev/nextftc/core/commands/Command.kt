@@ -67,6 +67,15 @@ abstract class Command : Runnable {
     override fun toString() = name
 
     /**
+     * The name of this command, used for debugging and telemetry.
+     */
+    @get:JvmName("name")
+    var name: String = this::class.simpleName ?: "Command"
+        private set
+
+    override fun toString() = name
+
+    /**
      * Called once when the command is first started
      */
     open fun start() {}
