@@ -56,7 +56,7 @@ open class LambdaCommand : Command() {
     fun setStop(stop: Consumer<Boolean>) = apply { stopLambda = stop }
 
     /**
-     * Sets the requirements that the command implements
+     * Adds [requirements] to the requirements that the command implements
      */
     override fun requires(vararg requirements: Any) =
         apply { super.requires(requirements) }
