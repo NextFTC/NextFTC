@@ -58,6 +58,12 @@ open class LambdaCommand : Command() {
     /**
      * Sets the requirements that the command implements
      */
+    override fun requires(vararg requirements: Any) =
+        apply { super.requires(requirements) }
+
+    /**
+     * Sets the requirements that the command implements
+     */
     override fun setRequirements(requirements: Set<Any>) =
         apply { super.setRequirements(requirements) }
 

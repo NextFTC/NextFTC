@@ -50,7 +50,7 @@ abstract class Command : Runnable {
     /**
      * A Command's requirements are objects that the command directly uses.
      * These are often, but not always, [dev.nextftc.core.subsystems.Subsystem]s.
-     * The Command Manager checks for conflicts of requirements when a command is to be scheduled.
+     * [CommandManager] checks for conflicts of requirements when a command is to be scheduled.
      */
     val requirements: MutableSet<Any> = mutableSetOf()
 
@@ -107,17 +107,17 @@ abstract class Command : Runnable {
      * overwriting any previous requirements.
      * @param requirements the requirements to set
      */
-    open fun requires(vararg requirements: Any) = setRequirements(*requirements)
+    open fun requires(vararg requirements: Any) = apply {
+        this.requirements.clear()
+        this.requirements.addAll(requirements)
+    }
 
     /**
      * Sets the requirements of this command to the passed requirements,
      * overwriting any previous requirements.
      * @param requirements the requirements to set
      */
-    open fun setRequirements(vararg requirements: Any) = apply {
-        this.requirements.clear()
-        this.requirements.addAll(requirements)
-    }
+    open fun setRequirements(vararg requirements: Any) = requires(requirements)
 
     /**
      * Sets the requirements of this command to the passed requirements,
