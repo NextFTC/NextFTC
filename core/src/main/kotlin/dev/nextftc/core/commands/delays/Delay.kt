@@ -36,6 +36,10 @@ import kotlin.time.toKotlinDuration
 class Delay(
     private val time: Duration
 ) : Command() {
+    init {
+        named("Delay(${time.inSec}s)")
+    }
+
     /**
      * @param time the desired duration of this command, in seconds
      */
