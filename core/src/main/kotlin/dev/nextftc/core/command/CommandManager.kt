@@ -33,7 +33,7 @@ object CommandManager : Component {
     /**
      * Actively running commands.
      */
-    val runningCommands = mutableListOf<Command>()
+    private val runningCommands = mutableListOf<Command>()
 
     /**
      * Commands that haven't been started yet.
