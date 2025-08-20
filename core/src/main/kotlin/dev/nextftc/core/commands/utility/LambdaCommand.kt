@@ -31,7 +31,11 @@ import java.util.function.Supplier
 
 open class LambdaCommand @JvmOverloads constructor(name: String = "LambdaCommand") : Command() {
     init {
-        named(name)
+        if (name.isBlank() || name == "LambdaCommand") {
+            named(this::class.simpleName ?: "LambdaCommand")
+        } else {
+            named(name)
+        }
     }
 
     private var isDoneLambda = Supplier<Boolean> { true }
