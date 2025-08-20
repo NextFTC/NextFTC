@@ -26,8 +26,10 @@ import dev.nextftc.core.command.utility.ForcedParallelCommand
 import dev.nextftc.core.command.utility.PerpetualCommand
 import dev.nextftc.core.command.utility.delays.Delay
 import dev.nextftc.core.subsystems.Subsystem
-import dev.nextftc.core.units.TimeSpan
-import dev.nextftc.core.units.sec
+import dev.nextftc.core.units.JDuration
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.toKotlinDuration
 
 /**
  * A discrete unit of functionality that runs simultaneous to all other commands.
@@ -131,7 +133,7 @@ abstract class Command : Runnable {
      * Returns a [ParallelRaceGroup] with this command and a [Delay] of [time]
      * @param time the time-span for the [Delay]
      */
-    fun endAfter(time: TimeSpan) = ParallelRaceGroup(
+    fun endAfter(time: Duration) = ParallelRaceGroup(
         this,
         Delay(time)
     )
@@ -140,13 +142,9 @@ abstract class Command : Runnable {
      * Returns a [ParallelRaceGroup] with this command and a [Delay] of [time]
      * @param time the time-span for the [Delay], in seconds
      */
-    fun endAfter(time: Double) = endAfter(time.sec)
+    fun endAfter(time: Double) = endAfter(time.seconds)
 
-    /**
-     * Returns a [ParallelRaceGroup] with this command and a [Delay] of [time]
-     * @param time the time-span for the [Delay], in seconds
-     */
-    fun endAfter(time: Int) = endAfter(time.sec)
+    fun endAfter(time: JDuration) = endAfter(time.toKotlinDuration())
 
     /**
      * Returns a [SequentialGroup] with this command and an arbitrary number of other commands
@@ -184,7 +182,7 @@ abstract class Command : Runnable {
      * Returns a [SequentialGroup] with a [Delay] and then this command
      * @param time the time-span for the [Delay]
      */
-    fun afterTime(time: TimeSpan) = SequentialGroup(
+    fun afterTime(time: Duration) = SequentialGroup(
         Delay(time),
         this
     )
@@ -193,19 +191,15 @@ abstract class Command : Runnable {
      * Returns a [SequentialGroup] with a [Delay] and then this command
      * @param time the time-span for the [Delay], in seconds
      */
-    fun afterTime(time: Double) = afterTime(time.sec)
+    fun afterTime(time: Double) = afterTime(time.seconds)
 
-    /**
-     * Returns a [SequentialGroup] with a [Delay] and then this command
-     * @param time the time-span for the [Delay], in seconds
-     */
-    fun afterTime(time: Int) = afterTime(time.sec)
+    fun afterTime(time: JDuration) = afterTime(time.toKotlinDuration())
 
     /**
      * Returns a [SequentialGroup] with this command and then a [Delay]
      * @param time the time-span for the [Delay]
      */
-    fun thenWait(time: TimeSpan) = SequentialGroup(
+    fun thenWait(time: Duration) = SequentialGroup(
         this,
         Delay(time)
     )
@@ -214,13 +208,9 @@ abstract class Command : Runnable {
      * Returns a [SequentialGroup] with this command and then a [Delay]
      * @param time the time-span for the [Delay], in seconds
      */
-    fun thenWait(time: Double) = thenWait(time.sec)
+    fun thenWait(time: Double) = thenWait(time.seconds)
 
-    /**
-     * Returns a [SequentialGroup] with this command and then a [Delay]
-     * @param time the time-span for the [Delay]
-     */
-    fun thenWait(time: Int) = thenWait(time.sec)
+    fun thenWait(time: JDuration) = thenWait(time.toKotlinDuration())
 
     /**
      * Returns a [ParallelDeadlineGroup] with this command and the passed command as the deadline

@@ -19,9 +19,13 @@
 package dev.nextftc.core.command.utility.delays
 
 import dev.nextftc.core.command.Command
-import dev.nextftc.core.units.TimeSpan
-import dev.nextftc.core.units.sec
 import dev.nextftc.core.command.groups.ParallelGroup
+import dev.nextftc.core.units.JDuration
+import kotlin.time.ComparableTimeMark
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.TimeSource.Monotonic.markNow
+import kotlin.time.toKotlinDuration
 
 /**
  * A [Command] that does nothing except wait until a certain amount of time has passed. Like all
@@ -30,24 +34,21 @@ import dev.nextftc.core.command.groups.ParallelGroup
  * @param time the desired duration of this command
  */
 class Delay(
-    private val time: TimeSpan = TimeSpan.Companion.ZERO
+    private val time: Duration
 ) : Command() {
     /**
      * @param time the desired duration of this command, in seconds
      */
-    constructor(time: Double) : this(time.sec)
+    constructor(time: Double) : this(time.seconds)
 
-    /**
-     * @param time the desired duration of this command, in seconds
-     */
-    constructor(time: Int) : this(time.sec)
+    constructor(time: JDuration) : this(time.toKotlinDuration())
 
-    private var startTime: Double = 0.0
+    private lateinit var startTime: ComparableTimeMark
 
     override val isDone: Boolean
-        get() = (System.nanoTime() / 1E9) - startTime >= time.inSec
+        get() = markNow() - startTime >= time
 
     override fun start() {
-        startTime = System.nanoTime().toDouble() / 1E9
+        startTime = markNow()
     }
 }
