@@ -16,10 +16,10 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.nextftc.core.command.utility.conditionals
+package dev.nextftc.core.commands.conditionals
 
-import dev.nextftc.core.command.Command
-import dev.nextftc.core.command.utility.NullCommand
+import dev.nextftc.core.commands.Command
+import dev.nextftc.core.commands.utility.NullCommand
 
 class SwitchCommandBuilder<T> internal constructor(val value: () -> T) {
     var default: Command = NullCommand()

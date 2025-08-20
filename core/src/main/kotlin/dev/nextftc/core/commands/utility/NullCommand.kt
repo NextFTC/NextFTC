@@ -16,20 +16,15 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.nextftc.core.command.utility
+package dev.nextftc.core.commands.utility
 
-import dev.nextftc.core.command.Command
-import dev.nextftc.core.command.CommandManager
+import dev.nextftc.core.commands.Command
 
 /**
- * This is a command that will run in parallel even if it's in a SequentialGroup.
- *
- * @param command the command to run in parallel
+ * This command does nothing and serves as a placeholder. It is designed to use up as little
+ * processing space as possible, by setting isDone to true instantly.
+ * @param parameters used for when it is a placeholder for a command that takes parameters
  */
-class ForcedParallelCommand(val command: Command) : Command() {
+class NullCommand(vararg parameters: Any) : Command() {
     override val isDone = true
-
-    override fun start() {
-        CommandManager.scheduleCommand(command)
-    }
 }

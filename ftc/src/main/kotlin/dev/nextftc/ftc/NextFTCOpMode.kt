@@ -20,12 +20,9 @@ package dev.nextftc.ftc
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
-import com.qualcomm.robotcore.hardware.DcMotorEx
-import dev.nextftc.core.command.CommandManager
+import dev.nextftc.core.commands.CommandManager
 import dev.nextftc.core.components.Component
 import dev.nextftc.ftc.components.Initializer
-import kotlin.properties.ReadOnlyProperty
-import kotlin.reflect.KProperty
 
 
 /**

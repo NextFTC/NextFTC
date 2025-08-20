@@ -16,15 +16,29 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.nextftc.core.command.groups
+package dev.nextftc.core.commands.groups
 
-import dev.nextftc.core.command.Command
+import dev.nextftc.core.commands.Command
+import dev.nextftc.core.commands.EmptyGroupException
 
-class ParallelDeadlineGroup(private val deadline: Command, vararg otherCommands: Command) :
-    ParallelGroup(deadline, *otherCommands) {
+/**
+ * A command that schedules other commands at certain times.
+ * Inherits all requirements of its children.
+ */
+abstract class CommandGroup(vararg val commands: Command) : Command() {
 
     /**
-     * This will return false until the deadline command is done.
+     * The collection of all commands within this group.
      */
-    override val isDone: Boolean by deadline::isDone
+    val children: ArrayDeque<Command> = ArrayDeque(commands.toList())
+
+    init {
+        setRequirements(commands.flatMap { it.requirements }.toSet())
+        if (commands.isEmpty()) throw EmptyGroupException()
+    }
+
+    override fun stop(interrupted: Boolean) {
+        children.clear()
+        children.addAll(commands)
+    }
 }

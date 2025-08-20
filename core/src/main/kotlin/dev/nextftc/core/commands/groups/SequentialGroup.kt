@@ -16,48 +16,44 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.nextftc.core.command.groups
+package dev.nextftc.core.commands.groups
 
-import dev.nextftc.core.command.Command
+import dev.nextftc.core.commands.Command
 
 /**
- * A [CommandGroup] that runs all of its children simultaneously.
+ * A [CommandGroup] that runs its children one at a time.
  */
-open class ParallelGroup(vararg commands: Command) : CommandGroup(*commands) {
+class SequentialGroup(vararg commands: Command) : CommandGroup(*commands) {
     /**
-     * This will return false until all of its children are done
+     * This returns true once all of its children have finished running.
      */
     override val isDone: Boolean
-        get() = children.all { it.isDone }
+        get() = children.isEmpty()
 
-    init {
-        val noConflicts = commands
-            .flatMap { it.requirements }
-            .groupBy { it }
-            .none { it.value.size > 1 }
-        check(noConflicts) { "Two or more commands passed to ParallelGroup share one or more requirements" }
-    }
-
+    /**
+     * In a Sequential Group, we will start the first command and wait until it has completed
+     * execution before starting the next.
+     */
     override fun start() {
-        children.forEach {
-            it.start()
-        }
+        children.first().start()
     }
 
+    /**
+     * Now, every update we must check if the currently active command is complete. If it is, remove
+     * it and start the next one (if there is one).
+     */
     override fun update() {
-        children.forEachIndexed { index, command ->
-            command.update()
-            if (!command.isDone) return
+        children.first().update()
 
-            command.stop(false)
-            children.removeAt(index)
-        }
+        if (!children.first().isDone) return
+
+        children.removeFirst().stop(false)
+
+        if (children.isNotEmpty()) children.first().start()
     }
 
     override fun stop(interrupted: Boolean) {
-        children.forEach {
-            it.stop(interrupted)
-        }
+        if (children.isNotEmpty()) children.first().stop(interrupted)
 
         super.stop(interrupted)
     }

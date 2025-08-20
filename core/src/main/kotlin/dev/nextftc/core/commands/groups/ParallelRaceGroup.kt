@@ -16,13 +16,19 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.nextftc.core.command
+package dev.nextftc.core.commands.groups
 
-class GamepadNotConnectedException(val gamepad: Int) :
-    Exception("Gamepad $gamepad is not connected.")
+import dev.nextftc.core.commands.Command
 
-class EmptyGroupException() :
-    IllegalArgumentException("CommandGroups must contain at least one element.")
+/**
+ * A [CommandGroup] that runs all of its children simultaneously until one of its children is done,
+ * at which point it stops all of its children.
+ */
+class ParallelRaceGroup(vararg commands: Command) : ParallelGroup(*commands) {
 
-class StateNotSetException() :
-    IllegalStateException("State must be set before scheduling the command")
+    /**
+     * This will return false until one of its children is done
+     */
+    override val isDone: Boolean
+        get() = children.any { it.isDone }
+}

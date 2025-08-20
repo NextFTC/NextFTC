@@ -16,19 +16,15 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.nextftc.core.command.utility
+package dev.nextftc.core.commands.groups
 
-/**
- * This is a LambdaCommand that sets isDone to true instantly.
- * As such, there is no update or stop lambda
- * (since the command finishes instantly).
- * All code should be put in the lambda argument.
- *
- * @param lambda the lambda to execute
- */
-open class InstantCommand(lambda: Runnable) : LambdaCommand() {
-    init {
-        super.setStart(lambda)
-        super.setIsDone { true }
-    }
+import dev.nextftc.core.commands.Command
+
+class ParallelDeadlineGroup(private val deadline: Command, vararg otherCommands: Command) :
+    ParallelGroup(deadline, *otherCommands) {
+
+    /**
+     * This will return false until the deadline command is done.
+     */
+    override val isDone: Boolean by deadline::isDone
 }

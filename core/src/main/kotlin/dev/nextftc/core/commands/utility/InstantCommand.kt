@@ -16,19 +16,19 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.nextftc.core.command.groups
-
-import dev.nextftc.core.command.Command
+package dev.nextftc.core.commands.utility
 
 /**
- * A [CommandGroup] that runs all of its children simultaneously until one of its children is done,
- * at which point it stops all of its children.
+ * This is a LambdaCommand that sets isDone to true instantly.
+ * As such, there is no update or stop lambda
+ * (since the command finishes instantly).
+ * All code should be put in the lambda argument.
+ *
+ * @param lambda the lambda to execute
  */
-class ParallelRaceGroup(vararg commands: Command) : ParallelGroup(*commands) {
-
-    /**
-     * This will return false until one of its children is done
-     */
-    override val isDone: Boolean
-        get() = children.any { it.isDone }
+open class InstantCommand(lambda: Runnable) : LambdaCommand() {
+    init {
+        super.setStart(lambda)
+        super.setIsDone { true }
+    }
 }

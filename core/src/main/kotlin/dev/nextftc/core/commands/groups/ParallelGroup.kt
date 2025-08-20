@@ -16,44 +16,48 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.nextftc.core.command.groups
+package dev.nextftc.core.commands.groups
 
-import dev.nextftc.core.command.Command
+import dev.nextftc.core.commands.Command
 
 /**
- * A [CommandGroup] that runs its children one at a time.
+ * A [CommandGroup] that runs all of its children simultaneously.
  */
-class SequentialGroup(vararg commands: Command) : CommandGroup(*commands) {
+open class ParallelGroup(vararg commands: Command) : CommandGroup(*commands) {
     /**
-     * This returns true once all of its children have finished running.
+     * This will return false until all of its children are done
      */
     override val isDone: Boolean
-        get() = children.isEmpty()
+        get() = children.all { it.isDone }
 
-    /**
-     * In a Sequential Group, we will start the first command and wait until it has completed
-     * execution before starting the next.
-     */
-    override fun start() {
-        children.first().start()
+    init {
+        val noConflicts = commands
+            .flatMap { it.requirements }
+            .groupBy { it }
+            .none { it.value.size > 1 }
+        check(noConflicts) { "Two or more commands passed to ParallelGroup share one or more requirements" }
     }
 
-    /**
-     * Now, every update we must check if the currently active command is complete. If it is, remove
-     * it and start the next one (if there is one).
-     */
+    override fun start() {
+        children.forEach {
+            it.start()
+        }
+    }
+
     override fun update() {
-        children.first().update()
+        children.forEachIndexed { index, command ->
+            command.update()
+            if (!command.isDone) return
 
-        if (!children.first().isDone) return
-
-        children.removeFirst().stop(false)
-
-        if (children.isNotEmpty()) children.first().start()
+            command.stop(false)
+            children.removeAt(index)
+        }
     }
 
     override fun stop(interrupted: Boolean) {
-        if (children.isNotEmpty()) children.first().stop(interrupted)
+        children.forEach {
+            it.stop(interrupted)
+        }
 
         super.stop(interrupted)
     }

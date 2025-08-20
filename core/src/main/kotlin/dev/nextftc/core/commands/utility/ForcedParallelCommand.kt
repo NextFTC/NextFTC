@@ -16,27 +16,20 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.nextftc.core.command.utility
+package dev.nextftc.core.commands.utility
 
-import dev.nextftc.core.command.Command
+import dev.nextftc.core.commands.Command
+import dev.nextftc.core.commands.CommandManager
 
 /**
- * This command executes indefinitely until stopped due to a conflict of requirements.
- * It uses the [start], [update], and [stop] functions of the passed command.
+ * This is a command that will run in parallel even if it's in a SequentialGroup.
  *
- * @param command the command to execute
+ * @param command the command to run in parallel
  */
-class PerpetualCommand(val command: Command) : Command() {
+class ForcedParallelCommand(val command: Command) : Command() {
+    override val isDone = true
 
-    override val isDone: Boolean = false
-
-    init {
-        setRequirements(command.requirements)
+    override fun start() {
+        CommandManager.scheduleCommand(command)
     }
-
-    override fun start() = command.start()
-
-    override fun update() = command.update()
-
-    override fun stop(interrupted: Boolean) = command.stop(interrupted)
 }

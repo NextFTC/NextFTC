@@ -18,7 +18,7 @@
 
 package dev.nextftc.hardware.powerable
 
-import dev.nextftc.core.command.utility.InstantCommand
+import dev.nextftc.core.commands.utility.InstantCommand
 
 class SetPower(powerable: Powerable, power: Double) : InstantCommand({
     powerable.power = power

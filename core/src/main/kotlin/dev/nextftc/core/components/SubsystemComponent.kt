@@ -18,7 +18,7 @@
 
 package dev.nextftc.core.components
 
-import dev.nextftc.core.command.CommandManager
+import dev.nextftc.core.commands.CommandManager
 import dev.nextftc.core.subsystems.Subsystem
 
 /**

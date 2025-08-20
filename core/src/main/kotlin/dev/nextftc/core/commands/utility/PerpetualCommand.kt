@@ -16,29 +16,27 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.nextftc.core.command.groups
+package dev.nextftc.core.commands.utility
 
-import dev.nextftc.core.command.Command
-import dev.nextftc.core.command.EmptyGroupException
+import dev.nextftc.core.commands.Command
 
 /**
- * A command that schedules other commands at certain times.
- * Inherits all requirements of its children.
+ * This command executes indefinitely until stopped due to a conflict of requirements.
+ * It uses the [start], [update], and [stop] functions of the passed command.
+ *
+ * @param command the command to execute
  */
-abstract class CommandGroup(vararg val commands: Command) : Command() {
+class PerpetualCommand(val command: Command) : Command() {
 
-    /**
-     * The collection of all commands within this group.
-     */
-    val children: ArrayDeque<Command> = ArrayDeque(commands.toList())
+    override val isDone: Boolean = false
 
     init {
-        setRequirements(commands.flatMap { it.requirements }.toSet())
-        if (commands.isEmpty()) throw EmptyGroupException()
+        setRequirements(command.requirements)
     }
 
-    override fun stop(interrupted: Boolean) {
-        children.clear()
-        children.addAll(commands)
-    }
+    override fun start() = command.start()
+
+    override fun update() = command.update()
+
+    override fun stop(interrupted: Boolean) = command.stop(interrupted)
 }
