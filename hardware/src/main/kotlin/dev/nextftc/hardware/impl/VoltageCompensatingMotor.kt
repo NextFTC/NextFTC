@@ -11,16 +11,16 @@ import kotlin.time.Duration.Companion.seconds
 import kotlin.time.TimeSource.Monotonic.markNow
 import kotlin.time.toKotlinDuration
 
-class VoltageCompensatingMotor @JvmOverloads constructor(
+class VoltageCompensatingMotor(
     private val controllable: Controllable,
-    private val voltageCacheTime: Duration = 500.milliseconds,
+    private val voltageCacheTime: Duration,
     private val nominalVoltage: Double = 12.0
 ) : Controllable by controllable {
 
     @JvmOverloads
     constructor(
         controllable: Controllable,
-        voltageCacheTimeSeconds: Double,
+        voltageCacheTimeSeconds: Double = 0.5,
         nominalVoltage: Double = 12.0,
     ) : this(controllable, voltageCacheTimeSeconds.seconds, nominalVoltage)
 
