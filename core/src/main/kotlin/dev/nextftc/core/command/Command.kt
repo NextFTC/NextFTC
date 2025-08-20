@@ -54,6 +54,13 @@ abstract class Command : Runnable {
     val subsystems: MutableSet<Subsystem> = mutableSetOf()
 
     /**
+     * The name of this command, used for debugging and telemetry.
+     */
+    @get:JvmName("name")
+    var name: String = this::class.simpleName ?: "Command"
+        private set
+
+    /**
      * Called once when the command is first started
      */
     open fun start() {}
@@ -122,6 +129,18 @@ abstract class Command : Runnable {
     open fun setInterruptible(interruptible: Boolean) = apply {
         this.interruptible = interruptible
     }
+
+    /**
+     * Sets the name of this command for use in debugging and telemetry.
+     */
+    open fun named(name: String) = apply {
+        this.name = name
+    }
+
+    /**
+     * Sets the name of this command for use in debugging and telemetry.
+     */
+    open fun withName(name: String) = named(name)
 
     // endregion
 
