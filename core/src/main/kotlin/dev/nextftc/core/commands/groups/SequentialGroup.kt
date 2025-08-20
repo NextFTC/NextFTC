@@ -24,6 +24,9 @@ import dev.nextftc.core.commands.Command
  * A [CommandGroup] that runs its children one at a time.
  */
 class SequentialGroup(vararg commands: Command) : CommandGroup(*commands) {
+    init {
+        named("SequentialGroup(${children.joinToString { it.name }})")
+    }
     /**
      * This returns true once all of its children have finished running.
      */
