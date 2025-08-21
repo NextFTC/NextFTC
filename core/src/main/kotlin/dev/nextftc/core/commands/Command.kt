@@ -25,11 +25,8 @@ import dev.nextftc.core.commands.groups.SequentialGroup
 import dev.nextftc.core.commands.utility.ForcedParallelCommand
 import dev.nextftc.core.commands.utility.PerpetualCommand
 import dev.nextftc.core.commands.delays.Delay
-import dev.nextftc.core.subsystems.Subsystem
-import dev.nextftc.core.units.JDuration
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
-import kotlin.time.toKotlinDuration
 
 /**
  * A discrete unit of functionality that runs simultaneous to all other commands.
@@ -193,7 +190,7 @@ abstract class Command : Runnable {
      */
     fun endAfter(time: Double) = endAfter(time.seconds)
 
-    fun endAfter(time: JDuration) = endAfter(time.toKotlinDuration())
+    fun endAfter(time: String) = endAfter(Duration.parse(time.replace("\\s".toRegex(), "")))
 
     /**
      * Returns a [SequentialGroup] with this command and an arbitrary number of other commands
@@ -242,7 +239,7 @@ abstract class Command : Runnable {
      */
     fun afterTime(time: Double) = afterTime(time.seconds)
 
-    fun afterTime(time: JDuration) = afterTime(time.toKotlinDuration())
+    fun afterTime(time: String) = afterTime(Duration.parse(time.replace("\\s".toRegex(), "")))
 
     /**
      * Returns a [SequentialGroup] with this command and then a [Delay]
@@ -259,7 +256,7 @@ abstract class Command : Runnable {
      */
     fun thenWait(time: Double) = thenWait(time.seconds)
 
-    fun thenWait(time: JDuration) = thenWait(time.toKotlinDuration())
+    fun thenWait(time: String) = thenWait(Duration.parse(time.replace("\\s".toRegex(), "")))
 
     /**
      * Returns a [ParallelDeadlineGroup] with this command and the passed command as the deadline
