@@ -20,6 +20,7 @@ package dev.nextftc.core.commands.delays
 
 import dev.nextftc.core.commands.Command
 import dev.nextftc.core.commands.groups.ParallelGroup
+import dev.nextftc.core.units.stringToDuration
 import kotlin.time.ComparableTimeMark
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
@@ -47,7 +48,7 @@ class Delay(
     /**
      * @param time the desired duration of this command as a string
      */
-    constructor(time: String) : this(Duration.parse(time.replace("\\s".toRegex(), "")))
+    constructor(time: String) : this(stringToDuration(time))
 
     private lateinit var startTime: ComparableTimeMark
 

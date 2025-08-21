@@ -1,5 +1,6 @@
 package dev.nextftc.hardware.impl
 
+import dev.nextftc.core.units.stringToDuration
 import dev.nextftc.ftc.ActiveOpMode
 import dev.nextftc.hardware.controllable.Controllable
 import kotlin.properties.Delegates
@@ -26,7 +27,7 @@ class VoltageCompensatingMotor(
         controllable: Controllable,
         voltageCacheTime: String,
         nominalVoltage: Double = 12.0
-    ) : this(controllable, Duration.parse(voltageCacheTime.replace("\\s".toRegex(), "")), nominalVoltage)
+    ) : this(controllable, stringToDuration(voltageCacheTime), nominalVoltage)
 
     private val voltageSensor by lazy { ActiveOpMode.hardwareMap.voltageSensor.first() }
 

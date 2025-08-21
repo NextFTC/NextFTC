@@ -25,6 +25,7 @@ import dev.nextftc.core.commands.groups.SequentialGroup
 import dev.nextftc.core.commands.utility.ForcedParallelCommand
 import dev.nextftc.core.commands.utility.PerpetualCommand
 import dev.nextftc.core.commands.delays.Delay
+import dev.nextftc.core.units.stringToDuration
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
@@ -190,7 +191,7 @@ abstract class Command : Runnable {
      */
     fun endAfter(time: Double) = endAfter(time.seconds)
 
-    fun endAfter(time: String) = endAfter(Duration.parse(time.replace("\\s".toRegex(), "")))
+    fun endAfter(time: String) = endAfter(stringToDuration(time))
 
     /**
      * Returns a [SequentialGroup] with this command and an arbitrary number of other commands
@@ -239,7 +240,7 @@ abstract class Command : Runnable {
      */
     fun afterTime(time: Double) = afterTime(time.seconds)
 
-    fun afterTime(time: String) = afterTime(Duration.parse(time.replace("\\s".toRegex(), "")))
+    fun afterTime(time: String) = afterTime(stringToDuration(time))
 
     /**
      * Returns a [SequentialGroup] with this command and then a [Delay]
@@ -256,7 +257,7 @@ abstract class Command : Runnable {
      */
     fun thenWait(time: Double) = thenWait(time.seconds)
 
-    fun thenWait(time: String) = thenWait(Duration.parse(time.replace("\\s".toRegex(), "")))
+    fun thenWait(time: String) = thenWait(stringToDuration(time))
 
     /**
      * Returns a [ParallelDeadlineGroup] with this command and the passed command as the deadline
