@@ -15,7 +15,7 @@ allprojects {
 subprojects {
     extensions.configure<DeployerExtension> {
         projectInfo {
-            url = "https://nextftc.dev/nextftc"
+            url = "https://v1.nextftc.dev/"
             scm {
                 fromGithub("NextFTC", "NextFTC")
             }
