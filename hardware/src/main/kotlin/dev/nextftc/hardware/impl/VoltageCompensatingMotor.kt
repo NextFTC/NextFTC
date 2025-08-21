@@ -1,15 +1,13 @@
 package dev.nextftc.hardware.impl
 
-import dev.nextftc.core.units.JDuration
+import dev.nextftc.core.units.parseDuration
 import dev.nextftc.ftc.ActiveOpMode
 import dev.nextftc.hardware.controllable.Controllable
 import kotlin.properties.Delegates
 import kotlin.time.ComparableTimeMark
 import kotlin.time.Duration
-import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.TimeSource.Monotonic.markNow
-import kotlin.time.toKotlinDuration
 
 class VoltageCompensatingMotor(
     private val controllable: Controllable,
@@ -27,9 +25,9 @@ class VoltageCompensatingMotor(
     @JvmOverloads
     constructor(
         controllable: Controllable,
-        voltageCacheTime: JDuration,
+        voltageCacheTime: String,
         nominalVoltage: Double = 12.0
-    ) : this(controllable, voltageCacheTime.toKotlinDuration(), nominalVoltage)
+    ) : this(controllable, parseDuration(voltageCacheTime), nominalVoltage)
 
     private val voltageSensor by lazy { ActiveOpMode.hardwareMap.voltageSensor.first() }
 

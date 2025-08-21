@@ -20,13 +20,12 @@ package dev.nextftc.core.commands.delays
 
 import dev.nextftc.core.commands.Command
 import dev.nextftc.core.commands.groups.ParallelGroup
-import dev.nextftc.core.units.JDuration
+import dev.nextftc.core.units.parseDuration
 import kotlin.time.ComparableTimeMark
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.DurationUnit
 import kotlin.time.TimeSource.Monotonic.markNow
-import kotlin.time.toKotlinDuration
 
 /**
  * A [Command] that does nothing except wait until a certain amount of time has passed. Like all
@@ -46,7 +45,10 @@ class Delay(
      */
     constructor(time: Double) : this(time.seconds)
 
-    constructor(time: JDuration) : this(time.toKotlinDuration())
+    /**
+     * @param time the desired duration of this command as a string
+     */
+    constructor(time: String) : this(parseDuration(time))
 
     private lateinit var startTime: ComparableTimeMark
 
