@@ -15,10 +15,11 @@ allprojects {
 subprojects {
     extensions.configure<DeployerExtension> {
         projectInfo {
-            url = "https://nextftc.dev/nextftc"
+            url = "https://v1.nextftc.dev/"
             scm {
                 fromGithub("NextFTC", "NextFTC")
             }
+            license("GNU General Public License, version 3", "https://www.gnu.org/licenses/gpl-3.0.html")
             developer("Davis Luxenberg", "davis.luxenberg@outlook.com", url = "https://github.com/BeepBot99")
             developer("Rowan McAlpin", "rowan@nextftc.dev", url = "https://rowanmcalpin.com")
             developer("Zach Harel", "ftc@zharel.me", url = "https://github.com/zachwaffle4")
