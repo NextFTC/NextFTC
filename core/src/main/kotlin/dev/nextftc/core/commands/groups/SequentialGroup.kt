@@ -23,9 +23,15 @@ import dev.nextftc.core.commands.Command
 /**
  * A [CommandGroup] that runs its children one at a time.
  */
-class SequentialGroup(vararg commands: Command) : CommandGroup(*commands) {
+class SequentialGroup(vararg commands: Command) : CommandGroup(
+    *commands.flatMap { when(it) {
+        is SequentialGroup -> it.children
+        else -> listOf(it)
+    } }.toTypedArray()
+) {
     init {
         named("SequentialGroup(${children.joinToString { it.name }})")
+        setRequirements(children.first().requirements)
     }
     /**
      * This returns true once all of its children have finished running.
@@ -53,6 +59,7 @@ class SequentialGroup(vararg commands: Command) : CommandGroup(*commands) {
         children.removeFirst().stop(false)
 
         if (children.isNotEmpty()) children.first().start()
+        setRequirements(children.first().requirements)
     }
 
     override fun stop(interrupted: Boolean) {
