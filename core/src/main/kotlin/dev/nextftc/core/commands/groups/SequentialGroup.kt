@@ -26,7 +26,6 @@ import dev.nextftc.core.commands.Command
 class SequentialGroup(vararg commands: Command) : CommandGroup(*commands) {
     init {
         named("SequentialGroup(${children.joinToString { it.name }})")
-        setRequirements(children.first().requirements)
     }
     /**
      * This returns true once all of its children have finished running.
@@ -54,7 +53,6 @@ class SequentialGroup(vararg commands: Command) : CommandGroup(*commands) {
         children.removeFirst().stop(false)
 
         if (children.isNotEmpty()) children.first().start()
-        setRequirements(children.first().requirements)
     }
 
     override fun stop(interrupted: Boolean) {
