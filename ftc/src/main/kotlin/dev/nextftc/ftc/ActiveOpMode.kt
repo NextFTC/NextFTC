@@ -84,7 +84,7 @@ object ActiveOpMode : OpModeManagerNotifier.Notifications {
     @JvmStatic
     fun register(context: Context, eventLoop: FtcEventLoop) {
         eventLoop.opModeManager.registerListener(this)
-        hardwareMap = eventLoop.opModeManager.hardwareMap
+        hardwareMap = HardwareMap(context, eventLoop.opModeManager)
     }
 
     override fun onOpModePreInit(opMode: OpMode?) {
