@@ -23,12 +23,7 @@ import dev.nextftc.core.commands.Command
 /**
  * A [CommandGroup] that runs all of its children simultaneously.
  */
-open class ParallelGroup(vararg commands: Command) : CommandGroup(
-    *commands.flatMap { when(it) {
-    is ParallelGroup -> it.children
-    else -> listOf(it)
-} }.toTypedArray()
-) {
+open class ParallelGroup(vararg commands: Command) : CommandGroup(*commands) {
     init {
         named("ParallelGroup(${children.joinToString { it.name }})")
     }
@@ -70,4 +65,7 @@ open class ParallelGroup(vararg commands: Command) : CommandGroup(
 
         super.stop(interrupted)
     }
+
+    override fun and(vararg commands: Command) =
+        ParallelGroup(*children.toTypedArray(), *commands)
 }
