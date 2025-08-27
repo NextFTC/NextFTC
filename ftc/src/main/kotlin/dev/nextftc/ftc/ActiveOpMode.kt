@@ -27,6 +27,7 @@ import com.qualcomm.robotcore.hardware.Gamepad
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.ftccommon.external.OnCreateEventLoop
 import org.firstinspires.ftc.robotcore.external.Telemetry
+import org.firstinspires.ftc.robotcore.internal.opmode.RegisteredOpModes
 
 @Suppress("unused")
 object ActiveOpMode : OpModeManagerNotifier.Notifications {
@@ -77,14 +78,19 @@ object ActiveOpMode : OpModeManagerNotifier.Notifications {
 
     @JvmStatic
     @get:JvmName("hardwareMap")
-    lateinit var hardwareMap: HardwareMap
-        private set
+    val hardwareMap: HardwareMap by lazy {
+        RegisteredOpModes
+            .getInstance()
+            .opModes
+            .map { RegisteredOpModes.getInstance().getOpMode(it.name) }
+            .first { it.hardwareMap != null }
+            .hardwareMap
+    }
 
     @OnCreateEventLoop
     @JvmStatic
     fun register(context: Context, eventLoop: FtcEventLoop) {
         eventLoop.opModeManager.registerListener(this)
-        hardwareMap = eventLoop.opModeManager.hardwareMap
     }
 
     override fun onOpModePreInit(opMode: OpMode?) {
