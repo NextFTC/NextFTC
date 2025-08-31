@@ -78,14 +78,7 @@ object ActiveOpMode : OpModeManagerNotifier.Notifications {
 
     @JvmStatic
     @get:JvmName("hardwareMap")
-    val hardwareMap: HardwareMap by lazy {
-        RegisteredOpModes
-            .getInstance()
-            .opModes
-            .map { RegisteredOpModes.getInstance().getOpMode(it.name) }
-            .first { it.hardwareMap != null }
-            .hardwareMap
-    }
+    val hardwareMap: HardwareMap get() = opMode { hardwareMap }
 
     @OnCreateEventLoop
     @JvmStatic
@@ -95,7 +88,6 @@ object ActiveOpMode : OpModeManagerNotifier.Notifications {
 
     override fun onOpModePreInit(opMode: OpMode?) {
         if (opMode == null || opMode !is LinearOpMode) return
-
         it = opMode
     }
 
