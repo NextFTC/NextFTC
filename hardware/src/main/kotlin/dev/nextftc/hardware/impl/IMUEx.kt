@@ -49,11 +49,9 @@ class IMUEx(imuFactory: () -> IMU) : Supplier<Angle> {
     })
 
     fun zeroed() = apply {
-        init = {
-            val currentInit = init
-            currentInit()
-            resetYaw()
-        }
+        val currentInit = init
+        currentInit(imu)
+        imu.resetYaw()
     }
 
     override fun get() = Angle.fromRad(

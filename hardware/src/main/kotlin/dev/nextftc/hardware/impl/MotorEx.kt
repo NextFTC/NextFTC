@@ -79,7 +79,7 @@ class MotorEx(cacheTolerance: Double, motorFactory: () -> DcMotorEx) : Controlla
      */
     override var power: Double by Caching(cacheTolerance) {
         motor.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
-        it?.let { motor.power = it }
+        it?.let { motor.power = it * direction }
     }
 
     fun reverse() {
