@@ -1,6 +1,6 @@
 package com.rowanmcalpin.nextftc.pedro
 
-import com.pedropathing.localization.Pose
+import com.pedropathing.geometry.Pose
 import com.rowanmcalpin.nextftc.core.command.Command
 
 /**

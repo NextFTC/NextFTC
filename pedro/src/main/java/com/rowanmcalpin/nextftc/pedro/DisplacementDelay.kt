@@ -1,7 +1,7 @@
 package com.rowanmcalpin.nextftc.pedro
 
-import com.pedropathing.localization.Pose
-import com.rowanmcalpin.nextftc.core.command.Command
+import com.pedropathing.geometry.Pose;
+import com.rowanmcalpin.nextftc.core.command.Command;
 
 /**
  * This is a delay that waits until the robot has been displaced (by driving) a certain distance.

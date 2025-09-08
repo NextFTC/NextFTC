@@ -59,7 +59,7 @@ class DriverControlled @JvmOverloads constructor(val driveJoystick: Joystick, va
     }
     
     override fun update() {
-        PedroData.follower!!.setTeleOpMovementVectors(driveJoystick.y.toDouble() * if(invertDrive) -1 else 1,
+        PedroData.follower!!.setTeleOpDrive(driveJoystick.y.toDouble() * if(invertDrive) -1 else 1,
             driveJoystick.x.toDouble() * if(invertStrafe) -1 else 1, turnJoystick.x.toDouble() * if(invertTurn) -1 else 1, robotCentric)
     }
 }

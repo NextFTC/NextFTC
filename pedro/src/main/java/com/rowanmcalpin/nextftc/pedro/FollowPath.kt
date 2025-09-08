@@ -18,8 +18,8 @@ NextFTC: a user-friendly control library for FIRST Tech Challenge
 
 package com.rowanmcalpin.nextftc.pedro
 
-import com.pedropathing.pathgen.Path
-import com.pedropathing.pathgen.PathChain
+import com.pedropathing.paths.Path
+import com.pedropathing.paths.PathChain
 import com.rowanmcalpin.nextftc.core.Subsystem
 import com.rowanmcalpin.nextftc.core.command.Command
 import com.rowanmcalpin.nextftc.ftc.hardware.Drivetrain

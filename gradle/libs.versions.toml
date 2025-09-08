@@ -3,15 +3,15 @@ agp = "8.7.3"
 kotlin = "1.9.0"
 
 commons-math3 = "3.6.1"
-pedro = "1.0.8"
-ftc = "10.1.1"
+pedro = "2.0.0"
+ftc = "11.0.0"
 dokka = "1.9.24"
 
 nextftc = "0.6.3"
 
 [libraries]
 commons-math3 = { module = "org.apache.commons:commons-math3", version.ref = "commons-math3" }
-pedro = { module = "com.pedropathing:pedro", version.ref = "pedro" }
+pedro = { module = "com.pedropathing:ftc", version.ref = "pedro" }
 ftc-robotcore = { group = "org.firstinspires.ftc", name="RobotCore", version.ref = "ftc" }
 ftc-hardware = { group = "org.firstinspires.ftc", name="Hardware", version.ref = "ftc" }
 

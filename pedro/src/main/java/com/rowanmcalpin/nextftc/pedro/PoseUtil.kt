@@ -1,7 +1,7 @@
 @file:JvmName("PoseUtil")
 package com.rowanmcalpin.nextftc.pedro
 
-import com.pedropathing.localization.Pose
+import com.pedropathing.geometry.Pose
 import kotlin.math.pow
 import kotlin.math.sqrt
 
