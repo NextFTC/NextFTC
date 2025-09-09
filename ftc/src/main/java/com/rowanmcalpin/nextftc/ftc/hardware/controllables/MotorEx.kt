@@ -28,9 +28,16 @@ import kotlin.math.abs
  * Wrapper class for motors that implements controllable (and can therefore be used with RunToPosition
  * commands).
  */
-class MotorEx(val motor: DcMotorEx): Controllable {
+class MotorEx(val motor: DcMotorEx, val name: String) : Controllable {
 
-    constructor(name: String): this(OpModeData.hardwareMap.get(DcMotorEx::class.java, name))
+    // Secondary constructor: only provide a hardware map name
+    constructor(name: String) : this(
+        OpModeData.hardwareMap.get(DcMotorEx::class.java, name),
+        name
+    )
+
+    // Another secondary constructor: use motor.deviceName as default
+    constructor(motor: DcMotorEx) : this(motor, motor.deviceName)
 
     private var cachedPower = 0.0 // By default, motors are unpowered
 
