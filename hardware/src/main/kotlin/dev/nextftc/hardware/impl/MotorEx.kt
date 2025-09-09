@@ -30,21 +30,24 @@ import dev.nextftc.hardware.delegates.LazyHardware
  * Wrapper class for motors that implements controllable (and can therefore be used with RunToPosition
  * commands).
  */
-class MotorEx(cacheTolerance: Double, motorFactory: () -> DcMotorEx) : Controllable {
-
-    constructor(motorFactory: () -> DcMotorEx) : this(0.01, motorFactory)
+class MotorEx @JvmOverloads constructor(cacheTolerance: Double, motorFactory: () -> DcMotorEx, name: String? = null) : Controllable {
 
     @JvmOverloads
-    constructor(motor: DcMotorEx, cacheTolerance: Double = 0.01) : this(cacheTolerance, { motor })
+    constructor(motorFactory: () -> DcMotorEx, name: String? = null) : this(0.01, motorFactory, name)
+
+    @JvmOverloads
+    constructor(motor: DcMotorEx, cacheTolerance: Double = 0.01, name: String? = null) : this(cacheTolerance, { motor }, name)
 
     @JvmOverloads
     constructor(
         name: String,
         cacheTolerance: Double = 0.01
-    ) : this(cacheTolerance, { ActiveOpMode.hardwareMap[name] as DcMotorEx })
+    ) : this(cacheTolerance, { ActiveOpMode.hardwareMap[name] as DcMotorEx }, name)
 
     private val lazy = LazyHardware(motorFactory)
     val motor by lazy
+
+    val name: String by lazy { name ?: motor.deviceName }
 
     /**
      * Gives the unmodified raw tick value of the motor
