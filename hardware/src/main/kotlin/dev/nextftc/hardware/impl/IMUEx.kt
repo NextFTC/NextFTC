@@ -22,13 +22,20 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot
 import com.qualcomm.robotcore.hardware.IMU
 import dev.nextftc.core.units.Angle
 import dev.nextftc.ftc.ActiveOpMode
+import dev.nextftc.hardware.delegates.LazyHardware
+import dev.nextftc.hardware.impl.Direction.BACKWARD
+import dev.nextftc.hardware.impl.Direction.DOWN
+import dev.nextftc.hardware.impl.Direction.FORWARD
+import dev.nextftc.hardware.impl.Direction.LEFT
+import dev.nextftc.hardware.impl.Direction.RIGHT
+import dev.nextftc.hardware.impl.Direction.UP
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
 import java.util.function.Supplier
 
 class IMUEx(imuFactory: () -> IMU) : Supplier<Angle> {
 
-    private var init: IMU.() -> Unit = { }
-    val imu by lazy { imuFactory().apply(init) }
+    private val lazy = LazyHardware(imuFactory)
+    val imu by lazy
 
     constructor(imu: IMU) : this({ imu })
     constructor(
@@ -48,13 +55,9 @@ class IMUEx(imuFactory: () -> IMU) : Supplier<Angle> {
         imu
     })
 
-    fun zeroed() = apply {
-        init = {
-            val currentInit = init
-            currentInit()
-            resetYaw()
-        }
-    }
+    fun zero() = lazy.applyAfterInit { it.resetYaw() }
+
+    fun zeroed() = apply { zero() }
 
     override fun get() = Angle.fromRad(
         imu.robotYawPitchRollAngles.getYaw(AngleUnit.RADIANS)
@@ -68,22 +71,22 @@ enum class Direction {
     RIGHT,
     FORWARD,
     BACKWARD;
+}
 
-    fun toLogoDirection() = when (this) {
-        UP -> RevHubOrientationOnRobot.LogoFacingDirection.UP
-        DOWN -> RevHubOrientationOnRobot.LogoFacingDirection.DOWN
-        LEFT -> RevHubOrientationOnRobot.LogoFacingDirection.LEFT
-        RIGHT -> RevHubOrientationOnRobot.LogoFacingDirection.RIGHT
-        FORWARD -> RevHubOrientationOnRobot.LogoFacingDirection.FORWARD
-        BACKWARD -> RevHubOrientationOnRobot.LogoFacingDirection.BACKWARD
-    }
+fun Direction.toLogoDirection() = when (this) {
+    UP -> RevHubOrientationOnRobot.LogoFacingDirection.UP
+    DOWN -> RevHubOrientationOnRobot.LogoFacingDirection.DOWN
+    LEFT -> RevHubOrientationOnRobot.LogoFacingDirection.LEFT
+    RIGHT -> RevHubOrientationOnRobot.LogoFacingDirection.RIGHT
+    FORWARD -> RevHubOrientationOnRobot.LogoFacingDirection.FORWARD
+    BACKWARD -> RevHubOrientationOnRobot.LogoFacingDirection.BACKWARD
+}
 
-    fun toUsbDirection() = when (this) {
-        UP -> RevHubOrientationOnRobot.UsbFacingDirection.UP
-        DOWN -> RevHubOrientationOnRobot.UsbFacingDirection.DOWN
-        LEFT -> RevHubOrientationOnRobot.UsbFacingDirection.LEFT
-        RIGHT -> RevHubOrientationOnRobot.UsbFacingDirection.RIGHT
-        FORWARD -> RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
-        BACKWARD -> RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD
-    }
+fun Direction.toUsbDirection() = when (this) {
+    UP -> RevHubOrientationOnRobot.UsbFacingDirection.UP
+    DOWN -> RevHubOrientationOnRobot.UsbFacingDirection.DOWN
+    LEFT -> RevHubOrientationOnRobot.UsbFacingDirection.LEFT
+    RIGHT -> RevHubOrientationOnRobot.UsbFacingDirection.RIGHT
+    FORWARD -> RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
+    BACKWARD -> RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD
 }
