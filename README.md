@@ -13,25 +13,14 @@ hardware needs. Read the [docs](https://nextftc.dev).
 In the TeamCode `build.gradle`, go to the `dependencies` block.
 Add the following lines:
 
-::: tabs key:gradle
-
-== .gradle
 
 ```groovy
 implementation 'dev.nextftc:ftc:1.0.0'
 implementation 'dev.nextftc:hardware:1.0.0' // If you would like to use the hardware module
 ```
 
-== .gradle.kts
-
-```kotlin
-implementation("dev.nextftc:ftc:1.0.0")
-implementation("dev.nextftc:hardware:1.0.0") // If you would like to use the hardware module
-```
-
-:::
-
 Then, press the `Sync Now` button that appeared as a banner at the top of your
 Gradle file.
 
 *You're good to go!*
+
