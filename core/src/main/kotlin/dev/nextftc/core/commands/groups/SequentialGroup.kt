@@ -60,4 +60,7 @@ class SequentialGroup(vararg commands: Command) : CommandGroup(*commands) {
 
         super.stop(interrupted)
     }
+
+    override fun then(vararg commands: Command): SequentialGroup =
+        SequentialGroup(*children.toTypedArray(), *commands)
 }

@@ -24,25 +24,30 @@ import dev.nextftc.ftc.ActiveOpMode
 import dev.nextftc.hardware.delegates.Caching
 import dev.nextftc.hardware.delegates.Offsetable
 import dev.nextftc.hardware.controllable.Controllable
+import dev.nextftc.hardware.delegates.LazyHardware
 
 /**
  * Wrapper class for motors that implements controllable (and can therefore be used with RunToPosition
  * commands).
  */
-class MotorEx(cacheTolerance: Double, motorFactory: () -> DcMotorEx) : Controllable {
-
-    constructor(motorFactory: () -> DcMotorEx) : this(0.01, motorFactory)
+class MotorEx @JvmOverloads constructor(cacheTolerance: Double, motorFactory: () -> DcMotorEx, name: String? = null) : Controllable {
 
     @JvmOverloads
-    constructor(motor: DcMotorEx, cacheTolerance: Double = 0.01) : this(cacheTolerance, { motor })
+    constructor(motorFactory: () -> DcMotorEx, name: String? = null) : this(0.01, motorFactory, name)
+
+    @JvmOverloads
+    constructor(motor: DcMotorEx, cacheTolerance: Double = 0.01, name: String? = null) : this(cacheTolerance, { motor }, name)
 
     @JvmOverloads
     constructor(
         name: String,
         cacheTolerance: Double = 0.01
-    ) : this(cacheTolerance, { ActiveOpMode.hardwareMap[name] as DcMotorEx })
+    ) : this(cacheTolerance, { ActiveOpMode.hardwareMap[name] as DcMotorEx }, name)
 
-    val motor by lazy(motorFactory)
+    private val lazy = LazyHardware(motorFactory)
+    val motor by lazy
+
+    val name: String by lazy { name ?: motor.deviceName }
 
     /**
      * Gives the unmodified raw tick value of the motor
@@ -50,14 +55,19 @@ class MotorEx(cacheTolerance: Double, motorFactory: () -> DcMotorEx) : Controlla
     val rawTicks: Double
         get() = motor.currentPosition.toDouble()
 
-    val offsetable = Offsetable { rawTicks }
+    private val offsetable = Offsetable { rawTicks }
 
     var direction by offsetable::direction
 
     /**
      * Zero Power Behavior for the motor
      */
-    var zeroPowerBehavior: DcMotor.ZeroPowerBehavior by motor::zeroPowerBehavior
+    // Cannot use delegation because that would create motor immediately on field initialization instead of it being lazy.
+    var zeroPowerBehavior: DcMotor.ZeroPowerBehavior
+        get() = motor.zeroPowerBehavior
+        set(value) {
+            motor.zeroPowerBehavior = value
+        }
 
 
     /**
@@ -72,30 +82,39 @@ class MotorEx(cacheTolerance: Double, motorFactory: () -> DcMotorEx) : Controlla
     /**
      * Current velocity of the motor
      */
-    override val velocity: Double by motor::velocity
+    // Cannot use delegation because that would create motor immediately on field initialization instead of it being lazy.
+    override val velocity: Double
+        get() = motor.velocity
 
     /**
      * Gets / sets the current power of the motor (automatically implements power caching)
      */
     override var power: Double by Caching(cacheTolerance) {
         motor.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
-        it?.let { motor.power = it }
+        it?.let { motor.power = it * direction }
     }
 
     fun reverse() {
-        direction = -direction
+        lazy.applyAfterInit { direction = -direction }
     }
 
     fun reversed() = apply { reverse() }
 
     fun zero() {
-        currentPosition = 0.0
+        lazy.applyAfterInit { currentPosition = 0.0 }
     }
 
     fun zeroed() = apply { zero() }
 
-    fun atPosition(position: Double) = apply { currentPosition = position }
+    fun atPosition(position: Double) = apply {
+        lazy.applyAfterInit { currentPosition = position }
+    }
 
-    fun floatMode() = apply { zeroPowerBehavior = DcMotor.ZeroPowerBehavior.FLOAT }
-    fun brakeMode() = apply { zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE }
+    fun floatMode() = apply {
+        lazy.applyAfterInit { it.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.FLOAT }
+    }
+
+    fun brakeMode() = apply {
+        lazy.applyAfterInit { it.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE }
+    }
 }

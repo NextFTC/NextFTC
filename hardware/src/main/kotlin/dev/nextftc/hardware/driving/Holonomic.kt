@@ -48,7 +48,7 @@ class FieldCentric(
 ) : HolonomicMode() {
     override fun rotate(powers: HolonomicDrivePowers): HolonomicDrivePowers {
         val heading = headingSupplier.get().inRad
-        val rotX = powers.x * cos(-heading) - powers.y * sin(heading)
+        val rotX = powers.x * cos(-heading) - powers.y * sin(-heading)
         val rotY = powers.x * sin(-heading) + powers.y * cos(-heading)
         return powers.copy(x = rotX, y = rotY)
     }
