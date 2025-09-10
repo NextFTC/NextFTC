@@ -18,7 +18,7 @@
 
 package dev.nextftc.hardware.delegates
 
-import com.qualcomm.hardware.lynx.Supplier
+import java.util.function.Supplier
 import java.lang.System.currentTimeMillis
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
