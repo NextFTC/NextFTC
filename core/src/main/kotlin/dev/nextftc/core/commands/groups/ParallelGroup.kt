@@ -65,4 +65,7 @@ open class ParallelGroup(vararg commands: Command) : CommandGroup(*commands) {
 
         super.stop(interrupted)
     }
+
+    override fun and(vararg commands: Command) =
+        ParallelGroup(*children.toTypedArray(), *commands)
 }

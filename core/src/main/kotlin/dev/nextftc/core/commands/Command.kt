@@ -197,7 +197,7 @@ abstract class Command : Runnable {
      * Returns a [SequentialGroup] with this command and an arbitrary number of other commands
      * @param commands the other commands to create a [SequentialGroup] with
      */
-    fun then(vararg commands: Command) = SequentialGroup(
+    open fun then(vararg commands: Command) = SequentialGroup(
         this,
         *commands
     )
@@ -206,7 +206,7 @@ abstract class Command : Runnable {
      * Returns a [ParallelGroup] with this command and an arbitrary number of other commands
      * @param commands the other commands to create a [ParallelGroup] with
      */
-    fun and(vararg commands: Command) = ParallelGroup(
+    open fun and(vararg commands: Command) = ParallelGroup(
         this,
         *commands
     )
