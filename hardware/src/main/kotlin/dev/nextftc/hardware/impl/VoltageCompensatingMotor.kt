@@ -37,8 +37,7 @@ class VoltageCompensatingMotor(
     private val voltage: Double
         get() {
             val currentTime = markNow()
-            val timeSinceLastVoltageRead = currentTime - lastVoltageRead
-            if (!::lastVoltageRead.isInitialized || timeSinceLastVoltageRead >= voltageCacheTime) {
+            if (!::lastVoltageRead.isInitialized || currentTime - lastVoltageRead >= voltageCacheTime) {
                 cachedVoltage = voltageSensor.voltage
                 lastVoltageRead = currentTime
             }
