@@ -1,61 +1,23 @@
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
-
-    `maven-publish`
+    kotlin("jvm")
+    id("java-library")
 }
 
-android {
-    namespace = "com.rowanmcalpin.nextftc.core"
-    compileSdk = 34
-
-    defaultConfig {
-        minSdk = 24
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
+description = "The base for NextFTC, a user-friendly library for FTC. Includes commands, components, and subsystems."
 
 dependencies {
-    api(libs.commons.math3)
+    api(libs.nextftc.bindings)
+    api(libs.nextftc.control)
 }
 
-// CONFIGURE PUBLISHING
-publishing {
-    publications {
-        register<MavenPublication>("release") {
-            groupId = "com.rowanmcalpin.nextftc"
-            artifactId = "core"
-            version = libs.versions.nextftc.get()
+nextFTCPublishing {
+    displayName = "NextFTC Core"
+    logoPath = "../assets/logo-icon.svg"
+}
 
-            afterEvaluate {
-                from(components["release"])
-            }
-        }
-    }
-
-    repositories {
-        maven {
-            name = "publishing"
-            url = uri("../../maven.rowanmcalpin.com")
-        }
+kotlin {
+    jvmToolchain(8)
+    compilerOptions {
+        freeCompilerArgs.addAll("-Xjvm-default=all", "-Xconsistent-data-class-copy-visibility")
     }
 }

@@ -1,11 +1,28 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+import io.deepmedia.tools.deployer.DeployerExtension
+
 plugins {
-    alias(libs.plugins.android.application) apply false
-    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.kotlin.jvm) apply false
     alias(libs.plugins.kotlin.android) apply false
-    id("org.jetbrains.dokka") version "2.0.0"
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.nextftc.publishing)
+}
+
+allprojects {
+    version = property("version") as String
+    group = "dev.nextftc"
 }
 
 subprojects {
-    apply(plugin = "org.jetbrains.dokka")
+    extensions.configure<DeployerExtension> {
+        projectInfo {
+            url = "https://v1.nextftc.dev/"
+            scm {
+                fromGithub("NextFTC", "NextFTC")
+            }
+            license("GNU General Public License, version 3", "https://www.gnu.org/licenses/gpl-3.0.html")
+            developer("Davis Luxenberg", "davis.luxenberg@outlook.com", url = "https://github.com/BeepBot99")
+            developer("Rowan McAlpin", "rowan@nextftc.dev", url = "https://rowanmcalpin.com")
+            developer("Zach Harel", "ftc@zharel.me", url = "https://github.com/zachwaffle4")
+        }
+    }
 }

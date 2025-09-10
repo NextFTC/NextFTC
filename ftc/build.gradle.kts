@@ -1,64 +1,39 @@
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
-
-    `maven-publish`
+    kotlin("android")
+    id("com.android.library")
 }
 
 android {
-    namespace = "com.rowanmcalpin.nextftc.ftc"
-    compileSdk = 34
+    namespace = "dev.nextftc.ftc"
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 24
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "1.8"
+    }
+
+    publishing {
+        singleVariant("release")
     }
 }
+
+description =
+    "The FTC-dependent library for NextFTC, a user-friendly library for FTC. Includes OpModes and FTC-specific components."
 
 dependencies {
-    implementation(project(":core"))
-
-    compileOnly(libs.ftc.robotcore)
-    compileOnly(libs.ftc.hardware)
+    api(project(":core"))
+    compileOnly(libs.bundles.ftc)
 }
 
-// CONFIGURE PUBLISHING
-publishing {
-    publications {
-        register<MavenPublication>("release") {
-            groupId = "com.rowanmcalpin.nextftc"
-            artifactId = "ftc"
-            version = libs.versions.nextftc.get()
-
-            afterEvaluate {
-                from(components["release"])
-            }
-        }
-    }
-
-    repositories {
-        maven {
-            name = "publishing"
-            url = uri("../../maven.rowanmcalpin.com")
-        }
-    }
+nextFTCPublishing {
+    displayName = "NextFTC FTC"
+    logoPath = "../assets/logo-icon.svg"
 }
