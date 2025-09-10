@@ -7,7 +7,7 @@ ftc-robot-core = { group = "org.firstinspires.ftc", name = "RobotCore", version.
 ftc-hardware = { group = "org.firstinspires.ftc", name = "Hardware", version.ref = "ftc" }
 ftc-common = { group = "org.firstinspires.ftc", name = "FtcCommon", version.ref = "ftc" }
 nextftc-control = { group = "dev.nextftc", name = "control", version = "1.0.0" }
-nextftc-bindings = { group = "dev.nextftc", name = "bindings", version = "1.0.0" }
+nextftc-bindings = { group = "dev.nextftc", name = "bindings", version = "1.0.1" }
 
 [bundles]
 ftc = ["ftc-robot-core", "ftc-hardware", "ftc-common"]
