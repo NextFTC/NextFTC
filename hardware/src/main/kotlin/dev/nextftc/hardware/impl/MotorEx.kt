@@ -53,7 +53,7 @@ class MotorEx @JvmOverloads constructor(cacheTolerance: Double, motorFactory: ()
      * Gives the unmodified raw tick value of the motor
      */
     val rawTicks: Double
-        get() = motor.currentPosition.toDouble() * direction
+        get() = motor.currentPosition.toDouble()
 
     private val offsetable = Offsetable { rawTicks }
 
