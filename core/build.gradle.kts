@@ -8,6 +8,8 @@ description = "The base for NextFTC, a user-friendly library for FTC. Includes c
 dependencies {
     api(libs.nextftc.bindings)
     api(libs.nextftc.control)
+
+    testImplementation(kotlin("test"))
 }
 
 nextFTCPublishing {
@@ -20,4 +22,8 @@ kotlin {
     compilerOptions {
         freeCompilerArgs.addAll("-Xjvm-default=all", "-Xconsistent-data-class-copy-visibility")
     }
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
