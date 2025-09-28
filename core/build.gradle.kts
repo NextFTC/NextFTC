@@ -10,6 +10,7 @@ dependencies {
     api(libs.nextftc.control)
 
     testImplementation(kotlin("test"))
+    testImplementation(libs.kotest.kotest.assertions.core)
 }
 
 nextFTCPublishing {
