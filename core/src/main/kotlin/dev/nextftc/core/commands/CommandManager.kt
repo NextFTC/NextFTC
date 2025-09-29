@@ -110,6 +110,14 @@ object CommandManager : Component {
     }
 
     /**
+     * Returns whether a command is scheduled to run or is already running
+     * @param command the command being checked
+     */
+    fun isScheduled(command: Command): Boolean {
+        return command in runningCommands || command in commandsToSchedule
+    }
+
+    /**
      * Cancels every command in the commandsToCancel list.
      */
     fun cancelCommands() {

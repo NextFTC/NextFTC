@@ -110,6 +110,12 @@ abstract class Command : Runnable {
 
     fun cancel() = CommandManager.cancelCommand(this)
 
+    /**
+     * Whether this command is currently scheduled.
+     */
+    @get:JvmName("isScheduled")
+    val isScheduled get() = CommandManager.isScheduled(this)
+
     // region Property Setters
 
     /**
