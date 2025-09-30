@@ -182,6 +182,7 @@ object CommandManager : Component {
             when (it) {
                 is SubsystemGroup -> expandSubsystemGroup(it)
                 is Collection<*> -> expandRequirements(it)
+                is Array<*> -> expandRequirements(it.asList())
                 else -> setOf(it)
             }
         }.toSet()
