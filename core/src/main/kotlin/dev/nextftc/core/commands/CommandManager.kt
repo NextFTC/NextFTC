@@ -114,7 +114,10 @@ object CommandManager : Component {
      * @param command the command being checked
      */
     fun isScheduled(command: Command): Boolean {
-        return command in runningCommands || command in commandsToSchedule
+        return command in runningCommands ||
+                command in commandsToSchedule ||
+                runningCommands.any { it is CommandGroup && command in it.children } ||
+                commandsToSchedule.any { it is CommandGroup && command in it.children }
     }
 
     /**
