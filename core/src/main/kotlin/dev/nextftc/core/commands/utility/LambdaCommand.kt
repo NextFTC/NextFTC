@@ -68,7 +68,7 @@ open class LambdaCommand @JvmOverloads constructor(name: String = "LambdaCommand
      * Adds [requirements] to the requirements that the command implements
      */
     override fun requires(vararg requirements: Any) =
-        apply { super.requires(requirements) }
+        apply { super.requires(*requirements) }
 
     /**
      * Sets the requirements that the command implements
