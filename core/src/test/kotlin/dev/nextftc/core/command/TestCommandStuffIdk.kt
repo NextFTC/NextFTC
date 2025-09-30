@@ -1,14 +1,16 @@
 package dev.nextftc.core.command
 import dev.nextftc.core.commands.CommandManager
+import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.collections.shouldNotContain
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotHave
 import org.junit.jupiter.api.Disabled
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
-object A
-object B
-object C
+data object A
+data object B
+data object C
 
 class TestInterruption : CommandTestBase() {
     @Test
