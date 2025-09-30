@@ -41,4 +41,71 @@ class TestInterruption : CommandTestBase() {
         CommandManager.isScheduled(a) shouldBe false
         CommandManager.isScheduled(b) shouldBe true
     }
+
+    @Test
+    fun `test requirement collision, not interruptible`() {
+        val a = labelCommand("A").requires(A).setInterruptible(false)
+        val b = labelCommand("B").requires(A)
+
+        CommandManager.scheduleCommand(a)
+        CommandManager.run()
+
+        CommandManager.isScheduled(a) shouldBe true
+
+        CommandManager.scheduleCommand(b)
+        CommandManager.run()
+
+        CommandManager.isScheduled(a) shouldBe true
+        CommandManager.isScheduled(b) shouldBe false
+    }
+
+    @Test
+    fun `test requirements in groups, interruptible`() {
+        val a = labelCommand("A").requires(A)
+        val b = labelCommand("B").requires(B)
+        val ab = a.then(b).setInterruptible(true)
+
+        val c = labelCommand("C").requires(A)
+
+        CommandManager.scheduleCommand(ab)
+        CommandManager.run()
+
+        CommandManager.isScheduled(ab) shouldBe true
+        CommandManager.isScheduled(a) shouldBe true
+        CommandManager.isScheduled(b) shouldBe true
+        CommandManager.isScheduled(c) shouldBe false
+
+        CommandManager.scheduleCommand(c)
+        CommandManager.run()
+
+        CommandManager.isScheduled(ab) shouldBe false
+        CommandManager.isScheduled(a) shouldBe false
+        CommandManager.isScheduled(b) shouldBe false
+        CommandManager.isScheduled(c) shouldBe true
+    }
+
+    @Test
+    fun `test requirements in groups, not interruptible`() {
+        val a = labelCommand("A").requires(A)
+        val b = labelCommand("B").requires(B)
+        val ab = a.then(b).setInterruptible(false)
+
+        val c = labelCommand("C").requires(A)
+
+        CommandManager.scheduleCommand(ab)
+        CommandManager.run()
+
+        CommandManager.isScheduled(ab) shouldBe true
+        CommandManager.isScheduled(a) shouldBe true
+        CommandManager.isScheduled(b) shouldBe true
+        CommandManager.isScheduled(c) shouldBe false
+
+        CommandManager.scheduleCommand(c)
+        CommandManager.run()
+
+        CommandManager.isScheduled(ab) shouldBe true
+        CommandManager.isScheduled(a) shouldBe true
+        CommandManager.isScheduled(b) shouldBe true
+        CommandManager.isScheduled(c) shouldBe false
+    }
 }
