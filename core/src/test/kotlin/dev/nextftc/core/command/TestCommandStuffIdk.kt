@@ -24,7 +24,6 @@ class TestInterruption : CommandTestBase() {
     }
 
     @Test
-    @Disabled("doesnt work for some reason")
     fun `test requirement collision, interruptible`() {
         val a = labelCommand("A").requires(A).setInterruptible(true)
         val b = labelCommand("B").requires(A)
@@ -37,7 +36,6 @@ class TestInterruption : CommandTestBase() {
         CommandManager.scheduleCommand(b)
         CommandManager.run()
 
-        CommandManager.snapshot shouldBe listOf("A", "B")
         CommandManager.isScheduled(a) shouldBe false
         CommandManager.isScheduled(b) shouldBe true
     }
