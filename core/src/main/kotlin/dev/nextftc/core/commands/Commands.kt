@@ -2,7 +2,6 @@
 package dev.nextftc.core.commands
 
 import dev.nextftc.core.commands.delays.Delay
-import dev.nextftc.core.commands.delays.WaitUntil
 import dev.nextftc.core.commands.utility.InstantCommand
 import dev.nextftc.core.commands.utility.LambdaCommand
 import kotlin.time.Duration
@@ -10,12 +9,12 @@ import kotlin.time.Duration
 /**
  * Creates a command that runs [action] once.
  */
-fun runOnce(name: String, action: Runnable) = InstantCommand(name, action)
+fun instant(name: String, action: Runnable) = InstantCommand(name, action)
 
 /**
  * Creates a command that runs [action] once.
  */
-fun runOnce(action: Runnable) = InstantCommand(action)
+fun instant(action: Runnable) = InstantCommand(action)
 
 /**
  * Creates a command that runs [action] repeatedly.
@@ -44,8 +43,7 @@ fun wait(timeSeconds: Double) = Delay(timeSeconds)
  * **Note:** if a proxy command is used in a group,
  * the original command's requirements will not be part of the group's requirements.
  */
-fun proxy(command: Command): Command =
-    InstantCommand("Proxy(${command.name})") { command.schedule() }
+fun proxy(command: Command): Command = instant("Proxy(${command.name})") { command.schedule() }
 
 /**
  * Creates a command that schedules [command] to run,
