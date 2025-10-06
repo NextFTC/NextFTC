@@ -53,5 +53,4 @@ fun proxy(command: Command): Command =
  *
  * @see proxy
  */
-fun await(command: Command): Command = proxy(command)
-    .then(WaitUntil { !command.isScheduled })
+fun await(command: Command): Command = proxy(command).until { !command.isScheduled }
