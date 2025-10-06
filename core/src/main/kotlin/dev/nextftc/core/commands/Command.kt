@@ -25,7 +25,9 @@ import dev.nextftc.core.commands.groups.SequentialGroup
 import dev.nextftc.core.commands.utility.ForcedParallelCommand
 import dev.nextftc.core.commands.utility.PerpetualCommand
 import dev.nextftc.core.commands.delays.Delay
+import dev.nextftc.core.commands.delays.WaitUntil
 import dev.nextftc.core.units.parseDuration
+import java.util.function.BooleanSupplier
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
@@ -287,6 +289,14 @@ abstract class Command : Runnable {
      * Returns a [ForcedParallelCommand] with this command
      */
     fun forcedParallel() = ForcedParallelCommand(this)
+
+    /**
+     * Returns a ParallelRaceGroup with this command and a [ WaitUntil] that runs the passed condition
+     */
+    fun until(condition: BooleanSupplier) = ParallelRaceGroup(
+        this,
+        WaitUntil(condition::getAsBoolean)
+    )
 
     // endregion
 }
