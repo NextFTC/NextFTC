@@ -2,6 +2,7 @@
 package dev.nextftc.core.commands
 
 import dev.nextftc.core.commands.delays.Delay
+import dev.nextftc.core.commands.delays.WaitUntil
 import dev.nextftc.core.commands.utility.InstantCommand
 import dev.nextftc.core.commands.utility.LambdaCommand
 import kotlin.time.Duration
@@ -37,3 +38,20 @@ fun wait(time: Duration) = Delay(time)
  */
 fun wait(timeSeconds: Double) = Delay(timeSeconds)
 
+/**
+ * Creates a command that schedules [command] to run.
+ *
+ * **Note:** if a proxy command is used in a group,
+ * the original command's requirements will not be part of the group's requirements.
+ */
+fun proxy(command: Command): Command =
+    InstantCommand("Proxy(${command.name})") { command.schedule() }
+
+/**
+ * Creates a command that schedules [command] to run,
+ * and then waits for it to complete.
+ *
+ * @see proxy
+ */
+fun await(command: Command): Command = proxy(command)
+    .then(WaitUntil { !command.isScheduled })
