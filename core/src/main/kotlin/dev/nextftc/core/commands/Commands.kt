@@ -28,7 +28,7 @@ fun run(name: String, action: Runnable) =
 fun run(action: Runnable) = run("PerpetualCommand", action)
 
 /**
- * Creates a command that waits [time] seconds.
+ * Creates a command that waits [time].
  */
 fun wait(time: Duration) = Delay(time)
 
