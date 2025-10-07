@@ -27,7 +27,7 @@ import dev.nextftc.hardware.powerable.Powerable
 
 open class CRServoEx(cacheTolerance: Double, servoFactory: () -> CRServo) : Powerable {
 
-    internal val lazy = LazyHardware { servoFactory() }
+    private val lazy = LazyHardware { servoFactory() }
     val servo by lazy
 
     constructor(servoFactory: () -> CRServo) : this(0.01, servoFactory)
