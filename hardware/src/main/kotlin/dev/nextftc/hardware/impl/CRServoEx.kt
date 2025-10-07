@@ -44,12 +44,14 @@ open class CRServoEx(cacheTolerance: Double, servoFactory: () -> CRServo) : Powe
         it?.let { servo.power = it }
     }
 
-    fun reversed() = apply {
-        lazy.applyAfterInit {
-            when (it.direction) {
-                DcMotorSimple.Direction.FORWARD -> it.direction = DcMotorSimple.Direction.REVERSE
-                DcMotorSimple.Direction.REVERSE -> it.direction = DcMotorSimple.Direction.FORWARD
-            }
+    fun reverse() = lazy.applyAfterInit {
+        when (it.direction) {
+            DcMotorSimple.Direction.FORWARD -> it.direction = DcMotorSimple.Direction.REVERSE
+            DcMotorSimple.Direction.REVERSE -> it.direction = DcMotorSimple.Direction.FORWARD
         }
+    }
+
+    fun reversed() = apply {
+        reverse()
     }
 }
