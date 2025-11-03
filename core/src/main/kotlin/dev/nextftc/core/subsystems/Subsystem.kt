@@ -20,6 +20,7 @@ package dev.nextftc.core.subsystems
 
 import dev.nextftc.core.commands.Command
 import dev.nextftc.core.commands.utility.NullCommand
+import kotlin.time.Duration
 
 /**
  * A [Subsystem] represents a real-world system (such as a lift, intake, or claw) that cannot be
@@ -43,4 +44,28 @@ interface Subsystem {
 
     val subsystems: Set<Subsystem>
         get() = setOf(this)
+
+    /**
+     * Creates a command that runs [action] once and requires this subsystem.
+     */
+    fun instant(name: String, action: Runnable) =
+        dev.nextftc.core.commands.instant(name, action).requires(this)
+
+    /**
+     * Creates a command that runs [action] once and requires this subsystem.
+     */
+    fun instant(action: Runnable) =
+        dev.nextftc.core.commands.instant(action).requires(this)
+
+    /**
+     * Creates a command that runs [action] repeatedly and requires this subsystem.
+     */
+    fun run(name: String, action: Runnable) =
+        dev.nextftc.core.commands.run(name, action).requires(this)
+
+    /**
+     * Creates a command that runs [action] repeatedly and requires this subsystem.
+     */
+    fun run(action: Runnable) =
+        dev.nextftc.core.commands.run(action).requires(this)
 }
