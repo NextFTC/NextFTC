@@ -291,7 +291,7 @@ abstract class Command : Runnable {
     fun forcedParallel() = ForcedParallelCommand(this)
 
     /**
-     * Returns a ParallelRaceGroup with this command and a [ WaitUntil] that runs the passed condition
+     * Returns a ParallelRaceGroup with this command and a [WaitUntil] that runs the passed condition
      */
     fun until(condition: BooleanSupplier) = ParallelRaceGroup(
         this,
