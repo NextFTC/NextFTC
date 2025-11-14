@@ -26,7 +26,7 @@ import dev.nextftc.core.commands.utility.ForcedParallelCommand
 import dev.nextftc.core.commands.utility.PerpetualCommand
 import dev.nextftc.core.commands.delays.Delay
 import dev.nextftc.core.commands.delays.WaitUntil
-import dev.nextftc.core.commands.utility.RepeatCommand
+import dev.nextftc.core.commands.utility.LambdaCommand
 import dev.nextftc.core.units.parseDuration
 import java.util.function.BooleanSupplier
 import kotlin.time.Duration
@@ -300,9 +300,35 @@ abstract class Command : Runnable {
     )
 
     /**
-     * Returns a [RepeatCommand] that runs this command repeatedly until interrupted.
+     * Returns a new Command that runs this command repeatedly until interrupted.
      */
-    fun repeatedly() = RepeatCommand(this)
+    fun repeatedly(): Command {
+        var ended = false
+
+        return LambdaCommand("Repeat($name)")
+            .setStart(::start)
+            .setUpdate {
+                if (ended) {
+                   this.start()
+                   ended = false
+                }
+
+                update()
+
+                if (isDone) {
+                    stop(false)
+                    ended = true
+                }
+            }
+            .setStop {
+                if (!ended) {
+                    stop(it)
+                    ended = true
+                }
+            }
+            .setRequirements(requirements)
+            .setInterruptible(interruptible)
+    }
 
     // endregion
 }
