@@ -20,6 +20,8 @@ package dev.nextftc.hardware.impl
 
 import com.qualcomm.robotcore.hardware.AnalogInput
 import com.qualcomm.robotcore.hardware.CRServo
+import com.qualcomm.robotcore.hardware.Servo
+import dev.nextftc.ftc.ActiveOpMode
 import dev.nextftc.hardware.delegates.AnalogFeedback
 import dev.nextftc.hardware.delegates.Velocity
 import dev.nextftc.hardware.controllable.Controllable
@@ -33,10 +35,30 @@ class FeedbackCRServoEx(
 
     val feedback by lazy { feedbackFactory() }
 
-    override val velocity: Double by Velocity { currentPosition }
+    constructor(feedbackFactory: () -> AnalogInput, servoFactory: () -> CRServo) : this(
+        0.01,
+        feedbackFactory,
+        servoFactory
+    )
+
+    @JvmOverloads
+    constructor(feedbackName: String, servoName: String, cacheTolerance: Double = 0.01) : this(
+        cacheTolerance,
+        { ActiveOpMode.hardwareMap[feedbackName] as AnalogInput },
+        { ActiveOpMode.hardwareMap[servoName] as CRServo })
+
+    @JvmOverloads
+    constructor(feedback: AnalogInput, crServo: CRServo, cacheTolerance: Double = 0.01) : this(
+        cacheTolerance,
+        { feedback },
+        { crServo })
+
 
     /**
      * The current position, in radians
      */
     override val currentPosition by AnalogFeedback { feedback.voltage }
+
+    override val velocity: Double by Velocity { currentPosition }
+
 }
