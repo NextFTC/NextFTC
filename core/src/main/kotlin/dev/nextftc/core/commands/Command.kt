@@ -25,7 +25,10 @@ import dev.nextftc.core.commands.groups.SequentialGroup
 import dev.nextftc.core.commands.utility.ForcedParallelCommand
 import dev.nextftc.core.commands.utility.PerpetualCommand
 import dev.nextftc.core.commands.delays.Delay
+import dev.nextftc.core.commands.delays.WaitUntil
+import dev.nextftc.core.commands.utility.LambdaCommand
 import dev.nextftc.core.units.parseDuration
+import java.util.function.BooleanSupplier
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
@@ -109,6 +112,11 @@ abstract class Command : Runnable {
     override fun run() = schedule()
 
     fun cancel() = CommandManager.cancelCommand(this)
+
+    /**
+     * Whether this command is currently scheduled.
+     */
+    val isScheduled get() = CommandManager.isScheduled(this)
 
     // region Property Setters
 
@@ -280,7 +288,57 @@ abstract class Command : Runnable {
     /**
      * Returns a [ForcedParallelCommand] with this command
      */
+    @Deprecated(
+        replaceWith = ReplaceWith("asProxy()"),
+        message = "Use ParallelCommand instead"
+    )
     fun forcedParallel() = ForcedParallelCommand(this)
+
+    /**
+     * Returns a ParallelRaceGroup with this command and a [WaitUntil] that runs the passed condition
+     */
+    fun until(condition: BooleanSupplier) = ParallelRaceGroup(
+        this,
+        WaitUntil(condition::getAsBoolean)
+    )
+
+    /**
+     * Returns a new Command that runs this command repeatedly until interrupted.
+     */
+    fun repeatedly(): Command {
+        var ended = false
+
+        return LambdaCommand("Repeat($name)")
+            .setStart(::start)
+            .setUpdate {
+                if (ended) {
+                   this.start()
+                   ended = false
+                }
+
+                update()
+
+                if (isDone) {
+                    stop(false)
+                    ended = true
+                }
+            }
+            .setStop {
+                if (!ended) {
+                    stop(it)
+                    ended = true
+                }
+            }
+            .setRequirements(requirements)
+            .setInterruptible(interruptible)
+    }
+
+    /**
+     * Returns a new Command that runs this command as a proxy.
+     *
+     * @see proxy
+     */
+    fun asProxy() = proxy(this)
 
     // endregion
 }

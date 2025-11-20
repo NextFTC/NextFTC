@@ -26,6 +26,10 @@ import dev.nextftc.core.commands.Command
  *
  * @param command the command to execute
  */
+@Deprecated(
+    message = "Use repeatedly insteaad",
+    ReplaceWith("command.repeatedly()")
+)
 class PerpetualCommand(val command: Command) : Command() {
 
     override val isDone: Boolean = false
