@@ -116,7 +116,6 @@ abstract class Command : Runnable {
     /**
      * Whether this command is currently scheduled.
      */
-    @get:JvmName("isScheduled")
     val isScheduled get() = CommandManager.isScheduled(this)
 
     // region Property Setters
