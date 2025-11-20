@@ -84,7 +84,7 @@ class MotorEx @JvmOverloads constructor(cacheTolerance: Double, motorFactory: ()
      */
     // Cannot use delegation because that would create motor immediately on field initialization instead of it being lazy.
     override val velocity: Double
-        get() = motor.velocity
+        get() = motor.velocity * direction
 
     /**
      * Gets / sets the current power of the motor (automatically implements power caching)
