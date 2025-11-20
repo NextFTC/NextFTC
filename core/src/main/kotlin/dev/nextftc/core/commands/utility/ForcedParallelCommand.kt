@@ -20,12 +20,17 @@ package dev.nextftc.core.commands.utility
 
 import dev.nextftc.core.commands.Command
 import dev.nextftc.core.commands.CommandManager
+import dev.nextftc.core.commands.proxy
 
 /**
  * This is a command that will run in parallel even if it's in a SequentialGroup.
  *
  * @param command the command to run in parallel
  */
+@Deprecated(
+    replaceWith = ReplaceWith("Commands.proxy(command)", imports = ["dev.nextftc.core.commands.proxy"]),
+    message = "Use ParallelCommand instead"
+)
 class ForcedParallelCommand(val command: Command) : Command() {
     override val isDone = true
 

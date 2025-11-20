@@ -288,6 +288,10 @@ abstract class Command : Runnable {
     /**
      * Returns a [ForcedParallelCommand] with this command
      */
+    @Deprecated(
+        replaceWith = ReplaceWith("asProxy()"),
+        message = "Use ParallelCommand instead"
+    )
     fun forcedParallel() = ForcedParallelCommand(this)
 
     /**
@@ -328,6 +332,13 @@ abstract class Command : Runnable {
             .setRequirements(requirements)
             .setInterruptible(interruptible)
     }
+
+    /**
+     * Returns a new Command that runs this command as a proxy.
+     *
+     * @see proxy
+     */
+    fun asProxy() = proxy(this)
 
     // endregion
 }
