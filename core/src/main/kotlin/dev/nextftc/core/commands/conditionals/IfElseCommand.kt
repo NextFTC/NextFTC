@@ -37,7 +37,7 @@ class IfElseCommand @JvmOverloads constructor(
 
     private lateinit var selectedCommand: Command
 
-    override val isDone: Boolean by selectedCommand::isDone
+    override val isDone: Boolean get() = selectedCommand.isDone
 
     override fun start() {
         selectedCommand = if (condition()) trueCommand else falseCommand
