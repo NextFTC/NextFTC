@@ -62,7 +62,6 @@ abstract class NextFTCOpMode : LinearOpMode() {
 
                 while (opModeIsActive()) {
                     components.forEach { it.preUpdate() }
-                    CommandManager.run()
                     onUpdate()
                     components.reversed().forEach { it.postUpdate() }
                 }
