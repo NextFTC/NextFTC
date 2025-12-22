@@ -27,6 +27,7 @@ import dev.nextftc.core.commands.utility.PerpetualCommand
 import dev.nextftc.core.commands.delays.Delay
 import dev.nextftc.core.commands.delays.WaitUntil
 import dev.nextftc.core.commands.utility.LambdaCommand
+import dev.nextftc.core.commands.utility.NullCommand
 import dev.nextftc.core.units.parseDuration
 import java.util.function.BooleanSupplier
 import kotlin.time.Duration
@@ -231,6 +232,10 @@ abstract class Command : Runnable {
     /**
      * Returns a [PerpetualCommand] that wraps this command
      */
+    @Deprecated(
+        replaceWith = ReplaceWith("repeatedly()"),
+        message = "Use repeatedly() instead"
+    )
     fun perpetually() = PerpetualCommand(this)
 
     /**
