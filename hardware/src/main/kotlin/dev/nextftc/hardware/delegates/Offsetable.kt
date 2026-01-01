@@ -53,6 +53,6 @@ class Offsetable(
         value: Double
     ) {
         center = value
-        offset = valueSupplier.get() - value
+        offset = value - valueSupplier.get()
     }
 }
