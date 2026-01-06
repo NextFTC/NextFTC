@@ -49,12 +49,13 @@ open class ParallelGroup(vararg commands: Command) : CommandGroup(*commands) {
     }
 
     override fun update() {
-        children.forEachIndexed { index, command ->
+        val iterator = children.iterator()
+        while (iterator.hasNext()) {
+            val command = iterator.next()
             command.update()
-            if (!command.isDone) return
-
+            if (!command.isDone) continue
             command.stop(false)
-            children.removeAt(index)
+            iterator.remove()
         }
     }
 
