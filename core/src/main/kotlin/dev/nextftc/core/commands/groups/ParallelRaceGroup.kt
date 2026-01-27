@@ -33,5 +33,5 @@ class ParallelRaceGroup(vararg commands: Command) : ParallelGroup(*commands) {
      * This will return false until one of its children is done
      */
     override val isDone: Boolean
-        get() = children.any { it.isDone }
+        get() = shouldRun.values.any { !it }
 }

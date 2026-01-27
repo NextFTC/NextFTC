@@ -28,11 +28,17 @@ open class ParallelGroup(vararg commands: Command) : CommandGroup(*commands) {
         named("ParallelGroup(${children.joinToString { it.name }})")
     }
 
+
+    /**
+     * A map of commands to whether they should be running or not.
+     */
+    internal val shouldRun: MutableMap<Command, Boolean> = children.associateWith { true }.toMutableMap()
+
     /**
      * This will return false until all of its children are done
      */
     override val isDone: Boolean
-        get() = children.all { it.isDone }
+        get() = shouldRun.values.all { !it }
 
     init {
         val noConflicts = commands
@@ -49,13 +55,23 @@ open class ParallelGroup(vararg commands: Command) : CommandGroup(*commands) {
     }
 
     override fun update() {
-        val iterator = children.iterator()
-        while (iterator.hasNext()) {
-            val command = iterator.next()
-            command.update()
-            if (!command.isDone) continue
-            command.stop(false)
-            iterator.remove()
+//        val iterator = children.iterator()
+//        while (iterator.hasNext()) {
+//            val command = iterator.next()
+//            command.update()
+//            if (!command.isDone) continue
+//            command.stop(false)
+//            iterator.remove()
+//        }
+
+        for (command in children) {
+            if (shouldRun[command] == true) {
+                command.update()
+                if (command.isDone) {
+                    command.stop(false)
+                    shouldRun[command] = false
+                }
+            }
         }
     }
 
