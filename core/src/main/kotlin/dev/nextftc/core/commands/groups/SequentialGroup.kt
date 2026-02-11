@@ -16,8 +16,9 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.nextftc.core.commands.groups
+package org.firstinspires.ftc.teamcode
 
+import dev.nextftc.core.commands.groups.CommandGroup
 import dev.nextftc.core.commands.Command
 
 /**
@@ -46,6 +47,10 @@ class SequentialGroup(vararg commands: Command) : CommandGroup(*commands) {
      * it and start the next one (if there is one).
      */
     override fun update() {
+        if (children.isEmpty()) {
+            return
+        }
+
         children.first().update()
 
         if (!children.first().isDone) return
@@ -60,7 +65,4 @@ class SequentialGroup(vararg commands: Command) : CommandGroup(*commands) {
 
         super.stop(interrupted)
     }
-
-    override fun then(vararg commands: Command): SequentialGroup =
-        SequentialGroup(*children.toTypedArray(), *commands)
 }
