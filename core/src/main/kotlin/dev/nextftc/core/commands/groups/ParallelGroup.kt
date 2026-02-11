@@ -49,6 +49,10 @@ open class ParallelGroup(vararg commands: Command) : CommandGroup(*commands) {
     }
 
     override fun start() {
+        shouldRun.keys.forEach {
+            shouldRun[it] = true
+        }
+
         children.forEach {
             it.start()
         }
