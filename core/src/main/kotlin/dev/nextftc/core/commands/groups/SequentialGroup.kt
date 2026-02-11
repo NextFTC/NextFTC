@@ -18,7 +18,6 @@
 
 package dev.nextftc.core.commands.groups
 
-import dev.nextftc.core.commands.groups.CommandGroup
 import dev.nextftc.core.commands.Command
 
 /**
