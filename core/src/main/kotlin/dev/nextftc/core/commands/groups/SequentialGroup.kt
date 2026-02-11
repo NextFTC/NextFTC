@@ -46,10 +46,8 @@ class SequentialGroup(vararg commands: Command) : CommandGroup(*commands) {
      * it and start the next one (if there is one).
      */
     override fun update() {
-        if (children.isEmpty()) {
-            return
-        }
-
+        if (children.isEmpty()) return
+        
         children.first().update()
 
         if (!children.first().isDone) return
@@ -64,4 +62,7 @@ class SequentialGroup(vararg commands: Command) : CommandGroup(*commands) {
 
         super.stop(interrupted)
     }
+
+    override fun then(vararg commands: Command): SequentialGroup =
+        SequentialGroup(*children.toTypedArray(), *commands)
 }
