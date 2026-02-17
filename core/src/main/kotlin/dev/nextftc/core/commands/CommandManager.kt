@@ -57,8 +57,6 @@ object CommandManager : Component {
      */
     // exercise is healthy (and fun!)
     fun run() {
-        scheduleCommands()
-        cancelCommands()
         for (command in runningCommands) {
             command.update()
 
@@ -66,6 +64,9 @@ object CommandManager : Component {
                 commandsToCancel += Pair(command, false)
             }
         }
+
+        scheduleCommands()
+        cancelCommands()
     }
 
     /**
