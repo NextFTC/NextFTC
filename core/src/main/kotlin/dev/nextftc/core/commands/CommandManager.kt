@@ -57,8 +57,6 @@ object CommandManager : Component {
      */
     // exercise is healthy (and fun!)
     fun run() {
-        scheduleCommands()
-        cancelCommands()
         for (command in runningCommands) {
             command.update()
 
@@ -66,6 +64,9 @@ object CommandManager : Component {
                 commandsToCancel += Pair(command, false)
             }
         }
+
+        scheduleCommands()
+        cancelCommands()
     }
 
     /**
@@ -107,6 +108,14 @@ object CommandManager : Component {
         for (command in newCommands) {
             initCommand(command)
         }
+    }
+
+    /**
+     * Returns whether a command is scheduled to run or is already running
+     * @param command the command being checked
+     */
+    fun isScheduled(command: Command): Boolean {
+        return command in runningCommands || command in commandsToSchedule
     }
 
     /**
@@ -182,6 +191,7 @@ object CommandManager : Component {
             when (it) {
                 is SubsystemGroup -> expandSubsystemGroup(it)
                 is Collection<*> -> expandRequirements(it)
+                is Array<*> -> expandRequirements(it.asList())
                 else -> setOf(it)
             }
         }.toSet()

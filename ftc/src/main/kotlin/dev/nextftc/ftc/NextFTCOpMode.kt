@@ -62,7 +62,6 @@ abstract class NextFTCOpMode : LinearOpMode() {
 
                 while (opModeIsActive()) {
                     components.forEach { it.preUpdate() }
-                    CommandManager.run()
                     onUpdate()
                     components.reversed().forEach { it.postUpdate() }
                 }
@@ -114,4 +113,12 @@ abstract class NextFTCOpMode : LinearOpMode() {
      * This function runs ONCE when the stop button is pressed.
      */
     open fun onStop() {}
+
+    /**
+     * Pauses until the start button is pressed;
+     * overridden such that it can be made final.
+     */
+    final override fun waitForStart() {
+        super.waitForStart()
+    }
 }

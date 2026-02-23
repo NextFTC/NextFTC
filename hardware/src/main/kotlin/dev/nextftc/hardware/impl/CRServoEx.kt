@@ -19,13 +19,16 @@
 package dev.nextftc.hardware.impl
 
 import com.qualcomm.robotcore.hardware.CRServo
+import com.qualcomm.robotcore.hardware.DcMotorSimple
 import dev.nextftc.ftc.ActiveOpMode
 import dev.nextftc.hardware.delegates.Caching
+import dev.nextftc.hardware.delegates.LazyHardware
 import dev.nextftc.hardware.powerable.Powerable
 
 open class CRServoEx(cacheTolerance: Double, servoFactory: () -> CRServo) : Powerable {
 
-    val servo by lazy { servoFactory() }
+    private val lazy = LazyHardware { servoFactory() }
+    val servo by lazy
 
     constructor(servoFactory: () -> CRServo) : this(0.01, servoFactory)
 
@@ -39,5 +42,16 @@ open class CRServoEx(cacheTolerance: Double, servoFactory: () -> CRServo) : Powe
 
     override var power: Double by Caching(cacheTolerance) {
         it?.let { servo.power = it }
+    }
+
+    fun reverse() = lazy.applyAfterInit {
+        when (it.direction) {
+            DcMotorSimple.Direction.FORWARD -> it.direction = DcMotorSimple.Direction.REVERSE
+            DcMotorSimple.Direction.REVERSE -> it.direction = DcMotorSimple.Direction.FORWARD
+        }
+    }
+
+    fun reversed() = apply {
+        reverse()
     }
 }
