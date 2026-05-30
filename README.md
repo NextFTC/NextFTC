@@ -3,7 +3,7 @@
 
 # NextFTC
 
-NextFTC is our command-based framework. It has three building-blocks: commands,
+NextFTC is our command-based framework for the *FIRST®* Tech Challenge. It has three building-blocks: commands,
 subsystems, and components. It also has an optional hardware module that
 provides built-in, ready-to-use hardware commands for almost all of your
 hardware needs. Read the [docs](https://nextftc.dev).
